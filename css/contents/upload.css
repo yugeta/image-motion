@@ -1,0 +1,11 @@
+body[data-hash='upload'] .contents > .under{
+  display : none;
+}
+body[data-hash='upload'] .contents > .over [name='property']{
+  display : none;
+}
+body[data-hash='upload'] .contents > .over{
+  display : grid;
+  grid-template-columns : 300px 1fr;
+  height  : 100%;
+}

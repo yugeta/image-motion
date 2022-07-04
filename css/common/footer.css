@@ -1,0 +1,6 @@
+footer{
+  height           : var(--size-footer-height);
+  background-color : #272727;
+  border-top       : 1px solid var(--color-border);
+  overflow         : hidden;
+}

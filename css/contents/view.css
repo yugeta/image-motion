@@ -1,0 +1,27 @@
+.contents [name='view']{
+  --col-bg    : #343434;
+  --col-line  : #474646;
+  --size-grid : 20px;
+
+  background-image:
+  repeating-linear-gradient(
+    90deg,
+    var(--col-line) ,
+    var(--col-line) 1px,
+    transparent 1px,
+    transparent var(--size-grid)
+  ),
+  repeating-linear-gradient(
+    0deg,
+    var(--col-line) ,
+    var(--col-line) 1px,
+    var(--col-bg) 1px,
+    var(--col-bg) var(--size-grid)
+  );
+
+  overflow : hidden;
+}
+
+.contents [name='view'] .scale{
+  transform-origin : left top;
+}

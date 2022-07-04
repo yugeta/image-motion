@@ -1,0 +1,70 @@
+header{
+  height           : var(--size-header-height);
+  border-bottom    : 1px solid var(--color-border);
+  background-color : #262626;
+  overflow         : hidden;
+  display:flex;
+}
+
+header > ul{
+  display:flex;
+  height:100%;
+}
+header > ul > li{
+  min-width:40px;
+  height:100%;
+}
+
+
+
+header > ul > li a:hover,
+header > ul > li .button:hover{
+  opacity:0.5;
+}
+
+header svg{
+  max-height:100%;
+  fill:white;
+}
+header > ul > li a,
+header > ul > li .button{
+  display:block;
+  padding:5px;
+  cursor:pointer;
+}
+
+
+header > ul > li:target svg{
+  fill : red;
+}
+
+body[data-hash=''] header > ul > li a[href='#'] svg{
+  fill : red;
+}
+
+
+header > ul.middle{
+  
+}
+header > ul.control{
+  margin-left:auto;
+}
+
+header li.range{
+  display:flex;
+  width:200px;
+  align-items:center;
+}
+header li.range input[type='range']{
+  width:75%;
+}
+header li.range .scale-value{
+  display:block;
+  width:25%;
+  text-align:center;
+}
+header li.range .scale-value::after{
+  content : '%';
+}
+
+

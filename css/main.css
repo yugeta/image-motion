@@ -1,0 +1,12 @@
+@import './common/common.css';
+@import './common/header.css';
+@import './common/footer.css';
+@import './contents/contents.css';
+
+:root{
+  --size-header-height : 40px;
+  --size-footer-height : 30px;
+  --color-border       : #141414;
+  --color-contents-header : #333333;
+  --color-font : #727272;
+}
