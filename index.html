@@ -46,6 +46,7 @@
       <div>
         <div name='images'>
           <div class='header'>Images<button class='plus'></button></div>
+          <ul></ul>
         </div>
         <div name='layer'>
           <div class='header'>Layer</div>
@@ -74,5 +75,20 @@
   </footer>
 
   <form class='hidden' name="upload" method="post" action="data.php" enctype="multipart/form-data"></form>
+
+  <div class='template hidden'>
+    <ul data-name='image_list'>
+      <li data-uuid='{{uuid}}'>
+        <span>{{name}}</span>
+      </li>
+    </ul>
+    <div data-name='image_pic'>
+      <div class="pic" data-new="1" data-uuid="{{uuid}}">
+        <div class="active"></div>
+        <img data-src='{{src}}' />
+        <div class="center"></div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>

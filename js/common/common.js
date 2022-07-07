@@ -25,5 +25,32 @@ export class Common{
     return hash.replace(/^#/ , '')
   }
 
+  get_template(name){
+    const target = document.querySelector(`.template [data-name='${name}']`)
+    if(!target){return}
+    if(target.tagName === 'TEXTAREA'){
+      return target.value
+    }
+    else{
+      return target.innerHTML
+    }
+  }
+
+  // 任意文字列の中から、{{key}}という文字列を、{key:val}で置換する処理
+  doubleBlancketConvert = function(str , data){
+    if(data){
+      const reg = new RegExp('{{(.*?)}}','g');
+      const arr = [];
+      let res = []
+      while ((res = reg.exec(str)) !== null) {
+        arr.push(res[1]);
+      }
+      for(let key of arr){
+        str = str.split('{{'+String(key)+'}}').join(data[key] || "");
+      }
+    }
+    return str;
+  }
+
 
 }

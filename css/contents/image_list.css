@@ -1,0 +1,14 @@
+.contents [name='images'] li{
+  padding:2px 10px;
+  cursor:pointer;
+  display:flex;
+}
+
+.contents [name='images'] li:hover{
+  background-color:#474646;
+}
+
+.contents [name='images'] li[data-status='active']{
+  background-color:#FF464655;
+}
+

@@ -1,41 +1,71 @@
-import { Uuid } from '../common/uuid.js'
+import { Options } from '../options.js'
+import { Uuid }  from '../common/uuid.js'
+// import { Lists } from './lists.js'
 
 export class Upload{
   constructor(file){
     if(!file){return}
     this.file = file
-    this.name = new Uuid().id
+    this.uuid = new Uuid().id
+    if(!Options.datas[this.uuid]){
+      Options.datas[this.uuid] = {}
+    }
     this.init()
+    
   }
 
   init(){
 		const fileReader  = new FileReader()
     fileReader.onload = this.add_img.bind(this, fileReader)
 		fileReader.readAsDataURL(this.file)
+    
+    Options.lists.add(this.uuid , this.file)
+    // this.add_lists(this.file)
     // this.add_layer(this.file)
   }
 
-  get_area(){
-    return document.querySelector(".contents [name='view'] .scale")
-  }
   
-  add_img(data , src){
+  
+  loaded_img(data , src){
     if(!data){return}
-    const pic     = document.createElement("div")
-    pic.className = 'pic'
-    pic.setAttribute("data-new"  , "1")
-    pic.setAttribute("data-uuid" , this.name)
-    var area = this.get_area()
-    var img = new Image()
-    if(data){
-      img.src = data.result
-    }
-    else if(src){
-      img.src = src
-    }
-    img.addEventListener("load" , this.set_image_size.bind(this))
-    pic.appendChild(img)
-    area.appendChild(pic)
+    add_img(data , src)
+  }
+  add_img(data , src){
+    data.uuid = this.uuid
+    var area = Options.images.get_area_view()
+    let template = Options.common.get_template('image_pic')
+    data.src = data.result || src
+    template = Options.common.doubleBlancketConvert(template , data)
+    area.insertAdjacentHTML('beforeend' , template)
+    const pic = area.querySelector(`[data-uuid='${data.uuid}']`)
+    const img = pic.querySelector(`img`)
+    if(!img){return}
+    img.onload = this.loaded_src.bind(this)
+    img.src    = img.getAttribute('data-src')
+    img.removeAttribute('data-src')
+
+    Options.datas[this.uuid].pic = pic
+    // const pic = area.querySelector(`[data-uuid='${data.uuid}']`)
+    // if(!pic){return}
+
+    // const pic     = document.createElement("div")
+    // pic.className = 'pic'
+    // pic.setAttribute("data-new"  , "1")
+    // pic.setAttribute("data-uuid" , this.uuid)
+    // 
+
+    // var img = new Image()
+    // if(data){
+    //   img.src = data.result
+    // }
+    // else if(src){
+    //   img.src = src
+    // }
+
+    // img.addEventListener("load" , this.set_image_size.bind(this))
+    // pic.appendChild(img)
+    // area.appendChild(pic)
+
 
     // // add-point
     // let tl = document.createElement("div")
@@ -46,9 +76,9 @@ export class Upload{
     // br.className = "bottom-right"
     // // pic.appendChild(br);
 
-    let ct = document.createElement("div")
-    ct.className = "center"
-    pic.appendChild(ct)
+    // let ct = document.createElement("div")
+    // ct.className = "center"
+    // pic.appendChild(ct)
 
   }
   add_layer(data){
@@ -57,7 +87,7 @@ export class Upload{
     let html = "<span>"+ data.name +"</span>"
     html += "<div class='move'></div>"
     li.innerHTML = html
-    li.setAttribute("data-uuid" , this.name)
+    li.setAttribute("data-uuid" , this.uuid)
     if(!layer_area.children.length){
       layer_area.appendChild(li)
     }
@@ -66,11 +96,20 @@ export class Upload{
     }
   }
 
-  set_image_size(e){
+  loaded_src(e){
+    const img = e.target
+    this.set_image_size(img)
+    this.set_image_pos(img)
+  }
+
+  set_image_pos(img){
+
+  }
+  set_image_size(img){
     // var area = this.get_area()
-    let img = e.target
-    let x = img.naturalWidth
-    let y = img.naturalHeight
+    // let img = e.target
+    let w = img.naturalWidth
+    let h = img.naturalHeight
     // // 画像が全体的に大きい場合
     // if(area.clientWidth < x
     // && area.clientHeight < y){
@@ -101,7 +140,8 @@ export class Upload{
     //   x = x * rate
     //   y = area.clientHeight
     // }
-    img.parentNode.style.setProperty("width"  , x + "px" , "")
+    // img.parentNode.style.setProperty("width"  , w + "px" , "")
     // img.parentNode.style.setProperty("height" , y + "px" , "")
+    
   }
 }

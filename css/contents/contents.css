@@ -1,5 +1,6 @@
 @import './view.css';
 @import './upload.css';
+@import './image_list.css';
 
 .contents{
   height           : calc(100% - var(--size-header-height) - var(--size-footer-height));

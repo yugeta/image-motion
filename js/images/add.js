@@ -1,6 +1,6 @@
 import { Upload } from './upload.js'
 
-export class Plus{
+export class Add{
   constructor(){
     this.init()
   }
