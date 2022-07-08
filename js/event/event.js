@@ -13,6 +13,7 @@ export class Event {
     window.addEventListener('mousemove' , Options.control.mousemove.bind(Options.control))
     window.addEventListener('mouseup'   , Options.control.mouseup.bind(Options.control))
     document.getElementById('save').addEventListener('click' , Options.control.save)
+    document.getElementById('load').addEventListener('click' , Options.control.load)
     document.querySelector('.contents [name="images"]').addEventListener('click'  , Options.lists.click)
     Options.header = new Header()
   }

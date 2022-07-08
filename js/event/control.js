@@ -1,9 +1,13 @@
 import { Options }  from '../options.js'
 import { Save }     from '../data/save.js'
+import { Load }     from '../data/load.js'
 
 export class Control{
   save(){
     new Save()
+  }
+  load(){
+    new Load()
   }
 
   mousedown(e){

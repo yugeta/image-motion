@@ -85,7 +85,7 @@ export class Upload{
 
   }
 
-  set_data(){
+  set_cache(){
     this.cache.src = this.cache.img.getAttribute('src')
     this.cache.x   = this.cache.img.offsetLeft
     this.cache.y   = this.cache.img.offsetTop
@@ -112,7 +112,7 @@ export class Upload{
     const img = e.target
     this.set_image_size(img)
     this.set_image_pos(img)
-    this.set_data()
+    this.set_cache()
   }
 
   set_image_pos(img){
