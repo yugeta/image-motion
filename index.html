@@ -30,6 +30,7 @@
         <input type='range' name='scale' value='70' step='1' />
         <span class='scale-value'></span>
       </li>
+      <li id='load'><span class='button'><svg src='img/icon/upload_file.svg'></svg></span></li>
       <li id='save'><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
     </ul>
   </header>
@@ -86,7 +87,7 @@
       <input type='hidden' name='uuid' value='{{uuid}}'/>
       <div class='flex file'>
         <span class='title'>File</span>
-        <span class='value'>{{file}}</span>
+        <span class='value'>{{filename}}</span>
         <span class='value'></span>
       </div>
       <div class='flex name'>

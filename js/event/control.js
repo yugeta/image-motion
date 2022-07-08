@@ -1,8 +1,9 @@
 import { Options }  from '../options.js'
+import { Save }     from '../data/save.js'
 
 export class Control{
   save(){
-    console.log('save')
+    new Save()
   }
 
   mousedown(e){

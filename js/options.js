@@ -3,7 +3,8 @@ export const Options = {
   common : null,
   event  : null,
   images : null,
+  
 
-  datas : {}, // key:uuid
+  cache : {}, // key:uuid
   
 }

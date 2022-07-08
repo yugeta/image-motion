@@ -1,7 +1,6 @@
-
-
 export class Common{
 
+  // 上位階層をselectorで選択する機能
   upper_selector(elm , selectors){
     if(!selectors){return}
     selectors = typeof selectors === "object" ? selectors : [selectors]
@@ -25,6 +24,7 @@ export class Common{
     return hash.replace(/^#/ , '')
   }
 
+  // ページ内の.template > data-nameを取得する
   get_template(name){
     const target = document.querySelector(`.template [data-name='${name}']`)
     if(!target){return}
@@ -53,10 +53,17 @@ export class Common{
     return str
   }
 
-  // 0.0 - 1.0
+  // range : 0.0 - 1.0
   get_scale(){
     let scale = document.querySelector(`input[type='range'][name='scale']`).value
     return Number(scale) * 0.01
+  }
+
+  // filePath -> name
+  get_file2name(filepath){
+    if(!filepath){return ''}
+    const sp = filepath.split('.')
+    return sp.slice(0 , sp.length-1).join('.')
   }
 
 

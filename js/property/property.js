@@ -5,18 +5,17 @@ export class Property{
   view(uuid){
     let template = Options.common.get_template('image_property')
     if(!template){return}
-    if(!Options.datas[uuid] || !Options.datas[uuid].data){return}
-    const data = this.get_data(uuid)
-    const img  = data.pic.querySelector('img')
-    data.uuid  = uuid
-    data.x     = data.x    || data.pic.offsetLeft
-    data.y     = data.y    || data.pic.offsetTop
-    data.w     = data.w    || img.offsetWidth
-    data.h     = data.h    || img.offsetHeight
-    data.file  = data.file || data.data.name
-    data.name  = data.name || this.get_name(data.data.name)
-    template   = Options.common.doubleBlancketConvert(template , data)
-    const area = this.get_info_area()
+    // if(!Options.datas[uuid] || !Options.datas[uuid].data){return}
+    const cache = Options.datas.get_data(uuid)
+    // const img   = cache.img
+    cache.uuid  = uuid
+    // cache.x     = cache.x    || cache.pic.offsetLeft
+    // cache.y     = cache.y    || cache.pic.offsetTop
+    // cache.w     = cache.w    || img.offsetWidth
+    // cache.h     = cache.h    || img.offsetHeight
+    cache.filename = cache.file.name
+    template    = Options.common.doubleBlancketConvert(template , cache)
+    const area  = this.get_info_area()
     area.innerHTML = template
     this.set_event()
   }
@@ -57,18 +56,11 @@ export class Property{
     // return ~~(num * 10) /10
   }
 
-  get_name(str){
-    const sp = str.split('.')
-    return sp.slice(0,sp.length-1).join('.')
-  }
+  // get_name(str){
+  //   const sp = str.split('.')
+  //   return sp.slice(0,sp.length-1).join('.')
+  // }
 
-  get_data(uuid){
-    return Options.datas[uuid]
-  }
-  set_data(uuid , key , val){
-    const data = this.get_data(uuid)
-    data[key] = val
-  }
   set_lists(uuid , val){
     Options.lists.update_name(uuid , val)
   }
@@ -106,24 +98,24 @@ export class Property{
   }
   chenge_name(e){
     const uuid = this.get_uuid()
-    this.set_data(uuid , 'name' , e.target.value)
+    Options.datas.set_data(uuid , 'name' , e.target.value)
     this.set_lists(uuid , e.target.value)
   }
   chenge_x(e){
     const uuid = this.get_uuid()
-    this.set_data(uuid , 'x' , e.target.value)
+    Options.datas.set_data(uuid , 'x' , e.target.value)
   }
   chenge_y(e){
     const uuid = this.get_uuid()
-    this.set_data(uuid , 'y' , e.target.value)
+    Options.datas.set_data(uuid , 'y' , e.target.value)
   }
   chenge_w(e){
     const uuid = this.get_uuid()
-    this.set_data(uuid , 'w' , e.target.value)
+    Options.datas.set_data(uuid , 'w' , e.target.value)
   }
   chenge_h(e){
     const uuid = this.get_uuid()
-    this.set_data(uuid , 'h' , e.target.value)
+    Options.datas.set_data(uuid , 'h' , e.target.value)
   }
 
 }

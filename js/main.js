@@ -1,8 +1,9 @@
 import { Options }  from './options.js'
 import { Common }   from './common/common.js'
-import { Control }  from './common/control.js'
+import { Control }  from './event/control.js'
+import { Datas }    from './data/datas.js'
 import { Property } from './property/property.js'
-import { Event }    from './common/event.js'
+import { Event }    from './event/event.js'
 import { Images }   from './images/images.js'
 import { Lists }    from './lists/lists.js'
 import { SvgEmbed } from '../plugin/svgEmbed/src/svgEmbed.js'
@@ -15,6 +16,7 @@ export class Main{
 
   init(){
     Options.common   = new Common()
+    Options.datas    = new Datas()
     Options.control  = new Control()
     Options.images   = new Images()
     Options.lists    = new Lists()

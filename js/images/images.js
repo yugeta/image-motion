@@ -1,5 +1,5 @@
 import { Options } from '../options.js'
-import { Upload } from './upload.js'
+import { Upload }  from './upload.js'
 
 export class Images{
   add(){
@@ -136,5 +136,6 @@ export class Images{
     if(!this.move){return}
     delete this.move
   }
+
 
 }

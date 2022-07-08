@@ -1,5 +1,5 @@
 import { Options }  from '../options.js'
-import { Header }    from './header.js'
+import { Header }   from '../asset/header.js'
 
 
 export class Event {
@@ -16,11 +16,5 @@ export class Event {
     document.querySelector('.contents [name="images"]').addEventListener('click'  , Options.lists.click)
     Options.header = new Header()
   }
-
-
-
-  // click_image_plus(){
-  //   new Add()
-  // }
 
 }

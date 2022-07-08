@@ -4,33 +4,35 @@ import { Uuid }  from '../common/uuid.js'
 export class Upload{
   constructor(file){
     if(!file){return}
-    this.file = file
-    this.uuid = new Uuid().id
-    if(!Options.datas[this.uuid]){
-      Options.datas[this.uuid] = {}
-    }
+    // this.file = file
+    const uuid = new Uuid().id
+    // if(!Options.datas[this.uuid]){
+    //   Options.datas[this.uuid] = {}
+    // }
+    this.cache = Options.datas.get_data(uuid)
+    this.cache.uuid = uuid
+    this.cache.file = file
+    this.cache.name = Options.common.get_file2name(file.name)
     this.init()
-    
   }
 
   init(){
 		const fileReader  = new FileReader()
     fileReader.onload = this.add_img.bind(this, fileReader)
-		fileReader.readAsDataURL(this.file)
+		fileReader.readAsDataURL(this.cache.file)
     
-    Options.lists.add(this.uuid , this.file)
+    Options.lists.add(this.cache.uuid , this.cache.file)
     // this.add_lists(this.file)
     // this.add_layer(this.file)
   }
-
-  
   
   loaded_img(data , src){
     if(!data){return}
     add_img(data , src)
   }
+
   add_img(data , src){
-    data.uuid = this.uuid
+    data.uuid = this.cache.uuid
     var area = Options.images.get_area_view()
     let template = Options.common.get_template('image_pic')
     data.src = data.result || src
@@ -43,7 +45,9 @@ export class Upload{
     img.src    = img.getAttribute('data-src')
     img.removeAttribute('data-src')
 
-    Options.datas[this.uuid].pic = pic
+    this.cache.pic = pic
+    this.cache.img = img
+    
     // const pic = area.querySelector(`[data-uuid='${data.uuid}']`)
     // if(!pic){return}
 
@@ -80,13 +84,22 @@ export class Upload{
     // pic.appendChild(ct)
 
   }
+
+  set_data(){
+    this.cache.src = this.cache.img.getAttribute('src')
+    this.cache.x   = this.cache.img.offsetLeft
+    this.cache.y   = this.cache.img.offsetTop
+    this.cache.w   = this.cache.img.offsetWidth
+    this.cache.h   = this.cache.img.offsetHeight
+  }
+
   add_layer(data){
     let layer_area = document.querySelector("[name='layer'] ul")
     let li = document.createElement("li")
     let html = "<span>"+ data.name +"</span>"
     html += "<div class='move'></div>"
     li.innerHTML = html
-    li.setAttribute("data-uuid" , this.uuid)
+    li.setAttribute("data-uuid" , this.cache.uuid)
     if(!layer_area.children.length){
       layer_area.appendChild(li)
     }
@@ -99,6 +112,7 @@ export class Upload{
     const img = e.target
     this.set_image_size(img)
     this.set_image_pos(img)
+    this.set_data()
   }
 
   set_image_pos(img){

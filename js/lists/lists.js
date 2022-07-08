@@ -5,9 +5,11 @@ export class Lists{
     if(!uuid || !image_datas){return}
     this.data = image_datas
     this.data.uuid = uuid
-    if(!Options.datas[uuid]){
-      Options.datas[uuid] = {}
-    }
+    // if(!Options.datas[uuid]){
+    //   Options.datas[uuid] = {}
+    // }
+    // this.cache = Options.datas.get_data(uuid)
+
     this.init()
   }
 
@@ -50,14 +52,15 @@ export class Lists{
     list_area.insertAdjacentHTML('beforeend' , template)
     const elm = list_area.querySelector(`[data-uuid='${data.uuid}']`)
     // this.set_event(elm)
-    Options.datas[data.uuid].list = elm
-    Options.datas[data.uuid].data = data
+    // const cache = Options.datas.get_data(data.uuid)
+    // cache.list = elm
+    // cache.data = data
   }
 
   update_name(uuid){
     const item = this.get_list_name(uuid)
     if(!item){return}
-    const data = Options.datas[uuid]
+    const data = Options.datas.get_data(uuid)
     if(!data){return}
     item.textContent = data.name
   }
