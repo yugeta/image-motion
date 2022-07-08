@@ -1,0 +1,39 @@
+.contents [name='property'] .info{
+  padding:10px;
+}
+
+.contents [name='property'] .info > *{
+  width:100%;
+}
+
+.contents [name='property'] .info .title::after{
+  content:' :';
+}
+.contents [name='property'] .info > *{
+  padding:2px 5px;
+
+}
+.contents [name='property'] .info input[type='text']{
+          appearance: none;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+       -o-appearance: none;
+  display:inline-block;
+  width:50px;
+  background-color:transparent;
+  border:0;
+  text-align:right;
+  outline:0;
+}
+.contents [name='property'] .info .flex > *{
+  flex-grow: 1;
+}
+
+.contents [name='property'] .info .flex > *.title{
+  font-weight:bold;
+  width:60px;
+}
+.contents [name='property'] .info .flex.name input{
+  width:100%;
+  text-align:left;
+}

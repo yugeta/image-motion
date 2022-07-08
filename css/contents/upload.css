@@ -1,7 +1,7 @@
 body[data-hash='upload'] .contents > .under{
   display : none;
 }
-body[data-hash='upload'] .contents > .over [name='property']{
+body[data-hash='upload'] .contents > .over > *:nth-of-type(3){
   display : none;
 }
 body[data-hash='upload'] .contents > .over{

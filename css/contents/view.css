@@ -20,6 +20,10 @@
   );
 
   overflow : hidden;
+  -webkit-user-select: none;
+	   -moz-user-select: none;
+	    -ms-user-select: none;
+	        user-select: none;
 }
 
 .contents [name='view'] .scale{
@@ -28,9 +32,11 @@
 }
 .contents [name='view'] .pic{
   position:absolute;
+  pointer-events:none;
 }
 .contents [name='view'] .pic[data-status='active']{
   cursor:move;
+  pointer-events:auto;
 }
 
 /* center */
@@ -83,4 +89,10 @@
 
 .contents [name='view'] .pic img{
   pointer-events:none;
+  opacity:0.3;
 }
+.contents [name='view'] .pic[data-status='active'] img{
+  opacity:1.0;
+}
+
+

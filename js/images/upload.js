@@ -1,6 +1,5 @@
 import { Options } from '../options.js'
 import { Uuid }  from '../common/uuid.js'
-// import { Lists } from './lists.js'
 
 export class Upload{
   constructor(file){

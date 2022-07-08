@@ -1,3 +1,7 @@
+.contents [name='images'] ul{
+  max-height: calc(100% - var(--size-images-header));
+  overflow:auto;
+}
 .contents [name='images'] li{
   padding:2px 10px;
   cursor:pointer;

@@ -39,17 +39,24 @@ export class Common{
   // 任意文字列の中から、{{key}}という文字列を、{key:val}で置換する処理
   doubleBlancketConvert = function(str , data){
     if(data){
-      const reg = new RegExp('{{(.*?)}}','g');
-      const arr = [];
+      const reg = new RegExp('{{(.*?)}}','g')
+      const arr = []
       let res = []
       while ((res = reg.exec(str)) !== null) {
-        arr.push(res[1]);
+        arr.push(res[1])
       }
       for(let key of arr){
-        str = str.split('{{'+String(key)+'}}').join(data[key] || "");
+        const val = typeof data[key] !== 'undefined' ? data[key] : ''
+        str = str.split('{{'+String(key)+'}}').join(val)
       }
     }
-    return str;
+    return str
+  }
+
+  // 0.0 - 1.0
+  get_scale(){
+    let scale = document.querySelector(`input[type='range'][name='scale']`).value
+    return Number(scale) * 0.01
   }
 
 

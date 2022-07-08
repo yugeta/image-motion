@@ -4,9 +4,15 @@
 @import './contents/contents.css';
 
 :root{
-  --size-header-height : 40px;
-  --size-footer-height : 30px;
-  --color-border       : #141414;
+  --size-header-height    : 40px;
+  --size-footer-height    : 30px;
+  --color-border          : #141414;
   --color-contents-header : #333333;
-  --color-font : #727272;
+  --color-font            : #727272;
+  --size-images-header    : 30px;
+}
+
+@font-face {
+  font-family : 'base-font';
+  src         : url(./fonts/Rubik-Light.ttf) format('truetype');
 }

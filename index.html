@@ -13,14 +13,7 @@
   <meta name="generator" content="MYNT">
 
   <link rel="stylesheet" href="css/main.css">
-  <script type='module'>
-    import { Main } from './js/main.js'
-    switch(document.readyState){
-      case 'complete': new Main(); break
-      default: window.addEventListener('load' , (function(){new Main()})); break
-    }
-  </script>
-
+  <script type='module' src='./js/main.js'></script>
 </head>
 <body data-hash=''>
   <header class='menu'>
@@ -37,27 +30,27 @@
         <input type='range' name='scale' value='70' step='1' />
         <span class='scale-value'></span>
       </li>
-      <li><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
+      <li id='save'><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
     </ul>
   </header>
 
   <div class='contents'>
     <div class='over'>
-      <div>
+      <div class='over-left'>
         <div name='images'>
           <div class='header'>Images<button class='plus'></button></div>
           <ul></ul>
         </div>
-        <div name='layer'>
-          <div class='header'>Layer</div>
-          <ul></ul>
+        <div name='property'>
+          <div class='header'>Property</div>
+          <div class='info'></div>
         </div>
       </div>
       <div name='view'>
         <div class='scale' style='transform:scale(0.3);'></div>
       </div>
-      <div name='property'>
-        <div class='header'>Property</div>
+      <div name='layer'>
+        <div class='header'>Layer</div>
       </div>
     </div>
     <div class='under'>
@@ -79,7 +72,7 @@
   <div class='template hidden'>
     <ul data-name='image_list'>
       <li data-uuid='{{uuid}}'>
-        <span>{{name}}</span>
+        <span class='name'>{{name}}</span>
       </li>
     </ul>
     <div data-name='image_pic'>
@@ -87,6 +80,31 @@
         <div class="active"></div>
         <img data-src='{{src}}' />
         <div class="center"></div>
+      </div>
+    </div>
+    <div data-name='image_property'>
+      <input type='hidden' name='uuid' value='{{uuid}}'/>
+      <div class='flex file'>
+        <span class='title'>File</span>
+        <span class='value'>{{file}}</span>
+        <span class='value'></span>
+      </div>
+      <div class='flex name'>
+        <span class='title'>Name</span>
+        <span class='value'><input type='text' name='name' value='{{name}}'/></span>
+        <span class='value'></span>
+      </div>
+      <div class='flex'>
+        <span class='title'>Pos</span>
+        <span class='value'>x : <input type='text' name='x' value='{{x}}'/></span>
+        <span class='value'> / </span>
+        <span class='value'>y : <input type='text' name='y' value='{{y}}'/></span>
+      </div>
+      <div class='flex'>
+        <span class='title'>Size</span>
+        <span class='value'>w : <input type='text' name='w' value='{{w}}'/></span>
+        <span class='value'> / </span>
+        <span class='value'>h : <input type='text' name='h' value='{{h}}'/></span>
       </div>
     </div>
   </div>

@@ -23,10 +23,7 @@ body{
 }
 
 
-@font-face {
-  font-family : 'base-font';
-  src         : url(../fonts/Rubik-Light.ttf) format('truetype');
-}
+
 
 *{
   color       : white;
@@ -57,5 +54,8 @@ button{
 	-webkit-appearance: none;
 	-moz-appearance: none;
 	appearance: none;
+}
+.flex{
+  display:flex;
 }
 

@@ -1,8 +1,12 @@
 @import './view.css';
 @import './upload.css';
-@import './image_list.css';
+@import './lists.css';
+@import './property.css';
 
 .contents{
+  
+
+
   height           : calc(100% - var(--size-header-height) - var(--size-footer-height));
   background-color : #262626;
   overflow         : hidden;
@@ -23,11 +27,11 @@
   display          : grid;
   grid-template-columns : 300px 1fr 200px;
 }
-.contents .over [name='images']{
-  height:50%;
+.contents .over .over-left > *:nth-of-type(1){
+  height:70%;
 }
-.contents .over [name='layer']{
-  height:50%;
+.contents .over .over-left > *:nth-of-type(2){
+  height:30%;
 }
 
 .contents .under{
@@ -50,6 +54,7 @@
   background-color : var(--color-contents-header);
   padding:5px;
   position:relative;
+  height : var(--size-images-header);
 }
 .contents .header .plus{
   position:absolute;
