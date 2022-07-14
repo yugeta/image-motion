@@ -1,11 +1,19 @@
 body[data-hash='upload'] .contents > .under{
   display : none;
 }
-body[data-hash='upload'] .contents > .over > *:nth-of-type(3){
+/* body[data-hash='upload'] .contents > .over > *:nth-of-type(3){
   display : none;
-}
+} */
 body[data-hash='upload'] .contents > .over{
   display : grid;
-  grid-template-columns : 300px 1fr;
+  grid-template-columns : 250px 1fr 250px;
   height  : 100%;
+}
+
+body[data-hash='upload'] [name='transform']{
+  display:none;
+}
+
+body[data-hash='upload'] [name='view'] .scale .pic{
+  transform:none!important;
 }

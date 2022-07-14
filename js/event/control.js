@@ -1,11 +1,12 @@
-import { Options   }  from '../options.js'
-import { Save      }  from '../data/save.js'
-import { Load      }  from '../data/load.js'
-import { Upload    }  from '../images/upload.js'
-import * as ImageEvent from '../images/event.js'
-import * as ListsEvent from '../lists/event.js'
-import * as PropEvent  from '../property/event.js'
-import { Active    }  from '../images/active.js'
+import { Options   }    from '../options.js'
+import { Save      }    from '../data/save.js'
+import { Load      }    from '../data/load.js'
+import { Upload    }    from '../images/upload.js'
+import * as ImageEvent  from '../images/event.js'
+import * as ListsEvent  from '../lists/event.js'
+import * as PropEvent   from '../property/event.js'
+// import { Transform }    from '../transform/transform.js'
+import { Active    }    from '../images/active.js'
 
 export class Control{
   save(){
@@ -47,6 +48,7 @@ export class Control{
       const list = Options.elements.upper_selector(e.target , '.item[data-uuid]')
       const uuid = list ? list.getAttribute('data-uuid') : null
       new Active('active' , uuid)
+      // new Transform(uuid)
     }
   }
 

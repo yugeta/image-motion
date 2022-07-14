@@ -1,11 +1,15 @@
 .contents [name='property']{
-  --size-name  : 60px;
+  --size-name  : 30%;
   --size-value : calc(100% - var(--size-name));
   --size-trash : 40px;
+
+  height:var(--size-property-area-height);
 }
 .contents [name='property'] .info{
+  height:calc(100% - var(--size-images-header));
   padding:10px;
   position:relative;
+  overflow-y:auto;
 }
 
 .contents [name='property'] .info > *{

@@ -1,0 +1,63 @@
+.contents [name='transform']{
+  --size-name  : 30%;
+  --size-input : 30%;
+
+  height:var(100% - var(--size-property-area-height));
+}
+
+.contents [name='transform'] input[type='text']{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  display:inline-block;
+  background-color:transparent;
+  border:0;
+  text-align:right;
+  outline:0;
+}
+.contents [name='transform'] > *{
+  padding:4px;
+}
+
+.contents [name='transform'] .datas{
+  padding:10px;
+  width:100%;
+}
+
+.contents [name='transform'] .title{
+  width : var(--size-name);
+  text-align:center;
+}
+.contents [name='transform'] .range{
+  width : calc(100% - var(--size-name) - var(--size-input));
+}
+.contents [name='transform'] .input{
+  width : var(--size-input);
+}
+
+.contents [name='transform'] input[type='range'],
+.contents [name='transform'] input[type='text']{
+  width:100%;
+}
+
+.contents [name='transform'] .rotate .input::after{
+  content : 'deg';
+  font-size:10px;
+  line-height:25px;
+}
+.contents [name='transform'] .posx .input::after,
+.contents [name='transform'] .posy .input::after{
+  content : 'px';
+  font-size:10px;
+  line-height:25px;
+}
+.contents [name='transform'] .rotate input[type='text'],
+.contents [name='transform'] .posx input[type='text'],
+.contents [name='transform'] .posy input[type='text']{
+  margin-left:5px;
+  margin-right:5px;
+  width:calc(100% - 30px);
+}
+
+

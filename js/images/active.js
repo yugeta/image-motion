@@ -1,15 +1,23 @@
-import { Options } from '../options.js'
+import { Options }   from '../options.js'
+import { Transform } from '../transform/transform.js'
 
 export class Active{
   constructor(type , uuid){
     if(!uuid || type === 'all_passive'){
       this.all_passive()
+      if(Options.transform){
+        Options.transform.hidden()
+      }
     }
     else if(type === 'passive'){
       this.passive(uuid)
+      if(Options.transform){
+        Options.transform.hidden()
+      }
     }
     else if(type === 'active'){
       this.active(uuid)
+      Options.transform = new Transform(uuid)
     }
   }
 

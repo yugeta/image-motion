@@ -86,6 +86,7 @@ export class Images{
     this.set_cache()
     this.set_lists(this.cache)
     this.set_center_pos()
+    this.set_transform()
 
     ImageCommon.set_level()
   }
@@ -133,11 +134,30 @@ export class Images{
 
   set_center_pos(){
     const center = this.cache.pic.querySelector('.center')
-    if(!center){return}
     const cx = this.cache.cx
     const cy = this.cache.cy
-    center.style.setProperty('top'  , `${cy}px` , '')
-    center.style.setProperty('left' , `${cx}px` , '')
+    if(center){
+      center.style.setProperty('top'  , `${cy}px` , '')
+      center.style.setProperty('left' , `${cx}px` , '')
+    }
+    if(this.cache.pic){
+      this.cache.pic.style.setProperty('transform-origin',`${cx}px ${cy}px`,'')
+    }
+  }
+  set_transform(){
+    let transforms = []
+    if(this.cache.rotate){
+      transforms.push(`rotate(${this.cache.rotate}deg)`)
+    }
+    if(this.cache.posx){
+      transforms.push(`translateX(${this.cache.posx}px)`)
+    }
+    if(this.cache.posy){
+      transforms.push(`translateX(${this.cache.posy}px)`)
+    }
+    if(!transforms || !transforms.length){return}
+    const transform_value = transforms.join(' ')
+    this.cache.pic.style.setProperty('transform' , `${transform_value}` , '')
   }
 
   del(){

@@ -19,7 +19,7 @@
       var(--col-bg) var(--size-grid)
     );
 
-  overflow : hidden;
+  overflow : auto;
   -webkit-user-select: none;
 	   -moz-user-select: none;
 	    -ms-user-select: none;

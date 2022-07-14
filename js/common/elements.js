@@ -107,5 +107,37 @@ export class Elements{
     return document.querySelector(`header .range .scale-value`)
   }
 
+  // ----------
+  // Transform
+
+  get_transform_area(){
+    return document.querySelector(`.contents [name='transform'] .datas`)
+  }
+
+  get_transform_rotate_range(){
+    const area = this.get_transform_area()
+    return area.querySelector(`.rotate input[name='rotate_range']`)
+  }
+  get_transform_posx_range(){
+    const area = this.get_transform_area()
+    return area.querySelector(`.posx input[name='posx_range']`)
+  }
+  get_transform_posy_range(){
+    const area = this.get_transform_area()
+    return area.querySelector(`.posy input[name='posy_range']`)
+  }
+
+  get_transform_rotate_input(){
+    const area = this.get_transform_area()
+    return area.querySelector(`.rotate input[name='rotate']`)
+  }
+  get_transform_posx_input(){
+    const area = this.get_transform_area()
+    return area.querySelector(`.posx input[name='posx']`)
+  }
+  get_transform_posy_input(){
+    const area = this.get_transform_area()
+    return area.querySelector(`.posy input[name='posy']`)
+  }
 
 }
