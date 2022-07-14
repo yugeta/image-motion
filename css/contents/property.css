@@ -1,5 +1,11 @@
+.contents [name='property']{
+  --size-name  : 60px;
+  --size-value : calc(100% - var(--size-name));
+  --size-trash : 40px;
+}
 .contents [name='property'] .info{
   padding:10px;
+  position:relative;
 }
 
 .contents [name='property'] .info > *{
@@ -29,11 +35,55 @@
   flex-grow: 1;
 }
 
-.contents [name='property'] .info .flex > *.title{
-  font-weight:bold;
-  width:60px;
-}
-.contents [name='property'] .info .flex.name input{
+
+.contents [name='property'] .info .flex input.full{
   width:100%;
   text-align:left;
 }
+.contents [name='property'] .info .flex input.half{
+  width:50%;
+  text-align:left;
+}
+
+.contents [name='property'] .info input:hover,
+.contents [name='property'] .info input:focus{
+  color:white;
+}
+
+.contents [name='property'] .info .flex .title{
+  font-weight:bold;
+  width:var(--size-name);
+}
+.contents [name='property'] .info .flex .value{
+  width:var(--size-value);
+}
+
+
+/* Buttons*/
+.contents [name='property'] .info .trash{
+  position:absolute;
+  top:4px;
+  right:8px;
+  display:inline-block;
+  width:var(--size-trash);
+  fill:var(--color-font);
+  cursor:pointer;
+}
+.contents [name='property'] .info .trash:hover{
+  fill:white;
+}
+/* .contents [name='property'] .info .buttons{
+  text-align:right;
+}
+.contents [name='property'] .info svg{
+  display:inline-block;
+  width:30px;
+  fill:var(--color-font);
+}
+.contents [name='property'] .info .trash{
+  cursor:pointer;
+}
+.contents [name='property'] .info .trash:hover{
+  opacity:0.5;
+} */
+

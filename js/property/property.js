@@ -5,31 +5,34 @@ export class Property{
   view(uuid){
     let template = Options.common.get_template('image_property')
     if(!template){return}
-    // if(!Options.datas[uuid] || !Options.datas[uuid].data){return}
-    const cache = Options.datas.get_data(uuid)
-    // const img   = cache.img
-    cache.uuid  = uuid
-    // cache.x     = cache.x    || cache.pic.offsetLeft
-    // cache.y     = cache.y    || cache.pic.offsetTop
-    // cache.w     = cache.w    || img.offsetWidth
-    // cache.h     = cache.h    || img.offsetHeight
-    cache.filename = cache.file.name
-    template    = Options.common.doubleBlancketConvert(template , cache)
-    const area  = this.get_info_area()
+    const cache    = Options.datas.get_data(uuid)
+    cache.uuid     = uuid
+    cache.filename = this.get_filename(cache)
+    template       = Options.common.doubleBlancketConvert(template , cache)
+    const area     = Options.elements.get_info_area()
     area.innerHTML = template
     this.set_event()
   }
 
-  
-
-  get_info_area(){
-    return document.querySelector(`.contents [name='property'] .info`)
+  hidden(){
+    const area = Options.elements.get_info_area()
+    area.textContent = ''
   }
 
-  getForm(name){
-    return document.querySelector(`.contents [name='property'] input[name='${name}']`)
+  get_filename(cache){
+    if(!cache){
+      return ''
+    }
+    else if(cache.filename){
+      return cache.filename
+    }
+    else if(cache.file){
+      return cache.file.name
+    }
+    else {
+      return ''
+    }
   }
-
 
   update(data){
     for(let key in data){
@@ -39,7 +42,7 @@ export class Property{
   }
 
   update_value(key , data){
-    const input = this.getForm(key)
+    const input = Options.elements.get_info_form(key)
     switch(typeof data[key]){
       case 'number':
         input.value = this.number_format(data[key])
@@ -53,69 +56,81 @@ export class Property{
 
   number_format(num){
     return ~~(num)
-    // return ~~(num * 10) /10
   }
-
-  // get_name(str){
-  //   const sp = str.split('.')
-  //   return sp.slice(0,sp.length-1).join('.')
-  // }
 
   set_lists(uuid , val){
     Options.lists.update_name(uuid , val)
   }
-  
-
 
   // Event
-
   set_event(){
-    const area = this.get_info_area()
-    const name = area.querySelector(`input[name='name']`)
-    if(name){
-      name.oninput = this.chenge_name.bind(this)
-    }
-    const x    = area.querySelector(`input[name='x']`)
-    if(x){
-      x.oninput = this.chenge_x.bind(this)
-    }
-    const y    = area.querySelector(`input[name='y']`)
-    if(y){
-      y.oninput = this.chenge_y.bind(this)
-    }
-    const w    = area.querySelector(`input[name='w']`)
-    if(w){
-      w.oninput = this.chenge_w.bind(this)
-    }
-    const h    = area.querySelector(`input[name='h']`)
-    if(h){
-      h.oninput = this.chenge_h.bind(this)
-    }
+    const area = Options.elements.get_info_area()
+    Options.event.set(
+      area.querySelector(`input[name='name']`) , 
+      'input' , 
+      this.chenge_name.bind(this)
+    )
+    Options.event.set(
+      area.querySelector(`input[name='x']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'x')
+    )
+    Options.event.set(
+      area.querySelector(`input[name='y']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'y')
+    )
+    Options.event.set(
+      area.querySelector(`input[name='w']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'w')
+    )
+    Options.event.set(
+      area.querySelector(`input[name='h']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'h')
+    )
+    Options.event.set(
+      area.querySelector(`input[name='order']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'order')
+    )
   }
   get_uuid(){
-    const area = this.get_info_area()
+    const area = Options.elements.get_info_area()
     return area.querySelector(`input[name='uuid']`).value
   }
   chenge_name(e){
     const uuid = this.get_uuid()
-    Options.datas.set_data(uuid , 'name' , e.target.value)
+    Options.datas.set_data(uuid , 'name' , String(e.target.value))
     this.set_lists(uuid , e.target.value)
   }
-  chenge_x(e){
+  chenge_num(key , e){
     const uuid = this.get_uuid()
-    Options.datas.set_data(uuid , 'x' , e.target.value)
+    const num  = e.target.value || 0
+    if(!String(num).match(/^[\d\-\.].+$/)){return}
+    Options.datas.set_data(uuid , key , Number(num))
+    this.image_move(uuid , key)
   }
-  chenge_y(e){
+  chenge_string(key , e){
     const uuid = this.get_uuid()
-    Options.datas.set_data(uuid , 'y' , e.target.value)
-  }
-  chenge_w(e){
-    const uuid = this.get_uuid()
-    Options.datas.set_data(uuid , 'w' , e.target.value)
-  }
-  chenge_h(e){
-    const uuid = this.get_uuid()
-    Options.datas.set_data(uuid , 'h' , e.target.value)
+    const str  = e.target.value || ''
+    Options.datas.set_data(uuid , key , String(str))
   }
 
+  image_move(uuid , key){
+    if(!Options.img_datas[uuid]){return}
+    if(key === 'x' || key === 'y'){
+      const data = Options.datas.get_data(uuid)
+      Options.img_datas[uuid].cache.x = data.x
+      Options.img_datas[uuid].cache.y = data.y
+      Options.img_datas[uuid].set_image_pos()
+    }
+    else if(key === 'w' || key === 'h'){
+      const data = Options.datas.get_data(uuid)
+      Options.img_datas[uuid].cache.w = data.w
+      Options.img_datas[uuid].cache.h = data.h
+      Options.img_datas[uuid].set_image_size()
+    }
+  }
 }

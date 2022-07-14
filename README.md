@@ -34,4 +34,8 @@ Author : Yugeta.Koji
 - javascriptモジュールをHTMLのheadタグ内で読み込む
 - htmlに任意のオブジェクトタグを埋め込む
 
-# 
+# Install
+- $ git clone http://git.ideacompo.com/2/image_motion.git
+- $ mkdir plugin | cd plugin
+- $ git clone http://git.ideacompo.com/2/svgEmbed.git
+- 

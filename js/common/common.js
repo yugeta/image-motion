@@ -1,22 +1,22 @@
 export class Common{
 
-  // 上位階層をselectorで選択する機能
-  upper_selector(elm , selectors){
-    if(!selectors){return}
-    selectors = typeof selectors === "object" ? selectors : [selectors]
-    if(!elm || !selectors){return}
-    let cur, flg = null
-    for(let i=0; i<selectors.length; i++){
-      if(!selectors[i]){continue}
-      for(cur=elm; cur; cur=cur.parentElement) {
-        if(!cur.matches(selectors[i])){continue}
-        flg = true
-        break
-      }
-      if(flg){break}
-    }
-    return cur
-  }
+  // // 上位階層をselectorで選択する機能
+  // upper_selector(elm , selectors){
+  //   if(!selectors){return}
+  //   selectors = typeof selectors === "object" ? selectors : [selectors]
+  //   if(!elm || !selectors){return}
+  //   let cur, flg = null
+  //   for(let i=0; i<selectors.length; i++){
+  //     if(!selectors[i]){continue}
+  //     for(cur=elm; cur; cur=cur.parentElement) {
+  //       if(!cur.matches(selectors[i])){continue}
+  //       flg = true
+  //       break
+  //     }
+  //     if(flg){break}
+  //   }
+  //   return cur
+  // }
 
   // ハッシュリンクの値を取得
   get_hash(){
@@ -66,5 +66,34 @@ export class Common{
     return sp.slice(0 , sp.length-1).join('.')
   }
 
+  // 任意要素内で、任意エレメントの、座標を取得
+  get_pos(elm , root){
+		if(!elm){return null}
+    root = root || document.body
+		var pos={
+      x:0,
+      y:0,
+    }
+		do{
+			//指定エレメントでストップする。
+			if(elm === root){break}
+
+			//対象エレメントが存在しない場合はその辞典で終了
+			if(typeof elm === 'undefined' || elm === null){
+        break
+        // return pos
+      }
+
+			//座標を足し込む
+			pos.x += elm.offsetLeft
+			pos.y += elm.offsetTop
+		}
+
+		//上位エレメントを参照する
+		while(elm = elm.offsetParent)
+
+		//最終座標を返す
+		return pos;
+  }
 
 }

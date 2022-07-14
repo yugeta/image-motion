@@ -6,6 +6,22 @@ export class Datas{
     return Options.cache
   }
 
+  set_cache(uuid , datas){
+    if(!uuid || !datas){return}
+    const cache = this.get_data(uuid)
+    if(datas.constructor === Array){
+      for(let data of datas){
+        cache.push(data)
+      }
+    }
+    else{
+      for(let d in datas){
+        cache[d] = datas[d]
+      }
+    }
+    return cache
+  }
+
   get_data(uuid){
     const data = this.get_all()
     if(typeof data[uuid] === 'undefined'){
@@ -20,20 +36,36 @@ export class Datas{
   }
 
   get_save_data(){
-    const datas = []
-    const cache = this.get_all()
-    for(let uuid in cache){
+    const images = []
+    const items = Options.elements.get_image_lists()
+    for(let item of items){
+      const uuid = item.getAttribute('data-uuid')
       const newData = {}
-      for(let key in cache[uuid]){
+      const data = this.get_data(uuid)
+      for(let key in data){
         if(key === 'pic'
         || key === 'img'
         || key === 'list'
         || key === 'file'){continue}
-        newData[key] = cache[uuid][key]
+        newData[key] = data[key]
       }
-      datas.push(newData)
+      images.push(newData)
     }
-    return datas
+    return {
+      images : images,
+      // sort   : this.get_image_sorts()
+    }
   }
+
+
+  // get_image_sorts(){
+  //   const lists = Options.elements.get_image_lists()
+  //   if(!lists || !lists.length){return []}
+  //   const res = []
+  //   for(let list of lists){
+  //     res.push(list.getAttribute('data-uuid'))
+  //   }
+  //   return res
+  // }
 
 }

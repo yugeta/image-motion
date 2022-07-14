@@ -1,10 +1,6 @@
 export const Options = {
-  // proc
-  common : null,
-  event  : null,
-  images : null,
-  
-
-  cache : {}, // key:uuid
-  
+  cache      : {}, // key:uuid
+  images     : [],
+  img_datas  : {},
+  strage_key : 'image_motion'
 }

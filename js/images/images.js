@@ -1,141 +1,150 @@
-import { Options } from '../options.js'
-import { Upload }  from './upload.js'
+import { Options }      from '../options.js'
+import { Uuid    }      from '../common/uuid.js'
+import * as ImageCommon from './common.js'
 
 export class Images{
-  add(){
-    let input_file = document.createElement("input")
-    input_file.type     = 'file'
-    input_file.multiple = 'multiple'
-    input_file.name     = 'images[]'
-    input_file.addEventListener('change' , this.pick_imgs_upload.bind(this))
-    document.querySelector("form[name='upload']").appendChild(input_file)
-    input_file.click()
+  constructor(data){
+    if(!data){return}
+    if(data.file){
+      this.new(data)
+    }
+    else if(data.data && data.data.uuid){
+      this.upload(data.data)
+    }
+    else{
+      return
+    }
+    Options.img_datas[this.uuid] = this
   }
-  pick_imgs_upload(e){
-    if(!e.target.files.length){return}
-    for(let file of e.target.files){
-      new Upload(file)
+
+  new(data){
+    const uuid = new Uuid().id
+    this.uuid = uuid
+    this.cache = Options.datas.get_data(uuid)
+    this.cache.uuid = uuid
+    this.cache.file = data.file
+    this.cache.name = Options.common.get_file2name(data.file.name)
+    this.cache.filename = Options.property.get_filename(data)
+    this.init()
+    // this.set_lists(this.cache.file)
+  }
+
+  upload(data){
+    this.uuid = data.uuid
+    this.cache = Options.datas.set_cache(data.uuid , data)
+    this.set_img(data)
+    // this.set_lists(data)
+  }
+
+  set_lists(data){
+    Options.lists.add(this.cache.uuid , data)
+  }
+
+  init(){
+		const fileReader  = new FileReader()
+    fileReader.onload = this.loaded_img.bind(this, fileReader)
+		fileReader.readAsDataURL(this.cache.file)
+  }
+
+  loaded_img(data , src){
+    data.uuid      = this.cache.uuid
+    data.src       = data.result || src
+    this.set_img(data)
+  }
+
+  set_img(data){
+    var area       = Options.elements.get_area_view()
+    let template   = Options.common.get_template('image_pic')
+    template       = Options.common.doubleBlancketConvert(template , data)
+    area.insertAdjacentHTML('beforeend' , template)
+    const pic      = area.querySelector(`[data-uuid='${data.uuid}']`)
+    const img      = pic.querySelector(`img`)
+    img.onload     = this.loaded_src.bind(this)
+    img.src        = img.getAttribute('data-src')
+    img.removeAttribute('data-src')
+
+    this.cache.pic = pic
+    this.cache.img = img
+
+    this.set_visibility(data.uuid)
+  }
+
+  set_visibility(uuid){
+    const elm    = Options.elements.get_uuid_view(uuid)
+    const data   = Options.datas.get_data(uuid)
+    if(data.hidden){
+      elm.classList.add('hidden')
     }
   }
 
-  get_area_view(){
-    return document.querySelector(".contents [name='view'] .scale")
-  }
-  get_area_list(){
-    return document.querySelector(".contents [name='images']")
+  loaded_src(e){
+    // const img = e.target
+    // const pic = img.parentNode
+    this.set_image_size()
+    this.set_image_pos()
+    this.set_image_order()
+    this.set_cache()
+    this.set_lists(this.cache)
+    this.set_center_pos()
+
+    ImageCommon.set_level()
   }
 
-  get_uuid_view(uuid){
-    if(!uuid){return}
-    const area = this.get_area_view()
-    return area.querySelector(`.pic[data-uuid='${uuid}']`)
-  }
-  get_uuid_list(uuid){
-    if(!uuid){return}
-    const area = this.get_area_list()
-    return area.querySelector(`[data-uuid='${uuid}']`)
-  }
-
-  active(uuid){
-    this.all_passive()
-    this.view_active(uuid)
-    this.list_active(uuid)
-  }
-  view_active(uuid){
-    if(!uuid){return}
-    const view_target = this.get_uuid_view(uuid)
-    if(!view_target){return}
-    view_target.setAttribute('data-status' , 'active')
-  }
-  list_active(uuid){
-    if(!uuid){return}
-    const list_target = this.get_uuid_list(uuid)
-    if(!list_target){return}
-    list_target.setAttribute('data-status' , 'active')
+  set_cache(){
+    const center_pos = this.get_center_pos()
+    this.cache.src   = this.cache.img.getAttribute('src')
+    this.cache.x     = this.cache.x  || this.cache.img.offsetLeft
+    this.cache.y     = this.cache.y  || this.cache.img.offsetTop
+    this.cache.w     = this.cache.w  || this.cache.img.offsetWidth
+    this.cache.h     = this.cache.h  || this.cache.img.offsetHeight
+    this.cache.nw    = this.cache.nw || this.cache.img.naturalWidth
+    this.cache.nh    = this.cache.nh || this.cache.img.naturalHeight
+    this.cache.cx    = this.cache.cx || center_pos.x
+    this.cache.cy    = this.cache.cy || center_pos.y
+    this.cache.order = this.cache.order || 0
   }
 
-  passive(uuid){
-    const target = this.get_uuid_view(uuid)
-    if(!target || !target.hasAttribute('data-status')){return}
-    target.removeAttribute('data-status')
-  }
-
-
-  all_passive(){
-    this.all_passive_view()
-    this.all_passive_lists()
-  }
-  all_passive_view(){
-    var area = Options.images.get_area_view()
-    if(!area){return}
-    const items = area.querySelectorAll('[data-uuid]')
-    for(let item of items){
-      if(!item.hasAttribute('data-status')){continue}
-      item.removeAttribute('data-status')
-    }
-  }
-  all_passive_lists(){
-    var area = Options.images.get_area_list()
-    if(!area){return}
-    const items = area.querySelectorAll('[data-uuid]')
-    for(let item of items){
-      if(!item.hasAttribute('data-status')){continue}
-      item.removeAttribute('data-status')
+  get_center_pos(){
+    const center = this.cache.pic.querySelector('.center')
+    return {
+      x : center.offsetLeft,
+      y : center.offsetTop,
     }
   }
 
-
-  mousedown(e){
-    if(!Options.common.upper_selector(e.target , `[name='view']`)){return}
-    const area = this.get_area_view()
-    const img  = Options.common.upper_selector(e.target , `[name='view'] [data-uuid][data-status='active']`)
-    if(!img){return}
-    const scale    = Options.common.get_scale()
-    const areaRect = area.getBoundingClientRect()
-    const imgRect  = img.getBoundingClientRect()
-    const mx = e.pageX
-    const my = e.pageY
-    this.move = {
-      uuid  : img.getAttribute('data-uuid'),
-      scale : scale,
-      mouse : {
-        x : mx,
-        y : my,
-      },
-      area : {
-        offset : {
-          x : areaRect.left,
-          y : areaRect.top,
-        }
-      },
-      img : {
-        elm : img,
-        pos : {
-          x : (imgRect.left - areaRect.left) / scale,
-          y : (imgRect.top  - areaRect.top)  / scale,
-        },
-        offset : {
-          x : mx - imgRect.left,
-          y : my - imgRect.top,
-        },
-      },
-    }
-  }
-  mousemove(e){
-    if(!this.move){return}
-    const img = this.move.img.elm
-    const mx  = e.pageX
-    const my  = e.pageY
-    const tx  = (mx - this.move.mouse.x) / this.move.scale + this.move.img.pos.x
-    const ty  = (my - this.move.mouse.y) / this.move.scale + this.move.img.pos.y
-    img.style.setProperty('top'  , `${ty}px` , '')
-    img.style.setProperty('left' , `${tx}px` , '')
-    Options.property.update({x:tx , y:ty})
-  }
-  mouseup(e){
-    if(!this.move){return}
-    delete this.move
+  set_image_size(){
+    const w = this.cache.w || this.cache.img.naturalWidth
+    const h = this.cache.h || this.cache.img.naturalHeight
+    this.cache.pic.style.setProperty("width"  , `${w}px` , "")
+    this.cache.pic.style.setProperty("height" , `${h}px` , "")
   }
 
+  set_image_pos(){
+    const x = this.cache.x || 0
+    const y = this.cache.y || 0
+// console.log(x,y)
+    this.cache.pic.style.setProperty('top'  , `${y}px` , '')
+    this.cache.pic.style.setProperty('left' , `${x}px` , '')
+  }
+  set_image_order(){
+    const order = Number(this.cache.order) || 0
+    this.cache.pic.style.setProperty('z-index'  , order || 'auto' , '')
+  }
+
+  set_center_pos(){
+    const center = this.cache.pic.querySelector('.center')
+    if(!center){return}
+    const cx = this.cache.cx
+    const cy = this.cache.cy
+    center.style.setProperty('top'  , `${cy}px` , '')
+    center.style.setProperty('left' , `${cx}px` , '')
+  }
+
+  del(){
+    const uuid = this.uuid
+    const elm = Options.elements.get_uuid_view(uuid)
+    if(!elm){return}
+    elm.parentNode.removeChild(elm)
+  }
 
 }

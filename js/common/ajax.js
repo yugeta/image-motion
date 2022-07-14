@@ -7,8 +7,8 @@ export class Ajax{
     this.xhr.open(options.method || 'get' , options.url || getApiUrl() , true)
     this.xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
     this.sync()
-
   }
+  
   // 非同期の返り値を同期的にも取得する
   async sync(){
     return new Promise(((resolve) =>{
