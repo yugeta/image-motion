@@ -1,5 +1,6 @@
 import { Options }   from '../options.js'
 import { Transform } from '../transform/transform.js'
+import { Action }    from '../action/action.js'
 
 export class Active{
   constructor(type , uuid){
@@ -18,6 +19,7 @@ export class Active{
     else if(type === 'active'){
       this.active(uuid)
       Options.transform = new Transform(uuid)
+      Options.action    = new Action(uuid)
     }
   }
 
@@ -47,6 +49,12 @@ export class Active{
     target.removeAttribute('data-status')
     Options.property.hidden()
     this.view_area_passive()
+    this.action_hidden()
+  }
+  action_hidden(){
+    if(Options.action){
+      Options.action.hidden()
+    }
   }
 
   all_passive(){
@@ -54,6 +62,7 @@ export class Active{
     this.all_passive_lists()
     Options.property.hidden()
     this.view_area_passive()
+    this.action_hidden()
   }
 
   all_passive_view(){

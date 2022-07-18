@@ -37,6 +37,59 @@
   </header>
 
   <div class='contents'>
+
+    <div class='under'>
+      <div name='animation'>
+        <div class='header flex'>
+          <div class='title'>Animation</div>
+          <div class='input'><input type='text' name='animation-name'/></div>
+        </div>
+        <div class='tools'>
+          <div class='prev'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M11 36V12h3v24Zm26 0L19.7 24 37 12Zm-3-12Zm0 6.25v-12.5L24.95 24Z"/></svg>
+          </div>
+          <div class='play' data-status=''>
+            <svg data-status='' xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M16 37.85v-28l22 14Zm3-14Zm0 8.55 13.45-8.55L19 15.3Z"/></svg>
+            <svg data-status='on' xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M 16 37.85 v -28 l 22 14 Z Z Z"/></svg>
+          </div>
+          <!-- <div class='stop'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M15 15v18Zm-3 21V12h24v24Zm3-3h18V15H15Z"/></svg>
+          </div> -->
+          <div class='next'>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M34 36V12h3v24Zm-23 0V12l17.3 12Zm3-12Zm0 6.25L23.05 24 14 17.75Z"/></svg>
+          </div>
+        </div>
+        <ul class='lists'></ul>
+      </div>
+      <div name='timeline'>
+        <div class='header flex'>
+          <!-- <div class='title'>Timeline</div> -->
+          <div class='tools flex'>
+            <div class='duration'>duration : <input type='text' name='duration' value='1'>s</div>
+            <div class='count'>iteration-count : <input type='text' name='count' value='infinite'></div>
+            <div class='timing'>timing-function : <select name='timing'>
+              <option value='ease-in-out'>ease-in-out</option>
+              <option value='linear'>linear</option>
+              <option value='ease'>ease</option>
+              <option value='ease-in'>ease-in</option>
+              <option value='ease-out'>ease-out</option>
+              <option value='inherit'>inherit</option>
+            </select></div>
+            <div class='direction'>direction : <select name='direction'>
+              <option value='normal'>normal</option>
+              <option value='reverse'>reverse</option>
+              <option value='reverse'>alternate</option>
+              <option value='reverse'>alternate-reverse</option>
+            </select></div>
+          </div>
+        </div>
+        <div class='timeline'>
+          <div class='cursor' data-num='0'></div>
+        </div>
+        <ul class='lists'></ul>
+      </div>
+    </div>
+
     <div class='over'>
       <div class='over-left'>
         <div name='images'>
@@ -63,115 +116,13 @@
         </div>
       </div>
     </div>
-    <div class='under'>
-      <div name='list'>
-        <div class='header'>List</div>
-      </div>
-      <div name='motion'>
-        <div class='header'>Motion</div>
-      </div>
-    </div>
+
   </div>
 
   <footer class='status'>
-    footer
+    
   </footer>
 
   <form class='hidden' name="upload" method="post" action="data.php" enctype="multipart/form-data"></form>
-
-  <div class='template hidden'>
-    <textarea data-name='image_list'>
-      <div class='item' data-uuid='{{uuid}}'>
-        <div class='info'>
-          <span class='drag'></span>
-          <span class='visibility'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M24 31.5Q27.55 31.5 30.025 29.025Q32.5 26.55 32.5 23Q32.5 19.45 30.025 16.975Q27.55 14.5 24 14.5Q20.45 14.5 17.975 16.975Q15.5 19.45 15.5 23Q15.5 26.55 17.975 29.025Q20.45 31.5 24 31.5ZM24 28.6Q21.65 28.6 20.025 26.975Q18.4 25.35 18.4 23Q18.4 20.65 20.025 19.025Q21.65 17.4 24 17.4Q26.35 17.4 27.975 19.025Q29.6 20.65 29.6 23Q29.6 25.35 27.975 26.975Q26.35 28.6 24 28.6ZM24 38Q16.7 38 10.8 33.85Q4.9 29.7 2 23Q4.9 16.3 10.8 12.15Q16.7 8 24 8Q31.3 8 37.2 12.15Q43.1 16.3 46 23Q43.1 29.7 37.2 33.85Q31.3 38 24 38ZM24 23Q24 23 24 23Q24 23 24 23Q24 23 24 23Q24 23 24 23Q24 23 24 23Q24 23 24 23Q24 23 24 23Q24 23 24 23ZM24 35Q30.05 35 35.125 31.725Q40.2 28.45 42.85 23Q40.2 17.55 35.125 14.275Q30.05 11 24 11Q17.95 11 12.875 14.275Q7.8 17.55 5.1 23Q7.8 28.45 12.875 31.725Q17.95 35 24 35Z"/></svg>
-          </span>
-          <span class='img'><img src='{{src}}'/></span>
-          <span class='name'>{{name}}</span>
-        </div>
-        <div class='sub-lists'></div>
-      </div>
-    </textarea>
-    <div data-name='image_pic'>
-      <div class="pic" data-new="1" data-uuid="{{uuid}}">
-        <div class="active"></div>
-        <img data-src='{{src}}' />
-        <div class="center"><div class='center-scale'></div></div>
-      </div>
-    </div>
-    <div data-name='image_property'>
-      <input type='hidden' name='uuid' value='{{uuid}}'/>
-      <div class='flex file'>
-        <span class='title'>File</span>
-        <span class='value'>{{filename}}</span>
-      </div>
-      <div class='flex name'>
-        <span class='title'>Name</span>
-        <span class='value'><input class='full' type='text' name='name' value='{{name}}'/></span>
-      </div>
-      <div class='flex'>
-        <span class='title'>Pos</span>
-        <div class='value flex'>
-          <span>x : <input type='text' name='x' value='{{x}}'/></span>
-          <span> / </span>
-          <span>y : <input type='text' name='y' value='{{y}}'/></span>
-        </div>
-      </div>
-      <div class='flex'>
-        <span class='title'>Size</span>
-        <div class='value flex'>
-          <span>w : <input type='text' name='w' value='{{w}}'/></span>
-          <span> / </span>
-          <span>h : <input type='text' name='h' value='{{h}}'/></span>
-        </div>
-      </div>
-      <!-- <div class='flex'>
-        <span class='title'>Base</span>
-        <span class='value'>w : <input type='text' name='nw' value='{{nw}}'/></span>
-        <span class='value'> / </span>
-        <span class='value'>h : <input type='text' name='nh' value='{{nh}}'/></span>
-      </div> -->
-      <div class='flex'>
-        <span class='title'>Center</span>
-        <div class='value flex'>
-          <span>x : <input type='text' name='cx' value='{{cx}}'/></span>
-          <span> / </span>
-          <span>y : <input type='text' name='cy' value='{{cy}}'/></span>
-        </div>
-      </div>
-      <!-- <div class='flex'>
-        <div class='buttons'>
-          <svg class='trash' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486.4 486.4"><path d="M446,70H344.8V53.5c0-29.5-24-53.5-53.5-53.5h-96.2c-29.5,0-53.5,24-53.5,53.5V70H40.4c-7.5,0-13.5,6-13.5,13.5 S32.9,97,40.4,97h24.4v317.2c0,39.8,32.4,72.2,72.2,72.2h212.4c39.8,0,72.2-32.4,72.2-72.2V97H446c7.5,0,13.5-6,13.5-13.5 S453.5,70,446,70z M168.6,53.5c0-14.6,11.9-26.5,26.5-26.5h96.2c14.6,0,26.5,11.9,26.5,26.5V70H168.6V53.5z M394.6,414.2 c0,24.9-20.3,45.2-45.2,45.2H137c-24.9,0-45.2-20.3-45.2-45.2V97h302.9v317.2H394.6z"/><path d="M243.2,411c7.5,0,13.5-6,13.5-13.5V158.9c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v238.5 C229.7,404.9,235.7,411,243.2,411z"/><path d="M155.1,396.1c7.5,0,13.5-6,13.5-13.5V173.7c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v208.9 C141.6,390.1,147.7,396.1,155.1,396.1z"/><path d="M331.3,396.1c7.5,0,13.5-6,13.5-13.5V173.7c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v208.9 C317.8,390.1,323.8,396.1,331.3,396.1z"/></svg>
-        </div>
-      </div> -->
-      <div class='flex'>
-        <span class='title'>Order</span>
-        <span class='value'><input class='half' type='text' name='order' value='{{order}}'/> ( -1 , 0 , 1~ )</span>
-      </div>
-      <svg class='trash' xmlns="http://www.w3.org/2000/svg" viewBox="0 0 486.4 486.4"><path d="M446,70H344.8V53.5c0-29.5-24-53.5-53.5-53.5h-96.2c-29.5,0-53.5,24-53.5,53.5V70H40.4c-7.5,0-13.5,6-13.5,13.5 S32.9,97,40.4,97h24.4v317.2c0,39.8,32.4,72.2,72.2,72.2h212.4c39.8,0,72.2-32.4,72.2-72.2V97H446c7.5,0,13.5-6,13.5-13.5 S453.5,70,446,70z M168.6,53.5c0-14.6,11.9-26.5,26.5-26.5h96.2c14.6,0,26.5,11.9,26.5,26.5V70H168.6V53.5z M394.6,414.2 c0,24.9-20.3,45.2-45.2,45.2H137c-24.9,0-45.2-20.3-45.2-45.2V97h302.9v317.2H394.6z"/><path d="M243.2,411c7.5,0,13.5-6,13.5-13.5V158.9c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v238.5 C229.7,404.9,235.7,411,243.2,411z"/><path d="M155.1,396.1c7.5,0,13.5-6,13.5-13.5V173.7c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v208.9 C141.6,390.1,147.7,396.1,155.1,396.1z"/><path d="M331.3,396.1c7.5,0,13.5-6,13.5-13.5V173.7c0-7.5-6-13.5-13.5-13.5s-13.5,6-13.5,13.5v208.9 C317.8,390.1,323.8,396.1,331.3,396.1z"/></svg>
-    </div>
-
-    <div data-name='transform'>
-      <input type='hidden' name='uuid' value='{{uuid}}'/>
-
-      <div class='flex rotate'>
-        <div class='title'>Rotate</div>
-        <div class='range'><input type='range' name='rotate_range' min='-360' max='360' step='1' value='0' /></div>
-        <div class='input'><input type='text' name='rotate' value='0' /></div>
-      </div>
-      <div class='flex posx'>
-        <div class='title'>X</div>
-        <div class='range'><input type='range' name='posx_range' min='0' max='500' step='1' value='0' /></div>
-        <div class='input'><input type='text' name='posx' value='0' /></div>
-      </div>
-      <div class='flex posy'>
-        <div class='title'>Y</div>
-        <div class='range'><input type='range' name='posy_range' min='0' max='500' step='1' value='0' /></div>
-        <div class='input'><input type='text' name='posy' value='0' /></div>
-      </div>
-
-    </div>
-  </div>
 </body>
 </html>

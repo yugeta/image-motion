@@ -10,10 +10,10 @@ body[data-hash='upload'] .contents > .over{
   height  : 100%;
 }
 
-body[data-hash='upload'] [name='transform']{
+/* body[data-hash='upload'] [name='transform']{
   display:none;
-}
+} */
 
-body[data-hash='upload'] [name='view'] .scale .pic{
+/* body[data-hash='upload'] [name='view'] .scale .pic{
   transform:none!important;
-}
+} */

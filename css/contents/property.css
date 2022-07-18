@@ -1,7 +1,7 @@
 .contents [name='property']{
   --size-name  : 30%;
   --size-value : calc(100% - var(--size-name));
-  --size-trash : 40px;
+  --size-trash : 30px;
 
   height:var(--size-property-area-height);
 }

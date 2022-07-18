@@ -1,4 +1,5 @@
-import { Options }  from '../options.js'
+import { Options }      from '../options.js'
+import * as ImageCommon from '../images/common.js'
 
 export class Header{
   constructor(){
@@ -18,6 +19,8 @@ export class Header{
   set_contents_hash(){
     const hash = Options.common.get_hash()
     document.body.setAttribute('data-hash' , hash)
+    ImageCommon.reset_transform()
+    // Options.play.transform_img_all()
   }
 
   

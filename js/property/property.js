@@ -111,6 +111,7 @@ export class Property{
     if(!String(num).match(/^[\d\-\.].+$/)){return}
     Options.datas.set_data(uuid , key , Number(num))
     this.image_move(uuid , key)
+    Options.img_datas[uuid].set_image_order()
   }
   chenge_string(key , e){
     const uuid = this.get_uuid()

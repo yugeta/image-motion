@@ -2,6 +2,7 @@
 @import './common/header.css';
 @import './common/footer.css';
 @import './contents/contents.css';
+@import './action/action.css';
 
 :root{
   --size-header-height    : 40px;

@@ -140,4 +140,51 @@ export class Elements{
     return area.querySelector(`.posy input[name='posy']`)
   }
 
+  // ----------
+  // Timeline
+
+  get_timeline_lists(){
+    return document.querySelector(`.contents [name='timeline'] .lists`)
+  }
+  get_timeline_frame(){
+    return document.querySelector(`.contents [name='timeline'] .timeline`)
+  }
+  get_timeline_cursor(){
+    return document.querySelector(`.contents [name='timeline'] .timeline .cursor`)
+  }
+
+  get_timeline_header(){
+    return document.querySelector(`.contents [name='timeline'] .header`)
+  }
+  get_duration_input(){
+    return document.querySelector(`.contents [name='timeline'] .header .duration input[name='duration']`)
+  }
+
+  get_timeline_data_frame(name){
+    const area = this.get_timeline_lists()
+    if(!area){return}
+    return area.querySelector(`.${name}`)
+  }
+
+  // ----------
+  // Animation
+
+  get_animation_lists(){
+    return document.querySelector(`.contents [name='animation'] .lists`)
+  }
+
+  get_animation_name_list_input(){
+    return document.querySelector(`.contents [name='animation'] .header .input input`)
+  }
+  get_animation_header(){
+    return document.querySelector(`.contents [name='animation'] .header`)
+  }
+  get_animation_name_lists(){
+    return document.querySelector(`.contents [name='animation'] .header .animation_name_lists`)
+  }
+
+  get_animation_tools(){
+    return document.querySelector(`.contents [name='animation'] .tools`)
+  }
+
 }

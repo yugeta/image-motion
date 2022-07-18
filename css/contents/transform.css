@@ -23,6 +23,7 @@
 .contents [name='transform'] .datas{
   padding:10px;
   width:100%;
+  min-height:100px;
 }
 
 .contents [name='transform'] .title{

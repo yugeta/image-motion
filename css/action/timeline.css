@@ -1,0 +1,150 @@
+[name='timeline']{
+  --size-timeline : 30px;
+}
+
+/* Input */
+[name='timeline'] input[type='text'],
+[name='timeline'] select[name]{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  display:inline-block;
+  background-color:transparent;
+  border:1px solid var(--color-font);
+  border-radius:4px;
+  text-align:right;
+  outline:0;
+  /* margin-left:5px; */
+  margin-right:5px;
+  padding-left:5px;
+  padding-right:5px;
+  width:auto;
+  height:100%;
+  background-color:var(--color-contents-header);
+  text-align:center;
+}
+[name='timeline'] select[name]{
+  padding-left:10px;
+  padding-right:10px;
+  
+}
+
+/* Header */
+[name='timeline'] .header .tools > *{
+  white-space:nowrap;
+  padding:0 5px;
+}
+[name='timeline'] .header .tools input[name='duration']{
+  width:40px;
+}
+[name='timeline'] .header .tools input[name='count']{
+  width:80px;
+}
+
+
+/* Timeline */
+[name='timeline'] .timeline{
+  height : var(--size-timeline);
+  border-bottom:1px solid var(--color-font);
+  position:relative;
+}
+
+
+/* Lists */
+
+[name='timeline'] .lists{
+
+}
+
+[name='timeline'] .lists > *{
+  height:var(--size-list-height);
+  border-bottom:1px solid var(--color-font);
+  padding:5px;
+  /* overflow:hidden; */
+}
+
+[name='timeline'] .lists li,
+[name='timeline'] .timeline{
+  background-image:
+  repeating-linear-gradient(
+    90deg,
+    var(--color-contents-header) ,
+    var(--color-contents-header) 1px,
+    transparent 1px,
+    transparent 10%
+  );
+}
+[name='timeline'] .timeline .cursor{
+  position:absolute;
+  top:4px;
+  left:0;
+  width:40px;
+  height:16px;
+  line-height:16px;
+  white-space:nowrap;
+  /* overflow:hidden; */
+  border-radius:2px;
+  background-color:var(--color-font);
+  /* filter:drop-shadow(2px 2px 5px rgba(0,0,0,0.5)); */
+  transform:translate(-50%,0);
+  /* cursor:ew-resize; */
+  font-size:10px;
+  text-align:center;
+}
+/* [name='timeline'] .timeline .cursor:hover{
+  background-color:white;
+} */
+[name='timeline'] .timeline .cursor::before{
+  content:attr(data-num)' %';
+  color:white;
+  text-align:center;
+}
+[name='timeline'] .timeline .cursor::after{
+  content:'';
+  display:block;
+  position:absolute;
+  top:100%;
+  left:50%;
+  transform:translateX(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 6px 0 6px;
+  border-color: var(--color-font) transparent transparent transparent;
+}
+/* [name='timeline'] .timeline .cursor:hover::before{
+  color:black
+}
+[name='timeline'] .timeline .cursor:hover::after{
+  border-top-color: white;
+}
+[name='timeline'] .timeline .cursor:active{
+  background-color:red;
+}
+[name='timeline'] .timeline .cursor:active::after{
+  border-top-color: red;
+} */
+
+
+
+[name='timeline'] .lists > *{
+  position:relative;
+}
+[name='timeline'] .lists > * > .point{
+  display:block;
+  position:absolute;
+  top:50%;
+  left:0;
+  width:12px;
+  height:12px;
+  transform:translate(-50%,-50%);
+  background-color:var(--color-font);
+  border-radius:50%;
+  cursor:pointer;
+}
+[name='timeline'] .lists > * > .point:hover{
+  background-color:red;
+}
+
+

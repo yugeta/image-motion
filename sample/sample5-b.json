@@ -13,7 +13,7 @@
       "nh": 220,
       "cx": 74,
       "cy": 203,
-      "order": 0,
+      "order": -1,
       "hidden": 0,
       "rotate": "1"
     },
@@ -30,7 +30,7 @@
       "nh": 579,
       "cx": 151,
       "cy": 40,
-      "order": 0,
+      "order": -1,
       "parent": "67AA4D8A-9491-4819-97DD-004884609BD3",
       "hidden": 0
     },
@@ -79,10 +79,10 @@
       "nh": 235,
       "cx": 38,
       "cy": 30,
-      "order": -1,
+      "order": -2,
       "parent": "67AA4D8A-9491-4819-97DD-004884609BD3",
       "hidden": 0,
-      "rotate": "-43"
+      "rotate": "-22"
     },
     {
       "uuid": "A69BBC76-45C0-4F0A-8B6B-553ED61C5E69",
@@ -202,5 +202,47 @@
       "order": 0,
       "parent": "27A67366-69C6-4116-A3CA-720501A98E4F"
     }
-  ]
+  ],
+  "animations":{
+    "walk":{
+      "duration":2,
+      "timing":"linear",
+      "count" : "infinite",
+      "direction":"normal",
+      "items":{
+        "5FA19767-3C8E-4A85-835F-69CEBF6079FC":{
+          "keyframes":{
+            "0":{
+              "rotate" : -30,
+              "posy"   : -20
+            },
+            "50":{
+              "rotate" : 30,
+              "posy"   : 20
+            },
+            "100":{
+              "rotate" : -30,
+              "posy"   : -20
+            }
+          }
+        },
+        "4E9C5648-5414-4866-B932-28CB8DC9247F":{
+          "keyframes":{
+            "0":{
+              "rotate" : 30
+            },
+            "50":{
+              "rotate" : -30
+            },
+            "100":{
+              "rotate" : 30
+            }
+          }
+        }
+      }
+    },
+    "standard":{
+      
+    }
+  }
 }

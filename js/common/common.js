@@ -1,3 +1,5 @@
+import { Options  }  from '../options.js'
+
 export class Common{
 
   // // 上位階層をselectorで選択する機能
@@ -18,7 +20,7 @@ export class Common{
   //   return cur
   // }
 
-  // ハッシュリンクの値を取得
+  // ハッシュリンクの値を取得 : (upload / animation)
   get_hash(){
     const hash = location.hash
     return hash.replace(/^#/ , '')
@@ -26,14 +28,40 @@ export class Common{
 
   // ページ内の.template > data-nameを取得する
   get_template(name){
-    const target = document.querySelector(`.template [data-name='${name}']`)
-    if(!target){return}
-    if(target.tagName === 'TEXTAREA'){
-      return target.value
-    }
-    else{
-      return target.innerHTML
-    }
+    // if(!Options.templates[name]){
+    //   const target = document.querySelector(`.template [data-name='${name}']`)
+    //   // html内チェック
+    //   if(target){
+    //     if(target.tagName === 'TEXTAREA'){
+    //       Options.templates[name] = target.value
+    //     }
+    //     else{
+    //       Options.templates[name] = target.innerHTML
+    //     }
+    //   }
+    //   // ajax-load
+    //   else{
+    //     const path = `template/${name}.html`
+    //     // console.log(path)
+    //     // Options.templates[name] = ''
+    //     new Promise( resolve => {
+    //       Options.templates[name] = new Ajax({
+    //         url    : path,
+    //         method : 'get',
+    //         // type   : 'txt',
+    //         // headers : {
+    //         //   'Content-Type': 'application/json'
+    //         //   // 'Content-Type': 'application/x-www-form-urlencoded',
+    //         // },
+    //         callback : ((e)=>{
+    //           // console.log(e)
+    //           resolve(e.target.resolve)
+    //         }).bind(this)
+    //       })
+    //     })
+    //   }
+    // }
+    return Options.templates[name]
   }
 
   // 任意文字列の中から、{{key}}という文字列を、{key:val}で置換する処理

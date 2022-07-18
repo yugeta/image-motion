@@ -1,0 +1,3 @@
+body[data-hash='action'] [name='transform']{
+  display:none;
+}

@@ -38,6 +38,8 @@ export class Load{
     for(let data of lists){
       new Images({data:data})
     }
+    
+    Options.animations = datas.animations || {}
   }
 
   get_image_sort_lists(datas){

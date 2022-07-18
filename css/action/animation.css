@@ -1,0 +1,167 @@
+[name='animation']{
+  --size-name  : 20%;
+  --size-input : 40%;
+  --size-tool  : 30px;
+}
+
+/* Input */
+[name='animation'] input[type='text']{
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -o-appearance: none;
+  display:inline-block;
+  background-color:transparent;
+  border:0;
+  /* text-align:right; */
+  outline:0;
+}
+
+/* Header */
+[name='animation'] .header > .input{
+  margin-left:auto;
+  position:relative;
+  text-align:right;
+}
+[name='animation'] .header > .input::after{
+  content:'';
+  position:absolute;
+  top:50%;
+  right:8px;
+  transform:translateY(-50%);
+  pointer-events:none;
+
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 8px 5px 0 5px;
+  border-color: var(--color-font) transparent transparent transparent;
+}
+[name='animation'] .header > .input input{
+  border:1px solid var(--color-font);
+  border-radius:4px;
+  background-color:transparent;
+  color:var(--color-font);
+  cursor:pointer;
+  padding-left:10px;
+  padding-right:30px;
+  width:calc(100% - 10px);
+}
+[name='animation'] .header > .input input:hover,
+[name='animation'] .header > .input input:focus{
+  color:white;
+}
+
+[name='animation'] .header .animation_name_lists{
+  position:absolute;
+  top:calc(100% + 5px);
+  right:0;
+  width:calc(100% - 10px);
+  z-index:100;
+}
+[name='animation'] .header .animation_name_lists ul{
+  width:100%;
+  border:1px solid var(--color-font);
+  border-radius:4px;
+  overflow:hidden;
+}
+[name='animation'] .header .animation_name_lists li{
+  width:100%;
+  padding:5px 10px;
+  background-color:var(--color-contents-header);
+  cursor:pointer;
+  text-align:left;
+}
+[name='animation'] .header .animation_name_lists li+*{
+  border-top:1px solid var(--color-font);
+}
+[name='animation'] .header .animation_name_lists li:hover{
+  color:white;
+}
+
+
+/* Tool */
+[name='animation'] .tools{
+  height : var(--size-tool);
+  border-bottom:1px solid var(--color-font);
+  text-align:center;
+  display:flex;
+  justify-content:space-around;
+}
+[name='animation'] .tools > *{
+  width:30px;
+  cursor:pointer;
+}
+[name='animation'] .tools svg{
+  fill:var(--color-font);
+}
+[name='animation'] .tools svg:hover{
+  fill:white;
+}
+[name='animation'] .tools > *[data-status] > *{
+  display:none;
+}
+[name='animation'] .tools > *[data-status='']   > *[data-status=''],
+[name='animation'] .tools > *[data-status='on'] > *[data-status='on']{
+  display:block;
+}
+
+
+/* Lists */
+
+
+[name='animation'] .lists{
+
+}
+
+[name='animation'] .lists > *{
+  height: var(--size-list-height);
+  /* line-height: var(--size-list-height); */
+  border-bottom:1px solid var(--color-font);
+  padding:5px;
+  /* height:100%; */
+}
+
+
+[name='animation'] .lists .title{
+  width : var(--size-name);
+  /* text-align:center; */
+  font-size:12px;
+  padding-top:4px;
+}
+[name='animation'] .lists .range{
+  width : calc(100% - var(--size-name) - var(--size-input));
+}
+[name='animation'] .lists .input{
+  width : var(--size-input);
+}
+[name='animation'] .lists .input input[type='text']{
+  text-align:right;
+}
+
+[name='animation'] .lists input[type='range'],
+[name='animation'] .lists input[type='text']{
+  width:100%;
+}
+
+[name='animation'] .lists .rotate .input::after{
+  content : 'deg';
+  font-size:10px;
+  line-height:25px;
+}
+[name='animation'] .lists .posx .input::after,
+[name='animation'] .lists .posy .input::after{
+  content : 'px';
+  font-size:10px;
+  line-height:25px;
+}
+[name='animation'] .rotate input[type='text'],
+[name='animation'] .posx input[type='text'],
+[name='animation'] .posy input[type='text']{
+  margin-left:5px;
+  margin-right:5px;
+  width:calc(100% - 30px);
+}
+
+
+

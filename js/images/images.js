@@ -56,6 +56,7 @@ export class Images{
     var area       = Options.elements.get_area_view()
     let template   = Options.common.get_template('image_pic')
     template       = Options.common.doubleBlancketConvert(template , data)
+    if(!template){return}
     area.insertAdjacentHTML('beforeend' , template)
     const pic      = area.querySelector(`[data-uuid='${data.uuid}']`)
     const img      = pic.querySelector(`img`)
@@ -68,6 +69,7 @@ export class Images{
 
     this.set_visibility(data.uuid)
   }
+
 
   set_visibility(uuid){
     const elm    = Options.elements.get_uuid_view(uuid)
@@ -144,20 +146,33 @@ export class Images{
       this.cache.pic.style.setProperty('transform-origin',`${cx}px ${cy}px`,'')
     }
   }
-  set_transform(){
+  set_transform(datas){
+    // const datas = this.get_transform()
+    // if(!datas){return}
+    datas = datas || {}
     let transforms = []
-    if(this.cache.rotate){
-      transforms.push(`rotate(${this.cache.rotate}deg)`)
+    if(datas.rotate){
+      transforms.push(`rotate(${datas.rotate}deg)`)
     }
-    if(this.cache.posx){
-      transforms.push(`translateX(${this.cache.posx}px)`)
+    if(datas.posx){
+      transforms.push(`translateX(${datas.posx}px)`)
     }
-    if(this.cache.posy){
-      transforms.push(`translateX(${this.cache.posy}px)`)
+    if(datas.posy){
+      transforms.push(`translateX(${datas.posy}px)`)
     }
     if(!transforms || !transforms.length){return}
     const transform_value = transforms.join(' ')
     this.cache.pic.style.setProperty('transform' , `${transform_value}` , '')
+  }
+  reset_transform(){
+    this.cache.pic.style.setProperty('transform' , `none` , '')
+    // switch(Options.common.get_hash()){
+    //   case 'update':
+    //     return Options.trans_datas[this.uuid] || {}
+
+    //   case 'action':
+    //     return this.cache
+    // }
   }
 
   del(){

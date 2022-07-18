@@ -8,6 +8,7 @@ export class Transform{
 
   view(uuid){
     this.uuid = uuid
+    this.init_data()
     let template = Options.common.get_template('transform')
     if(!template){return}
     const cache    = Options.datas.get_data(uuid)
@@ -20,22 +21,34 @@ export class Transform{
     this.set_event()
   }
 
+  init_data(){
+    Options.trans_datas[this.uuid] = Options.trans_datas[this.uuid] || {}
+    this.trans_data = Options.trans_datas[this.uuid]
+  }
+
   hidden(){
     const area = Options.elements.get_transform_area()
     area.textContent = ''
   }
 
   set_value(){
-    // const cache = Options.datas.get_data(this.uuid)
-    // if(cache.rotate){
-    //   this.range_rotate({target:{value:cache.rotate}})
+    // switch(Options.common.get_hash()){
+    //   case 'upload':
+    //     break
+
+    //   case 'action':
+    //     this.trans_data = Options.datas.get_data(this.uuid)
+    //     break
     // }
-    // if(cache.posx){
-    //   this.range_posx({target:{value:cache.posx}})
-    // }
-    // if(cache.posy){
-    //   this.range_posy({target:{value:cache.posy}})
-    // }
+    if(this.trans_data.rotate){
+      this.range_rotate({target:{value:this.trans_data.rotate}})
+    }
+    if(this.trans_data.posx){
+      this.range_posx({target:{value:this.trans_data.posx}})
+    }
+    if(this.trans_data.posy){
+      this.range_posy({target:{value:this.trans_data.posy}})
+    }
   }
 
   // Event
@@ -71,52 +84,73 @@ export class Transform{
     const elm = Options.elements.get_transform_rotate_input()
     if(!elm){return}
     elm.value = e.target.value
-    Options.datas.set_data(this.uuid , 'rotate' , String(e.target.value))
+    this.set_data('rotate' , Number(e.target.value))
     this.set_transform()
   }
   range_posx(e){
     const elm = Options.elements.get_transform_posx_input()
     if(!elm){return}
     elm.value = e.target.value
-    Options.datas.set_data(this.uuid , 'posx' , String(e.target.value))
+    this.set_data('posx' , Number(e.target.value))
     this.set_transform()
   }
   range_posy(e){
     const elm = Options.elements.get_transform_posy_input()
     if(!elm){return}
     elm.value = e.target.value
-    Options.datas.set_data(this.uuid , 'posy' , String(e.target.value))
+    this.set_data('posy' , Number(e.target.value))
     this.set_transform()
   }
 
   input_rotate(e){
-    Options.datas.set_data(this.uuid , 'rotate' , String(e.target.value))
     const elm = Options.elements.get_transform_rotate_range()
     if(elm){
       elm.value = e.target.value
     }
+    this.set_data('rotate' , Number(e.target.value))
     this.set_transform()
   }
   input_posx(e){
-    Options.datas.set_data(this.uuid , 'posx' , String(e.target.value))
     const elm = Options.elements.get_transform_posx_range()
     if(elm){
       elm.value = e.target.value
     }
+    this.set_data('posx' , Number(e.target.value))
     this.set_transform()
   }
   input_posy(e){
-    Options.datas.set_data(this.uuid , 'posy' , String(e.target.value))
     const elm = Options.elements.get_transform_posy_range()
     if(elm){
       elm.value = e.target.value
     }
+    this.set_data('posy' , Number(e.target.value))
     this.set_transform()
+  }
+
+  set_data(key , value){
+    // switch(Options.common.get_hash()){
+    //   case 'upload':
+        this.trans_data[key] = value
+    //     break
+
+    //   case 'action':
+    //     Options.datas.set_data(this.uuid , key , value)
+    //     break
+    // }
+    
   }
 
   set_transform(){
     if(!Options.img_datas[this.uuid]){return}
-    Options.img_datas[this.uuid].set_transform()
+    // switch(Options.common.get_hash()){
+    //   case 'upload':
+        Options.img_datas[this.uuid].set_transform(this.trans_data)
+    //     break
+
+    //   case 'action':
+    //     Options.img_datas[this.uuid].set_transform(this.trans_data)
+    //     break
+    // }
   }
 
 }

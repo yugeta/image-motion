@@ -1,6 +1,10 @@
 export const Options = {
-  cache      : {}, // key:uuid
-  images     : [],
-  img_datas  : {},
-  strage_key : 'image_motion'
+  // datas       : {}, // images , animations
+  cache       : {}, // key:uuid
+  animations  : {},
+  images      : [],
+  img_datas   : {},
+  strage_key  : 'image_motion',
+
+  trans_datas : {},
 }
