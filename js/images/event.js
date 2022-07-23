@@ -1,7 +1,11 @@
-import { Options } from '../options.js'
-import { Active  } from './active.js'
+import { Options }      from '../options.js'
+import * as ImageCommon from '../images/common.js'
+// import { Active  } from './active.js'
+// import { Shape   } from '../shape/shape.js'
 
 export function mousedown(e){
+  
+
   // viewエリア以外のクリックは処理しない
   if(!Options.elements.upper_selector(e.target , `[name='view']`)){return}
 
@@ -15,6 +19,10 @@ export function mousedown(e){
 }
 
 export function mousemove(e){
+
+  // image-mode(hash)以外は移動しない
+  if(Options.common.get_hash() !== 'upload'){return}
+
   if(Options.move){
     image_mousemove(e)
   }
@@ -45,12 +53,13 @@ function image_mousedown(e){
       }
       // 選択
       else{
-        img_select(img)
+        const uuid = img.getAttribute('data-uuid')
+        ImageCommon.img_select(uuid)
       }
   }
   // 選択解除
   else{
-    img_unselect()
+    ImageCommon.img_unselect()
   }
 }
 
@@ -106,17 +115,22 @@ function get_parent_pos(uuid){
   return pos
 }
 
-function img_select(img){
-  const uuid = img.getAttribute('data-uuid')
-  if(!uuid){return}
-  // // 選択されているimageは再度選択処理をしない
-  // if(this.cache.pic.getAttribute('data-status') === 'active'){return}
-  new Active('active' , uuid)
-}
+// function img_select(img){
+//   const uuid = img.getAttribute('data-uuid')
+//   if(!uuid){return}
+//   // // 選択されているimageは再度選択処理をしない
+//   // if(this.cache.pic.getAttribute('data-status') === 'active'){return}
+//   new Active('active' , uuid)
+//   Options.shape = new Shape(uuid)
+// }
 
-function img_unselect(){
-  new Active('all_passive')
-}
+// function img_unselect(){
+//   new Active('all_passive')
+//   if(Options.shape){
+//     Options.shape.clear()
+//     delete Options.shape
+//   }
+// }
 
 
 

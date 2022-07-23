@@ -1,6 +1,7 @@
 import { Options }      from '../options.js'
 import { Uuid    }      from '../common/uuid.js'
 import * as ImageCommon from './common.js'
+import * as ImageShape  from './shape.js'
 
 export class Images{
   constructor(data){
@@ -68,6 +69,8 @@ export class Images{
     this.cache.img = img
 
     this.set_visibility(data.uuid)
+    ImageShape.set_shape_split(data.uuid)
+    // this.set_shape()
   }
 
 
@@ -181,5 +184,10 @@ export class Images{
     if(!elm){return}
     elm.parentNode.removeChild(elm)
   }
+
+  // set_shape(){
+  //   if(!this.cache.shape_use){return}
+  //   ImageShape.set_shape_split(this.cache.uuid)
+  // }
 
 }

@@ -146,5 +146,8 @@
 [name='timeline'] .lists > * > .point:hover{
   background-color:red;
 }
+[name='timeline'] .lists > * > .point[data-status='active']{
+  background-color:white;
+}
 
 

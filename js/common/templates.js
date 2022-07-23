@@ -14,6 +14,7 @@ export class Templates{
       'animation_name_list',
       'timeline',
       // 'animation_header_tools',
+      'shape',
     ]
     this.load()
   }

@@ -1,0 +1,188 @@
+body[data-hash] .over [name='shape']{
+  display:none;
+}
+body[data-hash='action'] .over [name='shape']{
+  display:block;
+}
+
+/* Propertry */
+.over [name='shape'] .info{
+  --size-frame-menu : 30px;
+  --color-no-use : #424242;
+  --color-use : #116;
+
+}
+
+/* Toggle */
+.over [name='shape'] .info .toggle input[type='checkbox']{
+  display:none;
+}
+.over [name='shape'] .info .toggle .switch{
+  display:block;
+  width:50px;
+  height:30px;
+  border-radius:15px;
+  background-color:black;
+  border:2px solid var(--color-font);
+  padding:2px;
+  margin:5px auto;
+  font-size:0;
+  text-align:right;
+  cursor:pointer;
+}
+.over [name='shape'] .info .toggle .switch::before{
+  content:'';
+  display:inline-block;
+  border-radius:50%;
+  width:22px;
+  height:22px;
+  background-color:var(--color-font);
+}
+.over [name='shape'] .info .toggle .switch:hover::before{
+  background-color:white;
+}
+.over [name='shape'] .info .toggle input[type='checkbox']:checked ~ .switch{
+  background-color:var(--color-use);
+  text-align:left;
+}
+
+/* Property */
+.over [name='shape'] .info .preview{
+  width:90%;
+  display:grid;
+  grid-template-rows:30px 30px 1fr 30px;
+  grid-template-columns:30px 30px 1fr 30px;
+  margin:5px 5%;
+  justify-content:center;
+  align-items:center;
+}
+
+.over [name='shape'] .info .preview .button:nth-of-type(1){
+  grid-column : 2/3;
+  grid-row    : 1/2;
+}
+.over [name='shape'] .info .preview .button:nth-of-type(2){
+  grid-column : 4/5;
+  grid-row    : 1/2;
+}
+.over [name='shape'] .info .preview  .button:nth-of-type(3){
+  grid-column : 1/2;
+  grid-row    : 2/3;
+}
+.over [name='shape'] .info .preview .button:nth-of-type(4){
+  grid-column : 1/2;
+  grid-row    : 4/5;
+}
+.over [name='shape'] .info .preview .table{
+  grid-column : 2/5;
+  grid-row    : 2/5;
+}
+
+/* matrix */
+.over [name='shape'] .info .preview .matrix{
+  border-collapse:collapse;
+  width:100%;
+  height:100px;
+  table-layout: fixed;
+  border:1px solid var(--color-no-use);
+}
+.over [name='shape'] .info .preview .matrix:empty::before{
+  content:'No shape';
+  display:table-cell;
+  border:1px solid var(--color-no-use);
+}
+.over [name='shape'] .info .preview .matrix td{
+  padding:5px;
+  border:1px solid var(--color-no-use);
+}
+
+
+/* button */
+.over [name='shape'] .info .preview .button{
+  display:block;
+  width:20px;
+  height:20px;
+  text-align:center;
+  color:var(--color-no-use);
+  font-size:16px;
+  font-weight:bold;
+  border:1px solid var(--color-no-use);
+  background-color:black;
+  border-radius:4px;
+  cursor:pointer;
+  margin:2px 5px;
+  position:relative;
+}
+.over [name='shape'] .info .preview .button:hover{
+  color:var(--color-no-use);
+  border-color:var(--color-no-use);
+}
+.over [name='shape'] .info .preview .button[data-mode='+']:hover::before,
+.over [name='shape'] .info .preview .button[data-mode='+']:hover::after,
+.over [name='shape'] .info .preview .button[data-mode='-']:hover::before{
+  background-color:var(--color-no-use);
+}
+.over [name='shape'] .info .preview .button[data-mode='+']::before,
+.over [name='shape'] .info .preview .button[data-mode='+']::after,
+.over [name='shape'] .info .preview .button[data-mode='-']::before{
+  content:'';
+  display:block;
+  width:60%;
+  height:1px;
+  background-color:var(--color-no-use);
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform-origin:center;
+  transform:translate(-50%,-50%);
+}
+.over [name='shape'] .info .preview .button[data-mode='+']::after{
+  transform:translate(-50%,-50%) rotate(90deg);
+}
+
+/* Active */
+.over [name='shape'] .info .preview[data-status='active'] .matrix,
+.over [name='shape'] .info .preview[data-status='active'] .matrix td{
+  border-color:var(--color-font);
+}
+.over [name='shape'] .info .preview[data-status='active'] .button{
+  color:var(--color-font);
+  border-color:var(--color-font);
+  background-color:var(--color-use);
+}
+.over [name='shape'] .info .preview[data-status='active'] .button[data-mode='+']::before,
+.over [name='shape'] .info .preview[data-status='active'] .button[data-mode='+']::after,
+.over [name='shape'] .info .preview[data-status='active'] .button[data-mode='-']::before{
+  background-color:var(--color-font);
+}
+.over [name='shape'] .info .preview[data-status='active'] .button:hover{
+  color:white;
+  border-color:white;
+}
+.over [name='shape'] .info .preview[data-status='active'] .button[data-mode='+']:hover::before,
+.over [name='shape'] .info .preview[data-status='active'] .button[data-mode='+']:hover::after,
+.over [name='shape'] .info .preview[data-status='active'] .button[data-mode='-']:hover::before{
+  background-color:white;
+}
+
+
+/* Button */
+.over [name='shape'] .info .button [name='reset']{
+  display:block;
+  width:100px;
+  margin:20px auto;
+  background-color:var(--color-font);
+  color:black;
+  border-radius:4px;
+  padding:5px;
+  cursor:pointer;
+}
+.over [name='shape'] .info .button [name='reset']:hover{
+  color:white;
+}
+.over [name='shape'] .info .button [name='reset']:active{
+  color:var(--color-font);
+  background-color:var(--color-font-active);
+}
+
+

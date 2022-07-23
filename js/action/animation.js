@@ -67,16 +67,23 @@ export class Animation{
   }
 
   change_range(e){
-    const num = this.get_value(e.target)
-    this.set_value(e.target , num , 'text')
+    const value = this.get_value(e.target)
+    this.set_value(e.target , value , 'text')
     this.transform_img()
+
+    const type = this.get_type(e.target)
+    this.set_data(type , value)
   }
   change_input(e){
-    const num = this.get_value(e.target)
-    this.set_value(e.target , num , 'range')
+    const value = this.get_value(e.target)
+    this.set_value(e.target , value , 'range')
     this.transform_img()
+
+    const type = this.get_type(e.target)
+    this.set_data(type , value)
   }
   change_timeline(){
+    // console.log('--1')
     // const per = ActionCommon.get_timeline_per()
     ActionCommon.set_current_num(this.name , this.uuid)
     // this.transform_img()
@@ -112,6 +119,20 @@ export class Animation{
     return transforms.join(' ')
   }
 
+  // timelineのkey-frameにkey-pointがセットされているかどうか（type指定必須） [keyアリ : true , keyナシ : false]
+  is_type_per(type , current_per){
+    current_per = current_per !== undefined ? current_per : ActionCommon.get_timeline_per()
+    const data = Options.datas.get_animation_name_data(this.name , this.uuid , current_per , type)
+    // const elm = document.querySelector(`.contents [name='timeline'] .lists li.${type} .point[data-per='${current_per}']`)
+    // console.log(type+":"+current_per , elm)
+    return typeof data !== 'undefined' ? true : false
+  }
+
+  set_data(type , value){
+    const per  = ActionCommon.get_timeline_per()
+    if(this.is_type_per(type , per) !== true){return}
+    Options.datas.set_animation_data_value(this.name , this.uuid , per , type , value)
+  }
   
   
 

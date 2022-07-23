@@ -4,6 +4,7 @@
 @import './lists.css';
 @import './property.css';
 @import './transform.css';
+@import './shape.css';
 
 .contents{
   --size-property-area-height : 200px;

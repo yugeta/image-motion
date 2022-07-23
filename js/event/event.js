@@ -81,6 +81,7 @@ export class Event {
   }
 
   animation(){
+    // animation-nameリストの選択イベント
     const elm = Options.elements.get_animation_name_list_input()
     if(!elm){return}
     this.set(
@@ -100,12 +101,15 @@ export class Event {
       ActionCommon.animation_name_list_decide.bind(Options.header),
     )
 
-    // tools
+    // toolsイベント
     const tools_area = Options.elements.get_animation_tools()
     this.set(tools_area.querySelector('.play') , 'click' , ActionCommon.click_play.bind(this))
     // this.set(tools_area.querySelector('.stop') , 'click' , ActionCommon.click_stop.bind(this))
     this.set(tools_area.querySelector('.next') , 'click' , ActionCommon.click_next.bind(this))
     this.set(tools_area.querySelector('.prev') , 'click' , ActionCommon.click_prev.bind(this))
+
+    // animation-name-list delete
+    this.set(Options.elements.get_animation_header_trash() , 'click' , ActionCommon.click_animation_name_list_trash.bind(this))
   }
 
 }

@@ -33,12 +33,14 @@ export class Play{
       this.transform_img_reset()
       return
     }
+    // console.log(datas)
     for(let uuid in datas.items){
       if(!datas.items[uuid].keyframes){continue}
       const types = this.get_transform_types(datas.items[uuid].keyframes)
-      const css = this.get_transform_css(animation_name , uuid , per , types)
-      const pic       = Options.elements.get_uuid_view(uuid)
+      const css   = this.get_transform_css(animation_name , uuid , per , types)
+      const pic   = Options.elements.get_uuid_view(uuid)
       pic.style.setProperty('transform' , css , '')
+      this.set_shape(animation_name , uuid , per , types)
     }
   }
   transform_img_reset(){
@@ -61,8 +63,6 @@ export class Play{
     const transforms = []
     for(let type of types){
       const value = Options.datas.get_animation_name_data_between(name , uuid , per , type)
-      // console.log(name , uuid , per , type)
-      // console.log(type , value)
       switch(type){
         case 'rotate':
           transforms.push(`rotate(${value}deg)`)
@@ -77,14 +77,24 @@ export class Play{
           break
 
         case 'scalex':
-          transforms.push(`translateY(${value})`)
+          transforms.push(`scaleX(${value})`)
           break
         case 'scaley':
-          transforms.push(`translateY(${value})`)
+          transforms.push(`scaleY(${value})`)
           break
       }
     }
     return transforms.join(' ')
+  }
+  set_shape(name , uuid , per , types){
+    if(!types.indexOf('shape') === -1){return}
+    const datas  = Options.datas.get_animation_name_shape_between(name , uuid , per)
+    if(!datas || !datas.matrix){return}
+    const images = Options.elements.get_shape_images(uuid)
+    for(let i=0; i<images.length; i++){
+      const img = images[i]
+      img.style.setProperty('transform' , datas.matrix[i].transform , '')
+    }
   }
 
   set_timeline_per(per){
@@ -100,11 +110,24 @@ export class Play{
     const left = ~~(per * rate)
     cursor.style.setProperty('left', `${left}px`,'')
   
-    // if(Options.animation){
-    //   Options.animation.change_timeline()
-    // }
-    // ActionCommon.set_current_num(this.name , this.uuid)
+    // console.log('--6')
     this.transform_img_all(per)
+    this.timeline_key_point_current(per)
+  }
+
+  // key-pointでcurrent-perにフラグをセットする。
+  timeline_key_point_current(per){
+    per = per !== undefined ? per : ActionCommon.get_timeline_per()
+    const points = Options.elements.get_timeline_lists_points()
+    if(!points || !points.length){return}
+    for(let point of points){
+      if(point.getAttribute('data-num') == per){
+        point.setAttribute('data-status' , 'active')
+      }
+      else if(point.hasAttribute('data-status')){
+        point.removeAttribute('data-status')
+      }
+    }
   }
 
 

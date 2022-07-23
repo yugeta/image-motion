@@ -36,13 +36,14 @@
     </ul>
   </header>
 
-  <div class='contents'>
+  <div class='contents' data-animation-name=''>
 
     <div class='under'>
       <div name='animation'>
         <div class='header flex'>
           <div class='title'>Animation</div>
-          <div class='input'><input type='text' name='animation-name'/></div>
+          <div class='input'><input type='text' name='animation-name' autocomplete='off'/></div>
+          <div class='trash'><svg src='img/icon/trash.svg'></svg></div>
         </div>
         <div class='tools'>
           <div class='prev'>
@@ -75,7 +76,7 @@
               <option value='ease-out'>ease-out</option>
               <option value='inherit'>inherit</option>
             </select></div>
-            <div class='direction'>direction : <select name='direction'>
+            <div class='direction' style='display:none;'>direction : <select name='direction'>
               <option value='normal'>normal</option>
               <option value='reverse'>reverse</option>
               <option value='reverse'>alternate</option>
@@ -113,6 +114,10 @@
         <div name='transform'>
           <div class='header'>Transform</div>
           <div class='datas'></div>
+        </div>
+        <div name='shape'>
+          <div class='header'>Shape</div>
+          <div class='info'></div>
         </div>
       </div>
     </div>

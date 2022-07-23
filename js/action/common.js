@@ -1,5 +1,7 @@
 import { Options }      from '../options.js'
 import * as ActionEvent from './event.js'
+import * as ImageCommon from '../images/common.js'
+import * as ShapeCommon from '../shape/common.js'
 
 // ----------
 // animation-name
@@ -14,6 +16,14 @@ export function animation_name_list_click(e) {
   else {
     animation_name_list_hidden()
   }
+}
+
+// animation-name-listが表示されている時に、別の場所をクリックしたら、リストを閉じる処理
+export function animation_name_list_other_click(e){
+  if(!Options.elements.upper_selector(e.target , `[name='animation'] .input`)){
+    animation_name_list_hidden()
+  }
+  
 }
 
 function get_datas() {
@@ -99,11 +109,26 @@ export function animation_name_list_decide() {
     Options.datas.add_animation(name , data)
   }
   // view表示
+  // console.log('--2')
   Options.play.transform_img_all()
+
+  // .contentsにフラグ設置
+  const root = Options.elements.get_root()
+  root.setAttribute('data-animation-name' , name)
+
+  // picが選択されている場合、選択モードに突入
+  const active = Options.elements.get_pic_current_select()
+  if(active){
+    const uuid = active.getAttribute('data-uuid')
+    ImageCommon.img_select(uuid)
+  }
+
+  // nameがブランクの時は、選択解除？
+
 }
 
 export function get_animation_data(){
-
+  // const animation_lists = Options.elements.get_
 }
 
 export function set_default_setting() {
@@ -149,11 +174,26 @@ export function get_frame_rate(){
   return frame.offsetWidth / 100
 }
 
-export function set_timeline_num2pos(target){
+export function set_timeline_per2pos(target){
   const rate = target.parentNode.offsetWidth / 100
   const num  = Number(target.getAttribute('data-num') || 0)
   const posx = ~~(num * rate)
   target.style.setProperty('left',`${posx}px`,'')
+}
+export function set_timeline_pos2per(target , x){
+  const parent = Options.elements.upper_selector(target , `[name='timeline'] .lists > li`)
+  if(!parent){return}
+  const rate = parent.offsetWidth / 100
+  const rect = parent.getBoundingClientRect()
+  const posx = x - rect.left
+  const per = Math.round(posx / rate)
+  if(per < 0){
+    return 0
+  }
+  else if(per > 100){
+    return 100
+  }
+  return per
 }
 
 export function get_timeline_per(){
@@ -216,4 +256,38 @@ export function set_current_num(name , uuid){
     const range  = parent.querySelector(`input[type='range']`)
     range.value  = value
   }
+}
+
+// view情報から、animation値の値を取得
+export function get_type_value_of_view(name , uuid , type , per){
+  switch(type){
+    case 'shape':
+      const shape_value = ShapeCommon.get_current_per_data(name , uuid , type , per)
+      Options.datas.set_animation_data_value(name , uuid , per , type , shape_value)
+      break
+
+    // rotate , posx , posy
+    default:
+      const animation_input = Options.elements.get_animation_lists_input_type(type)
+      if(!animation_input){return}
+      const value = Number(animation_input.value || 0)
+      Options.datas.set_animation_data_value(name , uuid , per , type , value)
+      break
+  }
+}
+
+// animation-name-listの削除処理
+export function click_animation_name_list_trash(){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  const input = Options.elements.get_animation_name_list_input()
+  if(!input){return}
+  if(!confirm('アニメーションデータを削除してもよろしいですか？')){return}
+
+  // データ削除
+  Options.datas.remove_animation_data(animation_name)
+
+  // 表示処理
+  input.value = ''
+  animation_name_list_decide()
 }

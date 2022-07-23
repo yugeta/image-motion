@@ -2,6 +2,8 @@
   --size-name  : 20%;
   --size-input : 40%;
   --size-tool  : 30px;
+  --size-header-title:30%;
+  --size-header-trash:25px;
 }
 
 /* Input */
@@ -18,6 +20,24 @@
 }
 
 /* Header */
+[name='animation'] .header > .title{
+  width:var(--size-header-title);
+}
+[name='animation'] .header > .input{
+  width:calc(100% - var(--size-header-title) - var(--size-header-trash));
+}
+[name='animation'] .header > .trash{
+  width:var(--size-header-trash);
+  text-align:right;
+  cursor:pointer;
+}
+[name='animation'] .header > .trash:hover svg{
+  fill:white;
+}
+[name='animation'] .header > .trash svg{
+  height:90%;
+  fill:var(--color-font);
+}
 [name='animation'] .header > .input{
   margin-left:auto;
   position:relative;
@@ -162,6 +182,17 @@
   margin-right:5px;
   width:calc(100% - 30px);
 }
-
+[name='animation'] .scalex input[type='text'],
+[name='animation'] .scaley input[type='text']{
+  margin-left:5px;
+  margin-right:5px;
+  width:calc(100% - 40px);
+}
+[name='animation'] .lists .scalex .input::after,
+[name='animation'] .lists .scaley .input::after{
+  content : 'scale';
+  font-size:10px;
+  line-height:25px;
+}
 
 

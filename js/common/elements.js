@@ -28,6 +28,19 @@ export class Elements{
     return document.querySelector(".contents [name='images']")
   }
 
+
+  get_active_view(){
+    const area = this.get_area_view()
+    return area.querySelector(`.pic[data-status='active']`)
+  }
+
+  get_over(){
+    return document.querySelector('.contents .over')
+  }
+  get_under(){
+    return document.querySelector('.contents .under')
+  }
+
   // ----------
   // View 
   
@@ -48,6 +61,20 @@ export class Elements{
   get_view_elms(){
     const area = this.get_area_view()
     return area.querySelectorAll(`.pic[data-uuid]`)
+  }
+  get_view_img(uuid){
+    if(!uuid){return null}
+    const pic = this.get_uuid_view(uuid)
+    return pic.querySelector(`:scope > img`)
+  }
+  get_view_shape(uuid){
+    if(!uuid){return null}
+    const pic = this.get_uuid_view(uuid)
+    return pic.querySelector(`:scope > .shape`)
+  }
+
+  get_pic_current_select(){
+    return document.querySelector(`.contents [name='view'] .pic[data-status='active']`)
   }
 
   // ----------
@@ -146,6 +173,9 @@ export class Elements{
   get_timeline_lists(){
     return document.querySelector(`.contents [name='timeline'] .lists`)
   }
+  get_timeline_lists_points(){
+    return document.querySelectorAll(`.contents [name='timeline'] .lists .point`)
+  }
   get_timeline_frame(){
     return document.querySelector(`.contents [name='timeline'] .timeline`)
   }
@@ -172,6 +202,13 @@ export class Elements{
   get_animation_lists(){
     return document.querySelector(`.contents [name='animation'] .lists`)
   }
+  get_animation_lists_input_array(){
+    return document.querySelectorAll(`.contents [name='animation'] .lists .input input`)
+  }
+  get_animation_lists_input_type(type){
+    return document.querySelector(`.contents [name='animation'] .lists .input input[name='${type}']`)
+  }
+
 
   get_animation_name_list_input(){
     return document.querySelector(`.contents [name='animation'] .header .input input`)
@@ -185,6 +222,60 @@ export class Elements{
 
   get_animation_tools(){
     return document.querySelector(`.contents [name='animation'] .tools`)
+  }
+
+  get_animation_header_trash(){
+    return document.querySelector(`.contents [name='animation'] .header .trash`)
+  }
+
+  // ----------
+  // Shape
+
+  get_shape_property(){
+    return document.querySelector(`.contents .over .over-right .shape`)
+  }
+  get_shape_property_info(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] .info`)
+  }
+
+  get_shape_property_x_plus(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] [data-name='x'][data-mode='+']`)
+  }
+  get_shape_property_x_minus(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] [data-name='x'][data-mode='-']`)
+  }
+  get_shape_property_y_plus(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] [data-name='y'][data-mode='+']`)
+  }
+  get_shape_property_y_minus(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] [data-name='y'][data-mode='-']`)
+  }
+  get_shape_property_matrix(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] .matrix`)
+  }
+  get_shape_property_matrix_root(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] .matrix tbody`)
+  }
+  get_shape_property_use(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] .toggle input[name='shape_flg']`)
+  }
+  get_shape_property_preview(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] .preview`)
+  }
+  get_shape_image_num2split_image(uuid , image_num){
+    return document.querySelector(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-item[data-num='${image_num}']`)
+  }
+  get_shape_point_num(uuid , point_num){
+    return document.querySelector(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-point[data-num='${point_num}']`)
+  }
+  get_shape_reset(){
+    return document.querySelector(`.contents .over .over-right [name='shape'] button[name='reset']`)
+  }
+  get_shape_points(uuid){
+    return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-point`)
+  }
+  get_shape_images(uuid){
+    return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-item`)
   }
 
 }

@@ -7,7 +7,8 @@ import * as ImageEvent  from '../images/event.js'
 import * as ListsEvent  from '../lists/event.js'
 import * as PropEvent   from '../property/event.js'
 import * as ActionEvent from '../action/event.js'
-
+import * as ImageShape  from '../images/shape.js'
+import * as ImageCommon from '../images/common.js'
 
 export class Control{
   save(){
@@ -26,18 +27,21 @@ export class Control{
     ListsEvent.mousedown(e)
     PropEvent.mousedown(e)
     ActionEvent.mousedown(e)
+    ImageShape.mousedown(e)
   }
   mousemove(e){
     ImageEvent.mousemove(e)
     ListsEvent.mousemove(e)
     PropEvent.mousemove(e)
     ActionEvent.mousemove(e)
+    ImageShape.mousemove(e)
   }
   mouseup(e){
     ImageEvent.mouseup(e)
     ListsEvent.mouseup(e)
     PropEvent.mouseup(e)
     ActionEvent.mouseup(e)
+    ImageShape.mouseup(e)
   }
 
   image_upload(e){
@@ -55,7 +59,8 @@ export class Control{
     else{
       const list = Options.elements.upper_selector(e.target , '.item[data-uuid]')
       const uuid = list ? list.getAttribute('data-uuid') : null
-      new Active('active' , uuid)
+      ImageCommon.img_select(uuid)
+      // new Active('active' , uuid)
       // new Transform(uuid)
     }
   }

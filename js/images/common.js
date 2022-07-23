@@ -1,5 +1,6 @@
 import { Options } from '../options.js'
-
+import { Active  } from './active.js'
+import { Shape   } from '../shape/shape.js'
 
 export function set_level(elm){
   
@@ -62,5 +63,29 @@ export function reset_transform(){
   for(let uuid in datas){
     Options.img_datas[uuid].reset_transform()
     // this.cache.pic.style.setProperty('transform' , `none` , '')
+  }
+}
+
+export function get_current_uuid(){
+  const elm = Options.elements.get_active_view()
+  if(!elm){return null}
+  return elm.getAttribute('data-uuid')
+}
+
+
+export function img_select(uuid){
+  // const uuid = img.getAttribute('data-uuid')
+  // if(!uuid){return}
+  // // 選択されているimageは再度選択処理をしない
+  // if(this.cache.pic.getAttribute('data-status') === 'active'){return}
+  new Active('active' , uuid)
+  Options.shape = new Shape(uuid)
+}
+
+export function img_unselect(){
+  new Active('all_passive')
+  if(Options.shape){
+    Options.shape.clear()
+    delete Options.shape
   }
 }

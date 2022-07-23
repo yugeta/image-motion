@@ -79,8 +79,6 @@ function sert_mousedown(item , mouse){
   // float作成
   data.elm = make_sort_float(data)
 
-  
-
   // data-set
   Options.list_drag = data
 
@@ -292,12 +290,14 @@ function click_visibility(item , visibility){
     visibility.removeAttribute('data-status')
     image.classList.remove('hidden')
     Options.datas.set_data(uuid , 'hidden' , 0)
+    // ImageCommon.img_unselect()
   }
   // visible -> hidden
   else{
     visibility.setAttribute('data-status' , 'hidden')
     image.classList.add('hidden')
     Options.datas.set_data(uuid , 'hidden' , 1)
+    // ImageCommon.img_select(uuid)
   }
   
 }
