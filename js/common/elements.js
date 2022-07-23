@@ -22,6 +22,9 @@ export class Elements{
     return document.querySelector(".contents")
   }
   
+  get_home(){
+    return document.querySelector(".contents .home")
+  }
   
 
   get_area_lists(){

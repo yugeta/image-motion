@@ -1,0 +1,19 @@
+body:not([data-hash='']) .contents .home{
+  display:none;
+}
+
+.contents .home{
+  padding:20px;
+  height: 100%;
+}
+
+.contents .home h1{
+  font-size:70px;
+  font-weight:bold;
+  text-align:center;
+  margin:0;
+  color:white;
+}
+.contents .home .banner img{
+  max-width:100%;
+}

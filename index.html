@@ -17,6 +17,18 @@
 </head>
 <body data-hash=''>
   <header class='menu'>
+    <ul class='text-menu'>
+      <li>
+        <label>
+          <input class='hidden' type='checkbox' name='menu' >
+          <span class='title'>File</span>
+          <div class='lists'>
+            <div class='item' data-mode='load'>Load</div>
+            <div class='item' data-mode='save'>Save</div>
+          </div>
+        </label>
+      </li>
+    </ul>
     <ul class='view'>
       <li><a href='#'><svg src='img/icon/home.svg'></svg></a></li>
       <li id='upload'><a href='#upload'><svg src='img/icon/image.svg'></svg></a></li>
@@ -31,13 +43,14 @@
         <input type='range' name='scale' value='70' step='1' min='10' max='200'/>
         <span class='scale-value'></span>
       </li>
-      <li id='load'><span class='button'><svg src='img/icon/upload_file.svg'></svg></span></li>
-      <li id='save'><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
+      <li class='hidden' id='load'><span class='button'><svg src='img/icon/upload_file.svg'></svg></span></li>
+      <li class='hidden' id='save'><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
     </ul>
   </header>
 
   <div class='contents' data-animation-name=''>
 
+    <div class='home'></div>
     <div class='under'>
       <div name='animation'>
         <div class='header flex'>

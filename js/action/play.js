@@ -1,6 +1,7 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from './common.js'
 import * as ImageCommon  from '../images/common.js'
+import * as ShapeCommon  from '../shape/common.js'
 
 export class Play{
 
@@ -94,6 +95,18 @@ export class Play{
     for(let i=0; i<images.length; i++){
       const img = images[i]
       img.style.setProperty('transform' , datas.matrix[i].transform , '')
+    }
+
+    // point-pos
+    const point_elms  = Options.elements.get_shape_points(uuid)
+    // const point_datas = ShapeCommon.get_date2points(datas.points)
+    const point_datas = ShapeCommon.get_table2pointDatas(uuid , datas.points)
+    // console.log(point_datas)
+    for(let i=0; i<point_elms.length; i++){
+      const point_elm = point_elms[i]
+      const pos       = point_datas[i]
+      point_elm.style.setProperty('left',`${pos.x}px`,'')
+      point_elm.style.setProperty('top' ,`${pos.y}px`,'')
     }
   }
 

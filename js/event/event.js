@@ -57,6 +57,16 @@ export class Event {
       'click',
       Options.control.load,
     )
+    this.set(
+      document.querySelector(`header .text-menu .lists .item[data-mode='save']`) , 
+      'click',
+     Options.control.save,
+    )
+    this.set(
+      document.querySelector(`header .text-menu .lists .item[data-mode='load']`) , 
+      'click',
+      Options.control.load,
+    )
   }
 
   upload(){

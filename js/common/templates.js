@@ -5,6 +5,7 @@ export class Templates{
   constructor(options){
     this.options = options || {}
     this.lists = [
+      'home',
       'image_list',
       'image_pic',
       'image_property',
