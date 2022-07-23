@@ -6,6 +6,12 @@ export class Load{
     this.load_file()
   }
 
+  loaded_change_hash(){
+    if(!Options.common.get_hash()){
+      Options.common.set_hash('upload')
+    }
+  }
+
   load_file(){
     let input_file = document.createElement("input")
     input_file.type     = 'file'
@@ -40,6 +46,8 @@ export class Load{
     }
     
     Options.animations = datas.animations || {}
+
+    this.loaded_change_hash()
   }
 
   get_image_sort_lists(datas){
