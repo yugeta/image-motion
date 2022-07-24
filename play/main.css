@@ -5,53 +5,37 @@
 [data-service='image-motion'] .pic{
   position:absolute;
   display:block;
-  /* transition-property : transform;
-  transition-duration : 1s; */
-
 }
+
 [data-service='image-motion'] .pic > img{
   display:block;
   width:100%;
   height:100%;
 }
 
-
-
-/* Sample */
-/* [data-service='image-motion'][data-name='sample'][data-action='walk'] .pic[data-uuid='5FA19767-3C8E-4A85-835F-69CEBF6079FC']{
-  animation-name : sample_walk_5FA19767-3C8E-4A85-835F-69CEBF6079FC;
-  animation-timing-function: ease-in-out;
-  animation-duration : 1s;
-  animation-iteration-count : infinite;
-  animation-direction: normal;
+/* Shape */
+/* [data-service='image-motion'] .pic[data-shape='1'] > img{
+  display:none;
 }
-@keyframes sample_walk_5FA19767-3C8E-4A85-835F-69CEBF6079FC{
-  0%{
-    transform:rotate(-30deg) translateY(-20px);
-  }
-  50%{
-    transform:rotate(30deg) translateY(20px);
-  }
-  100%{
-    transform:rotate(-30deg) translateY(-20px);
-  }
-}
-
-[data-service='image-motion'][data-name='sample'][data-action='walk'] .pic[data-uuid='4E9C5648-5414-4866-B932-28CB8DC9247F']{
-  animation-name : sample_walk_4E9C5648-5414-4866-B932-28CB8DC9247F;
-  animation-timing-function: ease-in-out;
-  animation-duration : 1s;
-  animation-iteration-count : infinite;
-  animation-direction: normal;
-}
-@keyframes sample_walk_4E9C5648-5414-4866-B932-28CB8DC9247F{
-  0%{
-    transform:rotate(30deg);
-  }
-  50%{
-    transform:rotate(-30deg);
-  }
-  100%{
-    transform:rotate(30deg);
-  }
+[data-service='image-motion'] .pic:not([data-shape='1']) > .shape{
+  display:none;
 } */
+[data-service='image-motion'] .pic > .shape{
+  width:100%;
+  height:100%;
+  position:relative;
+}
+[data-service='image-motion'] .pic > .shape > .shape-item{
+  position:absolute;
+  overflow:hidden;
+  /* transition-duration:1s; */
+  /* transform: perspective(1px) scaleZ(-1) translateZ(-1px) translateZ(1px); */
+}
+/* [data-service='image-motion'] .pic[data-status='active'] > .shape > .shape-item{
+  transform-origin:top left;
+} */
+[data-service='image-motion'] .pic > .shape > .shape-item > img{
+  position:absolute;
+}
+
+
