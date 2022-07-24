@@ -139,6 +139,7 @@ function image_mousemove(e){
     x : ~~(e.pageX),
     y : ~~(e.pageY),
   })
+  Options.move.current_pos = data
   image_move({
     uuid : Options.move.uuid,
     elm : Options.move.img.elm , 
@@ -175,10 +176,21 @@ function image_mouseup(e){
   Options.undo.add_history({
     mode : 'image_move',
     call : image_move.bind(null , {
-      elm : Options.move.img.elm,
-      pos : Options.move.img.pos,
+      uuid : Options.move.uuid,
+      elm  : Options.move.img.elm,
+      pos  : Options.move.img.pos,
     })
   })
+
+  Options.undo.set_current({
+    mode : 'image_move',
+    call : image_move.bind(null , {
+      uuid : Options.move.uuid,
+      elm  : Options.move.img.elm,
+      pos  : Options.move.current_pos,
+    })
+  })
+
   delete Options.move
 }
 
@@ -203,8 +215,8 @@ function center_mousedown(e){
     pointer : {
       elm : center,
       pos : {
-        x : cx,
-        y : cy,
+        cx : cx,
+        cy : cy,
       },
       offset : {
         x : ~~(mx - cRect.left),
@@ -220,15 +232,13 @@ function center_mousemove(e){
   const mx      = Options.image_center.mouse.x
   const my      = Options.image_center.mouse.y
   const scale   = Options.image_center.scale
-  const px      = Options.image_center.pointer.pos.x
-  const py      = Options.image_center.pointer.pos.y
+  const px      = Options.image_center.pointer.pos.cx
+  const py      = Options.image_center.pointer.pos.cy
   const cx      = ~~((ex - mx) / scale + px)
   const cy      = ~~((ey - my) / scale + py)
   const pointer = Options.image_center.pointer.elm
-  const pos     = {x : cx, y : cy}
-
-  
-  
+  const pos     = {cx : cx, cy : cy}
+  Options.image_center.current_pos = pos
   center_move({
     uuid : Options.image_center.uuid,
     elm  : pointer, 
@@ -239,8 +249,8 @@ function center_mousemove(e){
 function center_move(options){
   cache_save(options.uuid , options.pos)
   Options.property.update(options.pos)
-  options.elm.style.setProperty('top'  , `${options.pos.y}px` , '')
-  options.elm.style.setProperty('left' , `${options.pos.x}px` , '')
+  options.elm.style.setProperty('top'  , `${options.pos.cy}px` , '')
+  options.elm.style.setProperty('left' , `${options.pos.cx}px` , '')
 }
 
 function center_mouseup(e){
@@ -250,6 +260,15 @@ function center_mouseup(e){
       uuid : Options.image_center.uuid,
       elm  : Options.image_center.pointer.elm,
       pos  : Options.image_center.pointer.pos,
+    })
+  })
+
+  Options.undo.set_current({
+    mode : 'center_move',
+    call : center_move.bind(null , {
+      uuid : Options.image_center.uuid,
+      elm  : Options.image_center.pointer.elm,
+      pos  : Options.image_center.current_pos,
     })
   })
   delete Options.image_center
