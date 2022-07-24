@@ -104,12 +104,10 @@ export function animation_name_list_decide() {
   }
   // 新規key作成
   else{
-    // console.log(Options.animation)
     const data = get_animation_data()
     Options.datas.add_animation(name , data)
   }
   // view表示
-  // console.log('--2')
   Options.play.transform_img_all()
 
   // .contentsにフラグ設置

@@ -20,9 +20,9 @@ export class Header{
     const hash = Options.common.get_hash()
     document.body.setAttribute('data-hash' , hash)
     ImageCommon.reset_transform()
-    if(Options.undo){
-      Options.undo.clear_history()
-    }
+    // if(Options.undo){
+    //   Options.undo.clear_history()
+    // }
     // Options.play.transform_img_all()
   }
 

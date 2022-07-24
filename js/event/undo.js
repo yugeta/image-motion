@@ -48,9 +48,9 @@ export class Undo{
   }
 
   redo(){
-    const data = this.get_future()
-    if(!data){return}
-    data.call()
+    // const data = this.get_future()
+    // if(!data){return}
+    // data.call()
   }
 
   get_history(){
@@ -78,8 +78,12 @@ export class Undo{
   }
 
   set_current(data){
+    // if(this.current 
+    // && this.current.name !== data.name){console.log(data.name)
+    //   this.add_history(this.current)
+    // }
     this.current = data
-    this.futures  = []
+    this.futures = []
   }
 
   clear_history(){

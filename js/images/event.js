@@ -174,7 +174,7 @@ function cache_save(uuid , data){
 
 function image_mouseup(e){
   Options.undo.add_history({
-    mode : 'image_move',
+    name : 'image_move',
     call : image_move.bind(null , {
       uuid : Options.move.uuid,
       elm  : Options.move.img.elm,
@@ -183,7 +183,7 @@ function image_mouseup(e){
   })
 
   Options.undo.set_current({
-    mode : 'image_move',
+    name : 'image_move',
     call : image_move.bind(null , {
       uuid : Options.move.uuid,
       elm  : Options.move.img.elm,
@@ -258,7 +258,7 @@ function center_move(options){
 
 function center_mouseup(e){
   Options.undo.add_history({
-    mode : 'center_move',
+    name : 'center_move',
     call : center_move.bind(null , {
       uuid : Options.image_center.uuid,
       pic  : Options.image_center.pic,
@@ -268,7 +268,7 @@ function center_mouseup(e){
   })
 
   Options.undo.set_current({
-    mode : 'center_move',
+    name : 'center_move',
     call : center_move.bind(null , {
       uuid : Options.image_center.uuid,
       pic  : Options.image_center.pic,
