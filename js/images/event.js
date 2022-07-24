@@ -139,9 +139,12 @@ function image_mousemove(e){
     x : ~~(e.pageX),
     y : ~~(e.pageY),
   })
-  image_move(data)
-  cache_save(Options.move.uuid , data)
-  Options.property.update(data)
+  image_move({
+    uuid : Options.move.uuid,
+    elm : Options.move.img.elm , 
+    pos : data,
+  })
+  
   Options.move.cache = data
 }
 
@@ -154,10 +157,11 @@ function get_cache(option){
   }
 }
 
-function image_move(data){
-  const img = Options.move.img.elm
-  img.style.setProperty('top'  , `${data.y}px` , '')
-  img.style.setProperty('left' , `${data.x}px` , '')
+function image_move(options){
+  cache_save(options.uuid , options.pos)
+  Options.property.update(options.pos)
+  options.elm.style.setProperty('top'  , `${options.pos.y}px` , '')
+  options.elm.style.setProperty('left' , `${options.pos.x}px` , '')
 }
 
 function cache_save(uuid , data){
@@ -168,6 +172,13 @@ function cache_save(uuid , data){
 }
 
 function image_mouseup(e){
+  Options.undo.add_history({
+    mode : 'image_move',
+    call : image_move.bind(null , {
+      elm : Options.move.img.elm,
+      pos : Options.move.img.pos,
+    })
+  })
   delete Options.move
 }
 
@@ -214,15 +225,33 @@ function center_mousemove(e){
   const cx      = ~~((ex - mx) / scale + px)
   const cy      = ~~((ey - my) / scale + py)
   const pointer = Options.image_center.pointer.elm
-  const data    = {cx : cx, cy : cy}
+  const pos     = {x : cx, y : cy}
 
-  cache_save(Options.image_center.uuid , data)
-  Options.property.update(data)
-  pointer.style.setProperty('top'  , `${cy}px` , '')
-  pointer.style.setProperty('left' , `${cx}px` , '')
+  
+  
+  center_move({
+    uuid : Options.image_center.uuid,
+    elm  : pointer, 
+    pos  : pos,
+  })
+}
+
+function center_move(options){
+  cache_save(options.uuid , options.pos)
+  Options.property.update(options.pos)
+  options.elm.style.setProperty('top'  , `${options.pos.y}px` , '')
+  options.elm.style.setProperty('left' , `${options.pos.x}px` , '')
 }
 
 function center_mouseup(e){
+  Options.undo.add_history({
+    mode : 'center_move',
+    call : center_move.bind(null , {
+      uuid : Options.image_center.uuid,
+      elm  : Options.image_center.pointer.elm,
+      pos  : Options.image_center.pointer.pos,
+    })
+  })
   delete Options.image_center
 }
 

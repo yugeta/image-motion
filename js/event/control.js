@@ -10,6 +10,8 @@ import * as ActionEvent from '../action/event.js'
 import * as ImageShape  from '../images/shape.js'
 import * as ImageCommon from '../images/common.js'
 
+import { Key }          from '../event/key.js'
+
 export class Control{
   save(){
     new Save()
@@ -42,6 +44,15 @@ export class Control{
     PropEvent.mouseup(e)
     ActionEvent.mouseup(e)
     ImageShape.mouseup(e)
+  }
+
+  keydown(e){
+    Options.undo.keydown(e)
+    new Key(e).keydown(e)
+  }
+  keyup(e){
+    Options.undo.keyup(e)
+    new Key(e).keyup(e)
   }
 
   image_upload(e){
