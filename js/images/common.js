@@ -47,12 +47,8 @@ export function set_level_single(elm){
 }
 
 export function set_offset_pic(uuid , diff){
-  // const pic  = Options.elements.get_uuid_view(uuid)
-  // const rect = pic.getBoundingClientRect()
   const data  = Options.datas.get_data(uuid)
   const scale = Options.common.get_scale()
-  // console.log(data , diff , scale , {x : ~~((data.x - diff.x)) , y : ~~((data.y - diff.y))})
-  // console.log(~~((data.x - diff.x) * scale) +" / "+ ~~((data.y - diff.y) * scale))
   Options.datas.set_data(uuid , 'x' , ~~((data.x - diff.x)))
   Options.datas.set_data(uuid , 'y' , ~~((data.y - diff.y)))
   Options.img_datas[uuid].set_image_pos()
@@ -62,7 +58,6 @@ export function reset_transform(){
   const datas  = Options.datas.get_all()
   for(let uuid in datas){
     Options.img_datas[uuid].reset_transform()
-    // this.cache.pic.style.setProperty('transform' , `none` , '')
   }
 }
 
@@ -74,10 +69,6 @@ export function get_current_uuid(){
 
 
 export function img_select(uuid){
-  // const uuid = img.getAttribute('data-uuid')
-  // if(!uuid){return}
-  // // 選択されているimageは再度選択処理をしない
-  // if(this.cache.pic.getAttribute('data-status') === 'active'){return}
   new Active('active' , uuid)
   Options.shape = new Shape(uuid)
 }

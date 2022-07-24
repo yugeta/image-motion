@@ -206,6 +206,7 @@ function center_mousedown(e){
   const mx     = ~~(e.pageX)
   const my     = ~~(e.pageY)
   Options.image_center = {
+    pic   : pic,
     uuid  : pic.getAttribute('data-uuid'),
     scale : Options.common.get_scale(),
     mouse : {
@@ -241,6 +242,7 @@ function center_mousemove(e){
   Options.image_center.current_pos = pos
   center_move({
     uuid : Options.image_center.uuid,
+    pic  : Options.image_center.pic,
     elm  : pointer, 
     pos  : pos,
   })
@@ -251,6 +253,7 @@ function center_move(options){
   Options.property.update(options.pos)
   options.elm.style.setProperty('top'  , `${options.pos.cy}px` , '')
   options.elm.style.setProperty('left' , `${options.pos.cx}px` , '')
+  options.pic.style.setProperty('transform-origin' , `${options.pos.cx}px ${options.pos.cy}px` , '')
 }
 
 function center_mouseup(e){
@@ -258,6 +261,7 @@ function center_mouseup(e){
     mode : 'center_move',
     call : center_move.bind(null , {
       uuid : Options.image_center.uuid,
+      pic  : Options.image_center.pic,
       elm  : Options.image_center.pointer.elm,
       pos  : Options.image_center.pointer.pos,
     })
@@ -267,6 +271,7 @@ function center_mouseup(e){
     mode : 'center_move',
     call : center_move.bind(null , {
       uuid : Options.image_center.uuid,
+      pic  : Options.image_center.pic,
       elm  : Options.image_center.pointer.elm,
       pos  : Options.image_center.current_pos,
     })

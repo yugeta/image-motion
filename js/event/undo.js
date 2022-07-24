@@ -53,7 +53,6 @@ export class Undo{
     data.call()
   }
 
-
   get_history(){
     if(!this.historys.length){return}
     if(this.current){
