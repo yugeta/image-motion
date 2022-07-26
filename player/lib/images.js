@@ -128,24 +128,49 @@ export class Images{
   get_shape_item(x,y,w,h,data,num){
     const div = document.createElement('div')
     div.className = 'shape-item'
+    div.setAttribute('data-num' , num)
+
     // セグメントラインが出ないための１ピクセル余分に表示（右と下のライン）
     const width  = w
     const height = h
-    div.style.setProperty('width'  , `${width}px` , '')
-    div.style.setProperty('height' , `${height}px` , '')
+    div.style.setProperty('width'  , `${w + 1}px` , '')
+    div.style.setProperty('height' , `${h + 1}px` , '')
     div.style.setProperty('left'   , `${x}px` , '')
     div.style.setProperty('top'    , `${y}px` , '')
     div.style.setProperty('transform-origin' , `-${x}px -${y}px` , '')
-    const img = new Image()
-    img.src = data.src
-    img.style.setProperty('width'  , `${data.w}px` , '')
-    img.style.setProperty('height' , `${data.h}px` , '')
-    img.style.setProperty('left'   , `-${x}px` , '')
-    img.style.setProperty('top'    , `-${y}px` , '')
+
+    const img = this.get_shape_item_img(
+      x, 
+      y, 
+      w, 
+      h,
+      data)
     div.appendChild(img)
-    div.setAttribute('data-num' , num)
+    
     return div
   }
+  
+  get_shape_item_img(x,y,w,h , data){
+    const img = new Image()
+    img.src = data.src
+
+    const pos_arr = [
+      `${x}px ${y}px`,
+      `${x + w + 1}px ${y}px`,
+      `${x + w + 1}px ${y + h + 1}px`,
+      `${x}px ${y + h + 1}px`,
+    ]
+    const clip = pos_arr.join(',')
+    img.style.setProperty('clip-path' , `polygon(${clip})` , '')
+
+    // img.style.setProperty('width'  , `${w}px` , '')
+    // img.style.setProperty('height' , `${h}px` , '')
+    img.style.setProperty('left'   , `-${x}px` , '')
+    img.style.setProperty('top'    , `-${y}px` , '')
+    
+    return img
+  }
+
 
   // // ----------
   // // Shape animation

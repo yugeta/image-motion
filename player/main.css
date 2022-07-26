@@ -28,14 +28,12 @@
 [data-service='image-motion'] .pic > .shape > .shape-item{
   position:absolute;
   overflow:hidden;
-  /* transition-duration:1s; */
-  /* transform: perspective(1px) scaleZ(-1) translateZ(-1px) translateZ(1px); */
 }
-/* [data-service='image-motion'] .pic[data-status='active'] > .shape > .shape-item{
-  transform-origin:top left;
-} */
-[data-service='image-motion'] .pic > .shape > .shape-item > img{
+[data-service='image-motion'] .pic > .shape > .shape-item > *{
+  /* width:calc(100% + 1px);
+  height:calc(100% + 1px); */
   position:absolute;
+  /* overflow:hidden; */
 }
 
 

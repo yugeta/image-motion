@@ -2,7 +2,6 @@ import { Matrix } from './matrix.js'
 
 export class Event{
   constructor(options){
-    console.log(options)
     this.options = options
     this.set_images()
   }
@@ -24,9 +23,7 @@ export class Event{
   }
 
   shape_play(image_num , e){
-    // console.log('play')
     const elm = e.target
-    // console.log(elm)
     const uuid = elm.getAttribute('data-uuid')
     if(!uuid){return}
     const anim_name = this.options.root.getAttribute('data-action')
@@ -40,7 +37,6 @@ export class Event{
     this.cache.splits      = this.options.data.images[image_num].shape_splits
     this.cache.keyframes   = anim.items[uuid].keyframes
     this.cache.base_points = this.options.data.images[image_num].shape_points
-    console.log(this.cache.base_points)
     this.shape_view(start)
   }
 

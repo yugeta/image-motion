@@ -7,6 +7,7 @@ export class Animation{
     this.options = options
     this.animation_names = this.get_animation_names()
     this.css = this.get_css()
+    // this.shape = this.get_shape()
   }
 
   // animation-nameの一覧を取得
@@ -36,7 +37,7 @@ export class Animation{
   create_css(name , key , uuid){
     const anim = this.options.data.animations
     const data = {
-      key_name  : name +'_'+ key +'_'+ uuid,
+      key_name  : 'anim_'+ name +'_'+ key +'_'+ uuid.replace(/\-/g,''),
       name      : name,
       key       : key,
       uuid      : uuid,
@@ -47,13 +48,6 @@ export class Animation{
       direction : anim.direction || 'normal',
     }
     return this.get_normal(data) +'\n'
-
-    // if(this.is_shape(uuid)){
-    //   const shape_table = this.get_shape_table(uuid)
-    //   // console.log(uuid , shape_table)
-    //   css += this.get_shape_root(options , shape_table)
-    // }
-    // return css
   }
   get_normal(d){
     const css = []
@@ -101,6 +95,8 @@ export class Animation{
     }
     return datas.join(' ')
   }
+
+
 
 
   is_shape(uuid){
