@@ -1,81 +1,87 @@
-import { Options }  from './options.js'
-import { M_Matrix } from './m_matrix.js'
+import { Options }  from '../options.js'
+// import { Matrix }   from './matrix.js'
 
 export class Animation{
-  constructor(name , style , data){
-    this.data = data
-    if(!data.animations){return}
-    style = style || this.set_style()
-    for(let key in data.animations){
-      for(let uuid in data.animations[key].items){
-        const res = this.get_css_datas(name,key,uuid)
-        style.textContent += res
-      }
-    }
+  constructor(options){
+    if(!options || !options.data || !options.data.animations){return}
+    this.options = options
+    this.animation_names = this.get_animation_names()
+    this.css = this.get_css()
   }
 
-  // styleタグの設置
-  set_style(){
-    const check = document.querySelector(`style[data-service='${Options.service_name}']`)
-    if(check){return}
-    const style = document.createElement('style')
-    style.setAttribute('type' , 'text/css')
-    style.setAttribute('data-service' , Options.service_name)
-    document.querySelector('head').appendChild(style)
-    return style
+  // animation-nameの一覧を取得
+  get_animation_names(){
+    const animations = this.options.data.animations
+    return Object.keys(animations)
+  }
+
+  // animation設定されているデータからcssを生成
+  get_css(){
+    const animations = this.options.data.animations
+    const css = []
+    for(let key in animations){
+      for(let uuid in animations[key].items){
+        css.push(this.create_css(
+          this.options.uuid , 
+          key , 
+          uuid,
+        ))
+      }
+    }
+    return css.join('')
   }
   
 
   // cssの値を取得
-  get_css_datas(n , key , uuid){
-    const data = this.data.animations[key]
-    const options = {
-      n         : n,
+  create_css(name , key , uuid){
+    const anim = this.options.data.animations
+    const data = {
+      key_name  : name +'_'+ key +'_'+ uuid,
+      name      : name,
       key       : key,
       uuid      : uuid,
-      keyframes : this.data.animations[key].items[uuid].keyframes,
-      name      : n +'_'+ key +'_'+ uuid,
-      timing    : data.timing    || 'ease-in-out',
-      duration  : data.duration  || 1,
-      count     : data.count     || 'infinite',
-      direction : data.direction || 'normal',
+      keyframes : anim[key].items[uuid].keyframes,
+      timing    : anim.timing    || 'ease-in-out',
+      duration  : anim.duration  || 1,
+      count     : anim.count     || 'infinite',
+      direction : anim.direction || 'normal',
     }
+    return this.get_normal(data) +'\n'
 
-    let css = this.get_normal(options)
-
-    if(this.is_shape(uuid)){
-      const shape_table = this.get_shape_table(uuid)
-      // console.log(uuid , shape_table)
-      css += this.get_shape_root(options , shape_table)
-    }
-    return css
+    // if(this.is_shape(uuid)){
+    //   const shape_table = this.get_shape_table(uuid)
+    //   // console.log(uuid , shape_table)
+    //   css += this.get_shape_root(options , shape_table)
+    // }
+    // return css
   }
-  get_normal(options){
-    let css = ''
-    css += `[data-service='${Options.service_name}'][data-name='${options.n}'][data-action='${options.key}'] .pic[data-uuid='${options.uuid}']{`+"\n"
-    css += `animation-name : ${options.name};`+"\n"
-    css += `animation-timing-function: ${options.timing};`+"\n"
-    css += `animation-duration : ${options.duration}s;`+"\n"
-    css += `animation-iteration-count : ${options.count};`+"\n"
-    css += `animation-direction: ${options.direction};`+"\n"
-    css += '}'+"\n"
-    css += `@keyframes ${options.name}{`+"\n"
-    css += this.get_keyframes(options.keyframes)
-    css += `}`+"\n"
-    return css
+  get_normal(d){
+    const css = []
+    css.push(`[data-service='${Options.service_name}'][data-uuid='${d.name}'][data-action='${d.key}'] .pic[data-uuid='${d.uuid}']{`)
+    css.push(`  animation-name : ${d.key_name};`)
+    css.push(`  animation-timing-function: ${d.timing};`)
+    css.push(`  animation-duration : ${d.duration}s;`)
+    css.push(`  animation-iteration-count : ${d.count};`)
+    css.push(`  animation-direction: ${d.direction};`)
+    css.push('}')
+
+    css.push(`@keyframes ${d.key_name}{`)
+    css.push(this.get_keyframes(d.keyframes))
+    css.push(`}`)
+    return css.join('\n')
   }
 
   // cssのkeyframesの取得
   get_keyframes(keyframes){
-    let css = ''
+    const css = []
     for(let i in keyframes){
       const transform = this.get_transform(keyframes[i])
       if(!transform){continue}
-      css += `${i}%{`+"\n"
-      css +=  `transform : ${transform};`+"\n"
-      css += '}'+"\n"
+      css.push(`  ${i}%{`)
+      css.push(`    transform : ${transform};`)
+      css.push('  }')
     }
-    return css
+    return css.join('\n')
   }
 
   // css-keyframesのtransformの取得
@@ -89,6 +95,9 @@ export class Animation{
     }
     if(transform_data.posy){
       datas.push(`translateY(${transform_data.posy}px)`)
+    }
+    if(transform_data.shape){
+      datas.push('scale(1.0)')
     }
     return datas.join(' ')
   }

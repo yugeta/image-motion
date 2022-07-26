@@ -248,7 +248,7 @@
     },
     "standard": {},
     "test-1": {
-      "duration": 4,
+      "duration": 2,
       "items": {
         "27A67366-69C6-4116-A3CA-720501A98E4F": {
           "keyframes": {
@@ -262,7 +262,7 @@
         },
         "E635E5FF-2D4D-4055-A31A-2C8EED9B05C2": {
           "keyframes": {
-            "0": {
+            "2": {
               "shape": {
                 "points": [
                   [
@@ -340,19 +340,19 @@
                 ],
                 "matrix": [
                   {
-                    "transform": "perspective(1px) scaleZ(-1) translateZ(-1px) matrix3d(1.002865329512894,0,0,0,0,1.0017271157167529,0,0,0,0,1,0,0,0,0,1) translateZ(1px)",
+                    "transform": "perspective(1px)scaleZ(-1)translateZ(-1px)matrix3d(1.002865329512894,0,0,0,0,1.0017271157167529,0,0,0,0,1,0,0,0,0,1)translateZ(1px)",
                     "perspective": 1
                   },
                   {
-                    "transform": "perspective(1px) scaleZ(-1) translateZ(-1px) matrix3d(1.0196695176336252,0,0.00004308766184803019,0,-0.28406508499227323,0.5385224719830664,-0.001623229057098706,0,-1.616541353383468,0,1,0,0,0,0,1) translateZ(1px)",
+                    "transform": "perspective(1px)scaleZ(-1)translateZ(-1px)matrix3d(1.0196695176336252,0,0.00004308766184803019,0,-0.28406508499227323,0.5385224719830664,-0.001623229057098706,0,-1.616541353383468,0,1,0,0,0,0,1)translateZ(1px)",
                     "perspective": 1
                   },
                   {
-                    "transform": "perspective(1px) scaleZ(-1) translateZ(-1px) matrix3d(1.0028653295128949,8.881784197001252e-16,0,0,-4.440892098500626e-16,0.9982728842832467,0,0,6.428191312579656e-14,1,1,0,0,0,0,1) translateZ(1px)",
+                    "transform": "perspective(1px)scaleZ(-1)translateZ(-1px)matrix3d(1.0028653295128949,8.881784197001252e-16,0,0,-4.440892098500626e-16,0.9982728842832467,0,0,6.428191312579656e-14,1,1,0,0,0,0,1)translateZ(1px)",
                     "perspective": 1
                   },
                   {
-                    "transform": "perspective(1px) scaleZ(-1) translateZ(-1px) matrix3d(11.1274865197394,-0.277301140351601,-0.00047893115777478644,0,3.1465733924634023,16.52184776495298,0.01798041938550518,0,-1781.3717579250724,-2959.3760806916434,1,0,0,0,0,1) translateZ(1px)",
+                    "transform": "perspective(1px)scaleZ(-1)translateZ(-1px)matrix3d(11.1274865197394,-0.277301140351601,-0.00047893115777478644,0,3.1465733924634023,16.52184776495298,0.01798041938550518,0,-1781.3717579250724,-2959.3760806916434,1,0,0,0,0,1)translateZ(1px)",
                     "perspective": 1
                   }
                 ]
@@ -454,7 +454,7 @@
                 ]
               }
             },
-            "100": {
+            "80": {
               "shape": {
                 "points": [
                   [

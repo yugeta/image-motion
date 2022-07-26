@@ -1,9 +1,8 @@
 import * as sylvester from './sylvester/sylvester.mod.js'
 
 // 参考 : https://qiita.com/as_kuya/items/45bc930b11123e3f072b
-export class M_Matrix{
+export class Matrix{
   constructor(prev_position , next_position){
-
     const prev = this.convert_positions(prev_position)
     const next = this.convert_positions(next_position)
 
