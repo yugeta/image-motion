@@ -35,7 +35,17 @@ export class Animation{
       Options.event.set(
         range,
         'input',
-        this.change_range.bind(this)
+        this.input_range.bind(this)
+      )
+      Options.event.set(
+        range,
+        'focus',
+        this.focus_range.bind(this)
+      )
+      Options.event.set(
+        range,
+        'change',
+        this.blur_range.bind(this)
       )
     }
 
@@ -46,6 +56,16 @@ export class Animation{
         input,
         'input',
         this.change_input.bind(this)
+      )
+      Options.event.set(
+        input,
+        'focus',
+        this.focus_input.bind(this)
+      )
+      Options.event.set(
+        input,
+        'blur',
+        this.blur_input.bind(this)
       )
     }
   }
@@ -62,26 +82,85 @@ export class Animation{
   }
   set_value(elm , value , type){
     const parent  = this.get_parent(elm)
+    if(!parent){return}
     const input   = parent.querySelector(`input[type='${type}']`)
+    if(!input){return}
     input.value   = value
   }
 
-  change_range(e){
+  focus_range(e){
+    const elm = e.target
     const value = this.get_value(e.target)
-    this.set_value(e.target , value , 'text')
-    this.transform_img()
+    const type = 'text'
+    const animation_name = ActionCommon.get_animation_name()
+    Options.undo.add_history({
+      name : 'animation_range',
+      call : ((animation_name , value , type , elm)=>{
+        if(ActionCommon.get_animation_name() !== animation_name){return}
+        elm.value = value
+        this.update_range(elm,type)
+      }).bind(this , animation_name , value , type , elm)
+    })
+  }
+  blur_range(e){
+    const elm = e.target
+    elm.blur()
+    const value = this.get_value(e.target)
+    const type = 'text'
+    const animation_name = ActionCommon.get_animation_name()
+    Options.undo.set_current({
+      name : 'animation_range',
+      call : ((animation_name , value , type , elm)=>{
+        if(ActionCommon.get_animation_name() !== animation_name){return}
+        elm.value = value
+        this.update_range(elm,type)
+      }).bind(this , animation_name , value , type , elm)
+    })
+  }
 
-    const type = this.get_type(e.target)
-    this.set_data(type , value)
+  input_range(e){
+    this.update_range(e.target , 'text')
   }
   change_input(e){
-    const value = this.get_value(e.target)
-    this.set_value(e.target , value , 'range')
-    this.transform_img()
-
-    const type = this.get_type(e.target)
-    this.set_data(type , value)
+    this.update_range(e.target , 'range')
   }
+  update_range(elm , type){
+    const value = this.get_value(elm)
+    this.set_value(elm , value , type)
+    this.transform_img()
+    this.set_data(this.get_type(elm) , value)
+  }
+
+  focus_input(e){
+    const elm = e.target
+    const value = this.get_value(e.target)
+    const type = 'tange'
+    const animation_name = ActionCommon.get_animation_name()
+    Options.undo.add_history({
+      name : 'animation_input',
+      call : ((animation_name , value , type , elm)=>{
+        if(ActionCommon.get_animation_name() !== animation_name){return}
+        elm.value = value
+        this.update_range(elm,type)
+      }).bind(this , animation_name , value , type , elm)
+    })
+  }
+  blur_input(e){
+    const elm = e.target
+    const value = this.get_value(e.target)
+    const type = 'range'
+    const animation_name = ActionCommon.get_animation_name()
+    Options.undo.set_current({
+      name : 'animation_input',
+      call : ((animation_name , value , type , elm)=>{
+        if(ActionCommon.get_animation_name() !== animation_name){return}
+        elm.value = value
+        this.update_range(elm,type)
+      }).bind(this , animation_name , value , type , elm)
+    })
+  }
+
+
   change_timeline(){
     // console.log('--1')
     // const per = ActionCommon.get_timeline_per()

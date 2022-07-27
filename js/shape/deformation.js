@@ -8,6 +8,7 @@ export function img(uuid , image_data , point_data){
   const prev_positions = get_prev_positions(uuid , image_data)
   // const next_positions = get_next_positions(uuid , image_data , point_data)
   const next_positions = new M_Points(uuid , image_data.num).points
+  // console.log(prev_positions,next_positions)
   const matrix_data = new M_Matrix(prev_positions , next_positions)
   // Options.datas.set_shape_data(uuid , 'corners' , next_positions)
   if(!matrix_data){return}

@@ -170,6 +170,24 @@ function sort_mouseup(e){
   ImageCommon.set_level(Options.list_drag.view_target)
   set_view_image_pos_correction()
 
+  // // undo : sort処理が複雑なので、今の所搭載しない予定
+  // Options.undo.add_history({
+  //   mode : 'lists_sort',
+  //   call : image_move.bind(null , {
+  //     uuid : Options.move.uuid,
+  //     elm  : Options.move.img.elm,
+  //     pos  : Options.move.img.pos,
+  //   })
+  // })
+  // Options.undo.set_current({
+  //   mode : 'lists_sort',
+  //   call : image_move.bind(null , {
+  //     uuid : Options.move.uuid,
+  //     elm  : Options.move.img.elm,
+  //     pos  : Options.move.current_pos,
+  //   })
+  // })
+
   delete Options.list_drag
 
 }

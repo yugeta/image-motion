@@ -12,21 +12,33 @@
   <meta http-equiv="Expires" content="0">
   <meta name="generator" content="MYNT">
 
-  <link rel='stylesheet' href='../play/main.css' />
+  <link rel='stylesheet' href='../player/main.css' />
   <script type='module' src='./js/play.js'></script>
 
   <style>
-    #chara_sample .scale{
+    #chara_sample{
+      border:1px solid red;
+      width:200px;
+      height:600px;
+      margin:50px auto;
+    }
+    /* #chara_sample .scale{
       transform:scale(0.5);
+      
+    } */
+    .buttons{
+      text-align:center;
     }
   </style>
 </head>
 <body>
   <div id='chara_sample'></div>
 
-  <div>
+  <div class='buttons'>
     <button class='standard'>Standard</button>
     <button class='walk'>Walk</button>
+    <button class='test-1'>test-1</button>
+    <button class='test-2'>test-2</button>
   </div>
 </body>
 </html>

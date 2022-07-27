@@ -25,6 +25,11 @@ export class Common{
     const hash = location.hash
     return hash.replace(/^#/ , '')
   }
+  set_hash(hash){console.log(hash)
+    const url = location.href.split('#')[0]
+    document.body.setAttribute('data-hash' , hash)
+    location.href = url +'#'+ hash
+  }
 
   // ページ内の.template > data-nameを取得する
   get_template(name){

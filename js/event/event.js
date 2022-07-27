@@ -1,6 +1,6 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
-import * as ActionEvent  from '../action/event.js'
+// import * as ActionEvent  from '../action/event.js'
 
 export class Event {
   constructor(){
@@ -14,6 +14,7 @@ export class Event {
     this.upload()
     this.header()
     this.animation()
+    this.key()
   }
 
   set(elm , key , func , flg){
@@ -120,6 +121,19 @@ export class Event {
 
     // animation-name-list delete
     this.set(Options.elements.get_animation_header_trash() , 'click' , ActionCommon.click_animation_name_list_trash.bind(this))
+  }
+
+  key(){
+    this.set(
+      window , 
+      'keydown',
+      Options.control.keydown.bind(Options.control),
+    )
+    this.set(
+      window,
+      'keyup',
+      Options.control.keyup.bind(Options.control),
+    )
   }
 
 }
