@@ -154,14 +154,14 @@ export class Images{
     const img = new Image()
     img.src = data.src
 
-    const pos_arr = [
-      `${x}px ${y}px`,
-      `${x + w + 1}px ${y}px`,
-      `${x + w + 1}px ${y + h + 1}px`,
-      `${x}px ${y + h + 1}px`,
-    ]
-    const clip = pos_arr.join(',')
-    img.style.setProperty('clip-path' , `polygon(${clip})` , '')
+    // const pos_arr = [
+    //   `${x}px ${y}px`,
+    //   `${x + w + 1}px ${y}px`,
+    //   `${x + w + 1}px ${y + h + 1}px`,
+    //   `${x}px ${y + h + 1}px`,
+    // ]
+    // const clip = pos_arr.join(',')
+    // img.style.setProperty('clip-path' , `polygon(${clip})` , '')
 
     // img.style.setProperty('width'  , `${w}px` , '')
     // img.style.setProperty('height' , `${h}px` , '')
