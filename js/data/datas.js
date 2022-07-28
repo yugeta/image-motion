@@ -104,9 +104,36 @@ export class Datas{
 
 
   get_animations(){
-    Options.animations = Options.animations || {}
+    if(!Options.animations){return {}}
+
+    // 空keyframeを削除する
+    for(let key in Options.animations){
+      if(!Options.animations[key].items){continue}
+      for(let uuid in Options.animations[key].items){
+        if(!Options.animations[key].items[uuid].keyframes){continue}
+        for(let per in Options.animations[key].items[uuid].keyframes){
+          if(!Object.keys(Options.animations[key].items[uuid].keyframes[per]).length){
+            delete Options.animations[key].items[uuid].keyframes[per]
+          }
+        }
+        if(!Object.keys(Options.animations[key].items[uuid].keyframes).length){
+          delete Options.animations[key].items[uuid].keyframes
+        }
+        if(!Object.keys(Options.animations[key].items[uuid]).length){
+          delete Options.animations[key].items[uuid]
+        }
+      }
+      if(!Object.keys(Options.animations[key].items).length){
+        delete Options.animations[key].items
+      }
+      if(!Object.keys(Options.animations[key]).length){
+        delete Options.animations[key]
+      }
+    }
+
     return Options.animations
   }
+
 
   get_animation_name_datas(name){
     const datas = this.get_animations()
@@ -133,6 +160,17 @@ export class Datas{
     if(!datas
     || !datas[type]){return null}
     return datas[type] || 0
+  }
+  del_animation_name_data(name , uuid , per , type){
+    const datas = this.get_animation_per_datas(name , uuid , per)
+    console.log(datas)
+    if(typeof datas[type] !== 'undefined'){
+      delete datas[type]
+      return true
+    }
+    else{
+      return false
+    }
   }
   get_animation_type_keyframes(name , uuid , type){
     const datas = this.get_animation_uuid(name , uuid)

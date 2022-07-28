@@ -30,7 +30,6 @@ export class Timeline{
 
   // cursor移動 / point追加（ダブルクリック）
   click(e){
-
     // ダブルクリック判定
     if(this.flg_double_click && ~~(e.pageX) === this.flg_double_click.posx){
       const diff = (+new Date()) - this.flg_double_click.time
@@ -43,7 +42,13 @@ export class Timeline{
       const type   = parent.getAttribute('class')
       // const per = ActionCommon.get_timeline_per()
       const per    = ActionCommon.set_timeline_pos2per(e.target , e.pageX)
-      this.add_point(per , type)
+
+      if(this.is_point(per , type)){
+        this.del_point(per , type , e.target)
+      }
+      else{
+        this.add_point(per , type)
+      }
 
       // カーソル移動
       ActionEvent.move_timeline_cursor(e)
@@ -84,17 +89,39 @@ export class Timeline{
   get_frame_rate(frame_size){
     return frame_size / 100
   }
-
-  add_point(per , type){
-    this.set_keyframes(per , type)
-    const uuid = ImageCommon.get_current_uuid()
-    if(!uuid){
-      alert('Error ! no-uuid')
-      return
+  is_point(per , type){
+    const datas = Options.datas.get_animation_per_datas(this.name , this.uuid , per)
+    if(!datas || typeof datas[type] === 'undefined'){
+      return false
     }
-    const name = ActionCommon.get_animation_name()
+    else{
+      return true
+    }
+  }
+  add_point(per , type){
+    // point追加
+    this.set_keyframes(per , type)
+
+    // const uuid = ImageCommon.get_current_uuid()
+    // if(!uuid){
+    //   alert('Error ! no-uuid')
+    //   return
+    // }
+    // const name = ActionCommon.get_animation_name()
     // keyframeデータの更新
-    ActionCommon.get_type_value_of_view(name , uuid , type , per)
+    ActionCommon.set_type_value_of_view(this.name , this.uuid , type , per)
+  }
+
+  del_point(per , type , elm){
+    const point = Options.elements.upper_selector(elm , `[name='timeline'] .lists .point`)
+    if(!point){return}
+    
+    // 表示element削除
+    point.parentNode.removeChild(point)
+
+    // keyframeデータ削除
+    // ActionCommon.del_type_value_of_view(this.name , this.uuid , type , per)
+    Options.datas.del_animation_name_data(this.name , this.uuid , per , type)
   }
 
   

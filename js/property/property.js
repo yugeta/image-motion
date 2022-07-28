@@ -95,6 +95,11 @@ export class Property{
       'input' , 
       this.chenge_num.bind(this , 'order')
     )
+    // Options.event.set(
+    //   area.querySelector(`input[name='posz']`) , 
+    //   'input' , 
+    //   this.chenge_num.bind(this , 'posz')
+    // )
   }
   get_uuid(){
     const area = Options.elements.get_info_area()
@@ -112,6 +117,7 @@ export class Property{
     Options.datas.set_data(uuid , key , Number(num))
     this.image_move(uuid , key)
     Options.img_datas[uuid].set_image_order()
+    Options.img_datas[uuid].set_image_transform()
   }
   chenge_string(key , e){
     const uuid = this.get_uuid()
