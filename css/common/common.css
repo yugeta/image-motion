@@ -64,3 +64,6 @@ input[type='number']{
   outline:0;
 }
 
+.right{
+  text-align:right;
+}

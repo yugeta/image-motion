@@ -264,7 +264,7 @@ export function get_type_value_of_view(name , uuid , type , per){
       Options.datas.set_animation_data_value(name , uuid , per , type , shape_value)
       break
 
-    // rotate , posx , posy
+    // rotate , posx , posy , posz
     default:
       const animation_input = Options.elements.get_animation_lists_input_type(type)
       if(!animation_input){return}

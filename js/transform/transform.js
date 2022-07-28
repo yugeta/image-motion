@@ -53,31 +53,41 @@ export class Transform{
 
   // Event
   set_event(){
-    const range_rotate = Options.elements.get_transform_rotate_range()
-    if(range_rotate){
-      Options.event.set(range_rotate, 'input', this.range_rotate.bind(this))
-    }
-    const range_posx = Options.elements.get_transform_posx_range()
-    if(range_posx){
-      Options.event.set(range_posx, 'input', this.range_posx.bind(this))
-    }
-    const range_posy = Options.elements.get_transform_posy_range()
-    if(range_posy){
-      Options.event.set(range_posy, 'input', this.range_posy.bind(this))
-    }
-
-    const input_rotate = Options.elements.get_transform_rotate_input()
-    if(input_rotate){
-      Options.event.set(input_rotate, 'input', this.input_rotate.bind(this))
-    }
-    const input_posx = Options.elements.get_transform_posx_input()
-    if(input_posx){
-      Options.event.set(input_posx, 'input', this.input_posx.bind(this))
-    }
-    const input_posy = Options.elements.get_transform_posy_input()
-    if(input_posy){
-      Options.event.set(input_posy, 'input', this.input_posy.bind(this))
-    }
+    Options.event.set(
+      Options.elements.get_transform_rotate_range(), 
+      'input', 
+      this.range_rotate.bind(this)
+    )
+    Options.event.set(
+      Options.elements.get_transform_posx_range(), 
+      'input', 
+      this.range_posx.bind(this),
+    )
+    Options.event.set(
+      Options.elements.get_transform_posy_range(), 
+      'input', 
+      this.range_posy.bind(this)
+    )
+    Options.event.set(
+      Options.elements.get_transform_rotate_input(), 
+      'input', 
+      this.input_rotate.bind(this)
+    )
+    Options.event.set(
+      Options.elements.get_transform_posx_input(), 
+      'input', 
+      this.input_posx.bind(this)
+    )
+    Options.event.set(
+      Options.elements.get_transform_posy_input(), 
+      'input', 
+      this.input_posy.bind(this)
+    )
+    Options.event.set(
+      Options.elements.get_transform_posz_input(), 
+      'input', 
+      this.input_posz.bind(this)
+    )
   }
 
   range_rotate(e){
@@ -124,6 +134,13 @@ export class Transform{
       elm.value = e.target.value
     }
     this.set_data('posy' , Number(e.target.value))
+    this.set_transform()
+  }
+  input_posz(e){
+    const key = 'posz'
+    const num = Number(e.target.value) || 0
+    this.set_data(key , num)
+    Options.datas.set_data(this.uuid , key , num)
     this.set_transform()
   }
 

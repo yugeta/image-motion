@@ -19,7 +19,7 @@ export class Header{
   set_contents_hash(){
     const hash = Options.common.get_hash()
     document.body.setAttribute('data-hash' , hash)
-    ImageCommon.reset_transform()
+    // ImageCommon.reset_transform()
     // if(Options.undo){
     //   Options.undo.clear_history()
     // }

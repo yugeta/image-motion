@@ -193,6 +193,10 @@ export class Animation{
         case 'posy':
           transforms.push(`translateY(${value}px)`)
           break
+
+        case 'posz':
+          transforms.push(`translateZ(${value}px)`)
+          break
       }
     }
     return transforms.join(' ')

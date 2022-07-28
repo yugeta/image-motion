@@ -169,6 +169,10 @@ export class Elements{
     const area = this.get_transform_area()
     return area.querySelector(`.posy input[name='posy']`)
   }
+  get_transform_posz_input(){
+    const area = this.get_info_area()
+    return area.querySelector(`input[name='posz']`)
+  }
 
   // ----------
   // Timeline

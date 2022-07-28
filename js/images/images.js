@@ -108,6 +108,7 @@ export class Images{
     this.cache.cx    = this.cache.cx || center_pos.x
     this.cache.cy    = this.cache.cy || center_pos.y
     this.cache.order = this.cache.order || 0
+    this.cache.posz  = this.cache.posz  || 0
   }
 
   get_center_pos(){
@@ -136,6 +137,10 @@ export class Images{
     const order = Number(this.cache.order) || 0
     this.cache.pic.style.setProperty('z-index'  , order || 'auto' , '')
   }
+  set_image_transform(){
+    const z = Number(this.cache.traz) || 0
+    // this.cache.pic.style.setProperty('transform'  , z ? `${z}px` : '0' , '')
+  }
 
   set_center_pos(){
     const center = this.cache.pic.querySelector('.center')
@@ -154,14 +159,17 @@ export class Images{
     // if(!datas){return}
     datas = datas || {}
     let transforms = []
-    if(datas.rotate){
+    if(typeof datas.rotate === 'number'){
       transforms.push(`rotate(${datas.rotate}deg)`)
     }
-    if(datas.posx){
+    if(typeof datas.posx === 'number'){
       transforms.push(`translateX(${datas.posx}px)`)
     }
-    if(datas.posy){
-      transforms.push(`translateX(${datas.posy}px)`)
+    if(typeof datas.posy === 'number'){
+      transforms.push(`translateY(${datas.posy}px)`)
+    }
+    if(typeof datas.posz === 'number'){
+      transforms.push(`translateZ(${datas.posz}px)`)
     }
     if(!transforms || !transforms.length){return}
     const transform_value = transforms.join(' ')
@@ -169,13 +177,6 @@ export class Images{
   }
   reset_transform(){
     this.cache.pic.style.setProperty('transform' , `none` , '')
-    // switch(Options.common.get_hash()){
-    //   case 'update':
-    //     return Options.trans_datas[this.uuid] || {}
-
-    //   case 'action':
-    //     return this.cache
-    // }
   }
 
   del(){

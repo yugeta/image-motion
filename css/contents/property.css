@@ -53,6 +53,10 @@
   width:50%;
   text-align:left;
 }
+.contents [name='property'] .info .flex input.mini{
+  width:35px;
+  text-align:left;
+}
 
 .contents [name='property'] .info input:hover,
 .contents [name='property'] .info input:focus{

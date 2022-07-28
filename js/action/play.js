@@ -45,7 +45,7 @@ export class Play{
     }
   }
   transform_img_reset(){
-    ImageCommon.reset_transform()
+    // ImageCommon.reset_transform()
   }
 
   get_transform_types(datas){
@@ -75,6 +75,10 @@ export class Play{
 
         case 'posy':
           transforms.push(`translateY(${value}px)`)
+          break
+
+        case 'posz':
+          transforms.push(`translateZ(${value}px)`)
           break
 
         case 'scalex':
