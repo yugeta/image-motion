@@ -257,7 +257,7 @@ export function set_current_num(name , uuid){
 }
 
 // view情報から、animation値の値を取得
-export function get_type_value_of_view(name , uuid , type , per){
+export function set_type_value_of_view(name , uuid , type , per){
   switch(type){
     case 'shape':
       const shape_value = ShapeCommon.get_current_per_data(name , uuid , type , per)
@@ -271,6 +271,16 @@ export function get_type_value_of_view(name , uuid , type , per){
       const value = Number(animation_input.value || 0)
       Options.datas.set_animation_data_value(name , uuid , per , type , value)
       break
+  }
+}
+export function get_type_value_of_view(name , uuid , type , per){
+  switch(type){
+    case 'shape':
+      return ShapeCommon.get_current_per_data(name , uuid , type , per)
+
+    // rotate , posx , posy , posz
+    default:
+      // return Options.datas.
   }
 }
 

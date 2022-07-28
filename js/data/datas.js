@@ -134,6 +134,17 @@ export class Datas{
     || !datas[type]){return null}
     return datas[type] || 0
   }
+  del_animation_name_data(name , uuid , per , type){
+    const datas = this.get_animation_per_datas(name , uuid , per)
+    console.log(datas)
+    if(typeof datas[type] !== 'undefined'){
+      delete datas[type]
+      return true
+    }
+    else{
+      return false
+    }
+  }
   get_animation_type_keyframes(name , uuid , type){
     const datas = this.get_animation_uuid(name , uuid)
     const res = {}
