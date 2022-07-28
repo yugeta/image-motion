@@ -104,9 +104,36 @@ export class Datas{
 
 
   get_animations(){
-    Options.animations = Options.animations || {}
+    if(!Options.animations){return {}}
+
+    // 空keyframeを削除する
+    for(let key in Options.animations){
+      if(!Options.animations[key].items){continue}
+      for(let uuid in Options.animations[key].items){
+        if(!Options.animations[key].items[uuid].keyframes){continue}
+        for(let per in Options.animations[key].items[uuid].keyframes){
+          if(!Object.keys(Options.animations[key].items[uuid].keyframes[per]).length){
+            delete Options.animations[key].items[uuid].keyframes[per]
+          }
+        }
+        if(!Object.keys(Options.animations[key].items[uuid].keyframes).length){
+          delete Options.animations[key].items[uuid].keyframes
+        }
+        if(!Object.keys(Options.animations[key].items[uuid]).length){
+          delete Options.animations[key].items[uuid]
+        }
+      }
+      if(!Object.keys(Options.animations[key].items).length){
+        delete Options.animations[key].items
+      }
+      if(!Object.keys(Options.animations[key]).length){
+        delete Options.animations[key]
+      }
+    }
+
     return Options.animations
   }
+
 
   get_animation_name_datas(name){
     const datas = this.get_animations()
