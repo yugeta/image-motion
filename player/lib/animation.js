@@ -104,21 +104,28 @@ export class Animation{
   // ----------
   // Shape
   set_shape_datas(){
-    const animation_names = this.get_animation_names()
-    // const uuids     = this.get_shape_uuid_arr()
-    for(let animation_name of animation_names){
-      if(!this.options.data.animations[animation_name].items){continue}
-      const uuid_arr = Object.keys(this.options.data.animations[animation_name].items)
-      for(let image_num=0; image_num<this.options.data.images.length; image_num++){
-        const image_data = this.options.data.images[image_num]
-        if(image_data.shape_use !== 1){continue}
-        // if(!uuid_arr || uuid_arr.indexOf(image_data.uuid) === -1){continue}
-        // const anim_data = this.options.data.animations[name].items
-        this.set_shape_keyframes(
-          animation_name,
-          image_data,
-        )
+    try{
+      const animation_names = this.get_animation_names()
+      if(!animation_names || !animation_names.length){return}
+      // console.log(animation_names)
+      // const uuids     = this.get_shape_uuid_arr()
+      for(let animation_name of animation_names){
+        if(!this.options.data.animations[animation_name].items){continue}
+        const uuid_arr = Object.keys(this.options.data.animations[animation_name].items)
+        for(let image_num=0; image_num<this.options.data.images.length; image_num++){
+          const image_data = this.options.data.images[image_num]
+          if(image_data.shape_use !== 1){continue}
+          // if(!uuid_arr || uuid_arr.indexOf(image_data.uuid) === -1){continue}
+          // const anim_data = this.options.data.animations[name].items
+          this.set_shape_keyframes(
+            animation_name,
+            image_data,
+          )
+        }
       }
+    }
+    catch(err){
+      console.warn(err)
     }
   }
 

@@ -108,7 +108,8 @@ export class Datas{
 
     // 空keyframeを削除する
     for(let key in Options.animations){
-      if(!Options.animations[key].items){continue}
+      if(!Options.animations[key]
+      || !Options.animations[key].items){continue}
       for(let uuid in Options.animations[key].items){
         if(!Options.animations[key].items[uuid].keyframes){continue}
         for(let per in Options.animations[key].items[uuid].keyframes){
