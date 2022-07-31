@@ -1,16 +1,16 @@
-import { Options }      from '../options.js'
-import * as ShapeCommon from '../shape/common.js'
-import * as ShapeDeform from '../shape/deformation.js'
-import * as ImageCommon from '../images/common.js'
+import { Options }       from '../options.js'
+import * as ShapeCommon  from '../shape/common.js'
+import * as ShapeDeform  from '../shape/deformation.js'
+import * as ImageCommon  from '../images/common.js'
+import * as ActionCommon from '../action/common.js'
 // import { M_Matrix  }    from '../shape/m_matrix.js'
-import { Corner  }      from '../shape/corner.js'
+import { Corner  }       from '../shape/corner.js'
 
 /* Event */
 export function mousedown(e){
   const pic   = Options.elements.upper_selector(e.target , `[name='view'] .pic`)
   const point = Options.elements.upper_selector(e.target , `[name='view'] .pic > .shape > .shape-point`)
   if(!pic || !point){return}
-
   
   const area      = Options.elements.get_area_view()
   const rect      = area.getBoundingClientRect()
@@ -69,6 +69,7 @@ export function mousemove(e){
 }
 export function mouseup(e){
   if(!Options.shape_point_move){return}
+  set_data(Options.shape_point_move)
   delete Options.shape_point_move
 }
 
@@ -169,5 +170,20 @@ function set_point_property(elm , pos , image_num , point_num){
   elm.setAttribute('data-image-num-array' , image_num)
 }
 
+function set_data(data){
+  // console.log(data)
 
+  // animation-nameの取得
+  const name = ActionCommon.get_animation_name()
+
+  // 現在timeline値(%)の取得
+  const per = ActionCommon.get_timeline_per()
+
+  // timeline-pointの存在確認（存在しない場合は処理しない）
+  if(!Options.timeline.is_point(per , 'shape')){return}
+
+  // データ保存
+  ActionCommon.set_type_value_of_view(name , data.uuid , 'shape' , per)
+
+}
 

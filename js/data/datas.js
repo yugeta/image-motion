@@ -164,7 +164,6 @@ export class Datas{
   }
   del_animation_name_data(name , uuid , per , type){
     const datas = this.get_animation_per_datas(name , uuid , per)
-    console.log(datas)
     if(typeof datas[type] !== 'undefined'){
       delete datas[type]
       return true
