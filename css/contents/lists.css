@@ -175,7 +175,12 @@
 
 
 /* Plus Button */
-
+body .contents .header .plus{
+  display:none;
+}
+body[data-hash='upload'] .contents .header .plus{
+  display:block;
+}
 .contents .header .plus{
   position:absolute;
   right:5px;

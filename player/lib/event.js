@@ -32,11 +32,11 @@ export class Event{
     if(!pic){return}
     if(!pic.querySelector(':scope > .shape')){return}
     Options.shapes[data.uuid] = {
+      root        : this.options.root,
       uuid        : data.uuid,
       image_num   : data.num,
       options     : this.options,
       animations  : JSON.parse(JSON.stringify(this.options.data.animations)),
-      root        : this.options.root,
       splits      : pic.querySelectorAll(':scope > .shape > .shape-item'),
       base_points : JSON.parse(JSON.stringify(this.options.data.images[data.num].shape_points)),
       duration    : this.options.data.images[data.num].duration || 1
@@ -57,7 +57,8 @@ export class Event{
     const root = e[0].target
     const anim_name = root.getAttribute('data-action')
     const pic = root.querySelector(`.pic[data-uuid='${uuid}']`)
-    if(this.is_animetion(uuid , anim_name)){
+    const anim_data = Options.shapes[uuid].animations[anim_name]
+    if(anim_name && this.is_animetion(uuid , anim_name)){
       this.shape_play_mutation(uuid , anim_name , pic)
     }
     else{
@@ -66,7 +67,11 @@ export class Event{
   }
 
   is_animetion(uuid , anim_name){
-    if(Options.shapes[uuid].animations[anim_name]){
+    const anim_data = Options.shapes[uuid].animations[anim_name]
+    if(anim_data
+    && anim_data.items
+    && anim_data.items[uuid]
+    && this.is_shape(anim_data.items[uuid].keyframes)){
       return true
     }
     else{
@@ -129,10 +134,13 @@ export class Event{
   }
 
   shape_stop_mutation(uuid){
-    // console.log('stop')
+    console.log('stop')
 //     const options   = elm.cache.options
 // console.log(options.root)
     if(!this.cache){return}
+    for(let split of this.cache.splits){
+      split.style.setProperty('transform','','')
+    }
     delete this.cache
   }
 
