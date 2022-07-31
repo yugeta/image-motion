@@ -12,6 +12,7 @@ import { Header    }  from '../asset/header.js'
 import { Storage   }  from '../storage/storage.js'
 import { Home      }  from '../home/home.js'
 import { Undo      }  from '../event/undo.js'
+import { View      }  from '../asset/view.js'
 
 export class Init{
   constructor(){
@@ -35,6 +36,7 @@ export class Init{
     // Options.transform = new Transform()
     Options.property  = new Property()
     Options.header    = new Header()
+    Options.view      = new View()
     Options.play      = new Play()
     Options.storage   = new Storage()
     Options.undo      = new Undo()

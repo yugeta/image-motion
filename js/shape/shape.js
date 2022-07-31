@@ -94,6 +94,7 @@ export class Shape{
       case true:
         preview.setAttribute('data-status' , 'active')
         Options.datas.set_shape_use(this.uuid , 1)
+        Options.datas.set_shape_table(this.uuid , {x:1,y:1})
         this.set_view()
         break
 

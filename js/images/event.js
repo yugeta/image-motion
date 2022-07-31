@@ -191,6 +191,9 @@ function image_mouseup(e){
     })
   })
 
+  // // scaleフレームのx軸マイナス値対応
+  // Options.view.set_margin(Options.move.img.elm)
+
   delete Options.move
 }
 
@@ -276,6 +279,10 @@ function center_mouseup(e){
       pos  : Options.image_center.current_pos,
     })
   })
+
+  // // scaleフレームのx軸マイナス値対応
+  // Options.view.set_margin(Options.image_center.pointer.elm)
+
   delete Options.image_center
 }
 

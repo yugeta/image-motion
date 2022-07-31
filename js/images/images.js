@@ -71,6 +71,7 @@ export class Images{
     this.set_visibility(data.uuid)
     ImageShape.set_shape_split(data.uuid)
     // this.set_shape()
+
   }
 
 
@@ -132,6 +133,9 @@ export class Images{
 // console.log(x,y)
     this.cache.pic.style.setProperty('top'  , `${y}px` , '')
     this.cache.pic.style.setProperty('left' , `${x}px` , '')
+
+    // // scaleフレームのx軸マイナス値対応
+    // Options.view.set_margin(this.cache.pic)
   }
   set_image_order(){
     const order = Number(this.cache.order) || 0
