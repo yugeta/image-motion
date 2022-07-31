@@ -206,6 +206,7 @@ export class Animation{
   is_type_per(type , current_per){
     current_per = current_per !== undefined ? current_per : ActionCommon.get_timeline_per()
     const data = Options.datas.get_animation_name_data(this.name , this.uuid , current_per , type)
+    console.log(data)
     // const elm = document.querySelector(`.contents [name='timeline'] .lists li.${type} .point[data-per='${current_per}']`)
     // console.log(type+":"+current_per , elm)
     return typeof data !== 'undefined' ? true : false
@@ -213,7 +214,11 @@ export class Animation{
 
   set_data(type , value){
     const per  = ActionCommon.get_timeline_per()
-    if(this.is_type_per(type , per) !== true){return}
+
+    // timeline-pointの存在確認
+    // if(!this.is_type_per(type , per)){return}
+    if(!Options.timeline.is_point(per , type)){return}
+
     Options.datas.set_animation_data_value(this.name , this.uuid , per , type , value)
   }
   
