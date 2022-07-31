@@ -1,4 +1,5 @@
-import { Matrix } from './matrix.js'
+import { Options } from '../options.js'
+import { Matrix }  from './matrix.js'
 
 export class Event{
   constructor(options){
@@ -9,42 +10,10 @@ export class Event{
   set_images(){
     for(let data of this.options.data.images){
       if(data.shape_use === 1){
-        this.set_event_shape(data)
+        // this.set_event_shape(data)
+        this.set_mutation(data)
       }
     }
-  }
-
-  set_event_shape(data){
-    const pic = this.options.root.querySelector(`[data-uuid='${data.uuid}']`)
-    if(!pic){return}
-    pic.addEventListener('animationstart'     , this.shape_play.bind(this , data.num))
-    pic.addEventListener('animationiteration' , this.shape_play.bind(this , data.num))
-    pic.addEventListener('animationcancel'    , this.shape_stop.bind(this , data.num))
-  }
-
-  shape_play(image_num , e){
-    const elm = e.target
-    const uuid = elm.getAttribute('data-uuid')
-    if(!uuid){return}
-    const anim_name = this.options.root.getAttribute('data-action')
-    const anim = this.options.data.animations[anim_name]
-    if(!anim
-    || !anim.items
-    || !anim.items[uuid]
-    || !anim.items[uuid].keyframes){return}
-    if(this.is_shape(anim.items[uuid].keyframes) !== true){return}
-    const start            = (+new Date())
-    this.cache             = anim
-    this.cache.count       = 0
-    this.cache.start       = start
-    this.cache.per         = null
-    this.cache.splits      = this.options.data.images[image_num].shape_splits
-    this.cache.keyframes   = anim.items[uuid].keyframes
-    this.cache.base_points = this.options.data.images[image_num].shape_points
-    this.cache.duration    = this.options.data.images[image_num].duration || 1
-    this.cache.time        = this.cache.duration / 100
-    
-    this.shape_view(start)
   }
 
   is_shape(keyframes){
@@ -56,14 +25,86 @@ export class Event{
     }
   }
 
-  shape_view(flg){
+  // ----------
+  // mutation
+  set_mutation(data){
+    const pic = this.options.root.querySelector(`[data-uuid='${data.uuid}']`)
+    if(!pic){return}
+    if(!pic.querySelector(':scope > .shape')){return}
+    Options.shapes[data.uuid] = {
+      uuid        : data.uuid,
+      image_num   : data.num,
+      options     : this.options,
+      animations  : JSON.parse(JSON.stringify(this.options.data.animations)),
+      root        : this.options.root,
+      splits      : pic.querySelectorAll(':scope > .shape > .shape-item'),
+      base_points : JSON.parse(JSON.stringify(this.options.data.images[data.num].shape_points)),
+      duration    : this.options.data.images[data.num].duration || 1
+    }
+    const anim_name = this.options.root.getAttribute('data-action')
+    new MutationObserver(((uuid , e)=>{
+      this.update_mutation(uuid , e)
+    }).bind(this , data.uuid))
+    .observe(this.options.root , {
+      attributes : true, 
+      childList  : false,
+      subtree    : false,
+    })
+    this.shape_play_mutation(data.uuid , anim_name , pic)
+  }
+
+  update_mutation(uuid , e){
+    const root = e[0].target
+    const anim_name = root.getAttribute('data-action')
+    const pic = root.querySelector(`.pic[data-uuid='${uuid}']`)
+    if(this.is_animetion(uuid , anim_name)){
+      this.shape_play_mutation(uuid , anim_name , pic)
+    }
+    else{
+      this.shape_stop_mutation(uuid)
+    }
+  }
+
+  is_animetion(uuid , anim_name){
+    if(Options.shapes[uuid].animations[anim_name]){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
+
+  shape_play_mutation(uuid , anim_name , pic){
+    if(!pic.querySelector(':scope > .shape')){return}
+    if(!uuid){return}
+    const datas     = Options.shapes[uuid]
+    const anim_data = datas.animations[anim_name]
+    if(!anim_data
+    || !anim_data.items
+    || !anim_data.items[uuid]
+    || !anim_data.items[uuid].keyframes){return}
+    if(this.is_shape(anim_data.items[uuid].keyframes) !== true){return}
+    const start            = (+new Date())
+    this.cache             = anim_data
+    this.cache.count       = 0
+    this.cache.start       = start
+    this.cache.per         = null
+    this.cache.splits      = datas.splits
+    this.cache.keyframes   = anim_data.items[uuid].keyframes
+    this.cache.base_points = datas.base_points
+    this.cache.duration    = datas.duration
+    this.cache.time        = this.cache.duration / 100
+    this.shape_view_mutation(start)
+  }
+
+  shape_view_mutation(flg){
     if(!this.cache){return}
     
     if(flg !== this.cache.start){return}
     const progress = ((+new Date()) - this.cache.start) / 1000
     const rate = progress / this.cache.duration
     const per = Math.round(rate * 100)
-
     if(per !== this.cache.per){
       this.cache.per = per
       for(let num=0; num<this.cache.splits.length; num++){
@@ -73,7 +114,7 @@ export class Event{
           matrix_data = this.cache.keyframes[this.cache.per].shape.matrix[num]
         }
         else{
-          const next_positions = this.get_shape_next_points(num , this.cache.keyframes)
+          const next_positions = this.get_shape_next_points(num , this.cache.keyframes , this.cache.per)
           if(!next_positions){continue}
           matrix_data = new Matrix(this.cache.base_points[num] , next_positions)
         }
@@ -81,18 +122,148 @@ export class Event{
         this.cache.splits[num].style.setProperty('transform', matrix_data.transform, '')
       }
     }
-    if(per >= 100){return}
-    setTimeout(this.shape_view.bind(this , this.cache.start) , this.cache.time * 1000)
+    if(per >= 100){
+      this.cache.start = (+new Date())
+    }
+    setTimeout(this.shape_view_mutation.bind(this , this.cache.start) , this.cache.time * 1000)
   }
 
-  shape_stop(e){
+  shape_stop_mutation(uuid){
     // console.log('stop')
+//     const options   = elm.cache.options
+// console.log(options.root)
     if(!this.cache){return}
     delete this.cache
   }
 
-  get_shape_next_points(num , keyframes){
-    const res = this.get_shape_between_keyframes(this.cache.per , keyframes)
+
+
+
+
+  // // ----------
+  // // anim-event
+
+  // set_event_shape(data){
+  //   const pic = this.options.root.querySelector(`[data-uuid='${data.uuid}']`)
+  //   if(!pic){return}
+  //   if(!pic.querySelector(':scope > .shape')){return}
+  //   // pic.cache = {
+  //   //   image_num : data.num,
+  //   //   options   : this.options,
+  //   // }
+  //   // console.log(this.options.root)
+  //   // console.log(document.body)
+  //   // if(document.body.hasAttribute('data-shape-animation')){return}
+  //   const uuid = pic.getAttribute('data-uuid')
+  //   Options.shapes[uuid] = {
+  //     uuid         : uuid,
+  //     image_num    : data.num,
+  //     options      : this.options,
+  //     shape_splits : this.options.data.images[data.num].shape_splits,
+  //     animations   : this.options.data.animations,
+  //     base_points  : this.options.data.images[data.num].shape_points,
+  //     duration     : this.options.data.images[data.num].duration || 1,
+  //   }
+  //   // console.log(uuid,data)
+  //   // console.log(pic)
+  //   pic.addEventListener('animationstart'     , this.shape_play.bind(this))
+  //   pic.addEventListener('animationiteration' , this.shape_play.bind(this))
+  //   pic.addEventListener('animationcancel'    , this.shape_stop.bind(this))
+  //   // document.body.setAtribute('data-shape-animation' , 1)
+
+  //   // const observer = new MutationObserver(this.mutation.bind(this , pic))
+  //   // observer.observe(this.options.root , {
+  //   //   attributes : true, 
+  //   //   childList  : false,
+  //   //   subtree    : false,
+  //   // })
+  //   // this.shape_play(pic)
+  // }
+ 
+
+  // shape_play(e){
+  //   const elm = e.target
+  //   if(!elm.querySelector(':scope > .shape')){return}
+  //   const uuid = elm.getAttribute('data-uuid')
+  //   if(!uuid){return}
+  //   // console.log(uuid)
+  //   // console.log(this.options)
+  //   // console.log(elm.cache)
+  //   // console.log(uuid , Options.shapes)
+  //   const datas     = Options.shapes[uuid]
+  //   const options   = datas.options
+  //   const image_num = datas.image_num
+
+  //   // console.log(elm,image_num)
+  //   // console.log(this.options.data.images[image_num])
+  //   // console.log(options.root)
+
+  //   const anim_name = options.root.getAttribute('data-action')
+  //   const anim_data = options.data.animations[anim_name]
+  //   if(!anim_data
+  //   || !anim_data.items
+  //   || !anim_data.items[uuid]
+  //   || !anim_data.items[uuid].keyframes){return}
+  //   if(this.is_shape(anim_data.items[uuid].keyframes) !== true){return}
+  //   const start            = (+new Date())
+  //   this.cache             = anim_data
+  //   this.cache.count       = 0
+  //   this.cache.start       = start
+  //   this.cache.per         = null
+  //   // this.cache.splits      = options.data.images[image_num].shape_splits
+  //   this.cache.splits      = datas.shape_splits
+  //   // this.cache.keyframes   = anim_data.items[uuid].keyframes
+  //   this.cache.keyframes   = datas.animations[anim_name].items[uuid].keyframes
+  //   // this.cache.base_points = options.data.images[image_num].shape_points
+  //   this.cache.base_points = datas.base_points
+  //   // this.cache.duration    = options.data.images[image_num].duration || 1
+  //   this.cache.duration    = datas.duration
+  //   this.cache.time        = this.cache.duration / 100
+  //   this.cache.elm         = elm
+    
+  //   this.shape_view(start)
+  // }
+
+  // shape_view(flg){
+  //   if(!this.cache){return}
+    
+  //   if(flg !== this.cache.start){return}
+  //   const progress = ((+new Date()) - this.cache.start) / 1000
+  //   const rate = progress / this.cache.duration
+  //   const per = Math.round(rate * 100)
+  //   if(per !== this.cache.per){
+  //     this.cache.per = per
+  //     for(let num=0; num<this.cache.splits.length; num++){
+  //       let matrix_data = ''
+  //       if(this.cache.keyframes[this.cache.per]){
+  //         if(!this.cache.keyframes[this.cache.per].shape){continue}
+  //         matrix_data = this.cache.keyframes[this.cache.per].shape.matrix[num]
+  //       }
+  //       else{
+  //         const next_positions = this.get_shape_next_points(num , this.cache.keyframes , this.cache.per)
+  //         if(!next_positions){continue}
+  //         matrix_data = new Matrix(this.cache.base_points[num] , next_positions)
+  //       }
+  //       if(!matrix_data){continue}
+  //       this.cache.splits[num].style.setProperty('transform', matrix_data.transform, '')
+  //     }
+  //   }
+  //   if(per >= 100){return}
+  //   setTimeout(this.shape_view.bind(this , this.cache.start) , this.cache.time * 1000)
+  // }
+
+  // shape_stop(e){
+  //   // console.log('stop')
+  //   if(!this.cache){return}
+  //   delete this.cache
+  // }
+
+
+  // ----------
+  // shape animation play
+
+  get_shape_next_points(num , keyframes , per){
+    const res = this.get_shape_between_keyframes(per , keyframes)
     if(!res){return}
     if(!keyframes[res.start].shape){return}
     const start_points = keyframes[res.start].shape.points
