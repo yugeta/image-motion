@@ -80,6 +80,10 @@ export class Elements{
     return document.querySelector(`.contents [name='view'] .pic[data-status='active']`)
   }
 
+  get_view_move_cursor(){
+    return document.querySelector(`.contents [name='view'] > .move`)
+  }
+
   // ----------
   // Property
 

@@ -30,6 +30,7 @@ export class Control{
     PropEvent.mousedown(e)
     ActionEvent.mousedown(e)
     ImageShape.mousedown(e)
+    Options.view.mousedown(e)
   }
   mousemove(e){
     ImageEvent.mousemove(e)
@@ -37,6 +38,7 @@ export class Control{
     PropEvent.mousemove(e)
     ActionEvent.mousemove(e)
     ImageShape.mousemove(e)
+    Options.view.mousemove(e)
   }
   mouseup(e){
     ImageEvent.mouseup(e)
@@ -44,6 +46,7 @@ export class Control{
     PropEvent.mouseup(e)
     ActionEvent.mouseup(e)
     ImageShape.mouseup(e)
+    Options.view.mouseup(e)
   }
 
   keydown(e){
