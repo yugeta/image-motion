@@ -28,7 +28,11 @@ export class Event{
     if(!uuid){return}
     const anim_name = this.options.root.getAttribute('data-action')
     const anim = this.options.data.animations[anim_name]
-    if(!anim){return}
+    if(!anim
+    || !anim.items
+    || !anim.items[uuid]
+    || !anim.items[uuid].keyframes){return}
+    if(this.is_shape(anim.items[uuid].keyframes) !== true){return}
     const start            = (+new Date())
     this.cache             = anim
     this.cache.count       = 0
@@ -37,27 +41,41 @@ export class Event{
     this.cache.splits      = this.options.data.images[image_num].shape_splits
     this.cache.keyframes   = anim.items[uuid].keyframes
     this.cache.base_points = this.options.data.images[image_num].shape_points
+    this.cache.duration    = this.options.data.images[image_num].duration || 1
+    this.cache.time        = this.cache.duration / 100
+    
     this.shape_view(start)
+  }
+
+  is_shape(keyframes){
+    if(!keyframes){return}
+    for(let per in keyframes){
+      if(keyframes[per].shape){
+        return true
+      }
+    }
   }
 
   shape_view(flg){
     if(!this.cache){return}
+    
     if(flg !== this.cache.start){return}
     const progress = ((+new Date()) - this.cache.start) / 1000
     const rate = progress / this.cache.duration
     const per = Math.round(rate * 100)
+
     if(per !== this.cache.per){
       this.cache.per = per
       for(let num=0; num<this.cache.splits.length; num++){
         let matrix_data = ''
         if(this.cache.keyframes[this.cache.per]){
+          if(!this.cache.keyframes[this.cache.per].shape){continue}
           matrix_data = this.cache.keyframes[this.cache.per].shape.matrix[num]
         }
         else{
           const next_positions = this.get_shape_next_points(num , this.cache.keyframes)
           if(!next_positions){continue}
           matrix_data = new Matrix(this.cache.base_points[num] , next_positions)
-          if(!matrix_data){continue}
         }
         if(!matrix_data){continue}
         this.cache.splits[num].style.setProperty('transform', matrix_data.transform, '')
@@ -76,6 +94,7 @@ export class Event{
   get_shape_next_points(num , keyframes){
     const res = this.get_shape_between_keyframes(this.cache.per , keyframes)
     if(!res){return}
+    if(!keyframes[res.start].shape){return}
     const start_points = keyframes[res.start].shape.points
     const end_points   = keyframes[res.end].shape.points
     const points = []

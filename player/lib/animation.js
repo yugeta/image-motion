@@ -163,12 +163,21 @@ export class Animation{
     }
   }
 
+  is_shape(keyframes){
+    if(!keyframes){return}
+    for(let per in keyframes){
+      if(keyframes[per].shape){
+        return true
+      }
+    }
+  }
+
   // keyframe(%)全てにmatrixをセットする。
   set_shape_keyframes(animation_name , image_data){
     const anim_data   = this.get_animation_data(animation_name)
     if(!anim_data){return}
     const keyframes   = anim_data[image_data.uuid] ? anim_data[image_data.uuid].keyframes : null
-    if(!keyframes){return}
+    if(!keyframes || !this.is_shape(keyframes)){return}
     const splits      = image_data.shape_splits
     const base_points = image_data.shape_points
     const new_matrixs = []
@@ -180,7 +189,8 @@ export class Animation{
         && keyframes[per].shape.matrix
         && keyframes[per].shape.matrix[split_num]){continue}
         new_matrixs[per] = new_matrixs[per] || []
-        new_matrixs[per][split_num] = this.get_matrix_data(per , split_num , base_points , keyframes , key_data)
+        const matrix = this.get_matrix_data(per , split_num , base_points , keyframes , key_data)
+        new_matrixs[per][split_num] = matrix
       }
     }
     for(let per=0; per<=100; per++){
@@ -188,14 +198,29 @@ export class Animation{
         keyframes[per] = keyframes[per] || {}
         keyframes[per].shape = keyframes[per].shape || {}
         keyframes[per].shape.matrix = keyframes[per].shape.matrix || []
-        keyframes[per].shape.matrix[split_num] = keyframes[per].shape.matrix[split_num] || new_matrixs[per][split_num]
+        const matrix = this.get_shape_value(per , split_num , keyframes , new_matrixs)
+        keyframes[per].shape.matrix[split_num] = matrix
       }
+    }
+  }
+
+  get_shape_value(per , split_num , keyframes , new_matrixs){
+    if(keyframes
+    && keyframes[per]
+    && keyframes[per].shape
+    && keyframes[per].shape.matrix
+    && typeof keyframes[per].shape.matrix[split_num] !== 'undefined'){
+      return keyframes[per].shape.matrix[split_num]
+    }
+    else if(new_matrixs
+    && new_matrixs[per]
+    && typeof new_matrixs[per][split_num] !== 'undefined'){
+      return new_matrixs[per][split_num]
     }
   }
 
   get_matrix_data(per , split_num , base_points , keyframes , key_data){
     const next_positions = this.get_shape_next_points(per , split_num , keyframes , key_data)
-    // console.log(base_points[split_num],next_positions)
     return new Matrix(base_points[split_num] , next_positions)
   }
 
