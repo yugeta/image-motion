@@ -280,19 +280,19 @@ export class Elements{
     return document.querySelector(`.contents .over .over-right [name='shape'] .preview`)
   }
   get_shape_image_num2split_image(uuid , image_num){
-    return document.querySelector(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-item[data-num='${image_num}']`)
+    return document.querySelector(`.contents [name='view'] .pic[data-uuid='${uuid}'] > .shape .shape-item[data-num='${image_num}']`)
   }
   get_shape_point_num(uuid , point_num){
-    return document.querySelector(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-point[data-num='${point_num}']`)
+    return document.querySelector(`.contents [name='view'] .pic[data-uuid='${uuid}'] > .shape .shape-point[data-num='${point_num}']`)
   }
   get_shape_reset(){
     return document.querySelector(`.contents .over .over-right [name='shape'] button[name='reset']`)
   }
   get_shape_points(uuid){
-    return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-point`)
+    return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] > .shape .shape-point`)
   }
   get_shape_images(uuid){
-    return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] .shape .shape-item`)
+    return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] > .shape > .shape-item`)
   }
 
 }

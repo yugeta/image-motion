@@ -180,8 +180,15 @@ export class Images{
     const transform_value = transforms.join(' ')
     this.cache.pic.style.setProperty('transform' , `${transform_value}` , '')
   }
+  
   reset_transform(){
     this.cache.pic.style.setProperty('transform' , `none` , '')
+    const shape_splits = Options.elements.get_shape_images(this.uuid)
+    if(shape_splits && shape_splits.length){
+      for(let item of shape_splits){
+        item.style.setProperty('transform' , '' , '')
+      }
+    }
   }
 
   del(){
