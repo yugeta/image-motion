@@ -11,7 +11,7 @@ export class Event {
     this.default()
     this.mouse()
     this.file()
-    this.upload()
+    // this.upload()
     this.header()
     this.animation()
     this.key()
@@ -70,13 +70,13 @@ export class Event {
     )
   }
 
-  upload(){
-    this.set(
-      document.querySelector('.contents [name="images"]'),
-      'click',
-      Options.control.image_upload,
-    )
-  }
+  // upload(){
+  //   this.set(
+  //     document.querySelector('.contents [name="images"]'),
+  //     'click',
+  //     Options.control.image_upload,
+  //   )
+  // }
 
   header(){
     this.set(
