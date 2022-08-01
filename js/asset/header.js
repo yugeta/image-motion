@@ -6,7 +6,8 @@ export class Header{
     this.header = Options.elements.get_elm_header()
     this.scale_range = Options.elements.get_elm_input_scale()
     this.scale_target = Options.elements.get_header_scale_input()
-    this.set_contents_hash()
+    const hash = Options.common.get_hash()
+    this.set_contents_hash(hash)
     this.set_scale()
     this.set_event()
   }
@@ -27,6 +28,7 @@ export class Header{
   }
 
   set_contents_hash(hash){
+    // console.log(hash)
     // hash = hash || Options.common.get_hash()
     document.body.setAttribute('data-hash' , hash)
     // ImageCommon.reset_transform()
