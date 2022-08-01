@@ -1,6 +1,5 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
-// import * as ActionEvent  from '../action/event.js'
 
 export class Event {
   constructor(){
@@ -11,8 +10,6 @@ export class Event {
     this.default()
     this.mouse()
     this.file()
-    // this.upload()
-    this.header()
     this.animation()
     this.key()
   }
@@ -70,26 +67,18 @@ export class Event {
     )
   }
 
-  // upload(){
+  // header(){
   //   this.set(
-  //     document.querySelector('.contents [name="images"]'),
+  //     Options.elements.get_elm_header(),
   //     'click',
-  //     Options.control.image_upload,
+  //     Options.header.click_header.bind(Options.header),
+  //   )
+  //   this.set(
+  //     Options.elements.get_elm_input_scale(),
+  //     'input',
+  //     Options.header.change_scale.bind(Options.header),
   //   )
   // }
-
-  header(){
-    this.set(
-      Options.elements.get_elm_header(),
-      'click',
-      Options.header.click_header.bind(Options.header),
-    )
-    this.set(
-      Options.elements.get_elm_input_scale(),
-      'input',
-      Options.header.change_scale.bind(Options.header),
-    )
-  }
 
   animation(){
     // animation-nameリストの選択イベント

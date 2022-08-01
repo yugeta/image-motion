@@ -3,21 +3,31 @@ import * as ImageCommon from '../images/common.js'
 
 export class Header{
   constructor(){
-    this.scale_range
-    this.set_contents_hash()
+    this.header = Options.elements.get_elm_header()
+    this.scale_range = Options.elements.get_elm_input_scale()
     this.scale_target = Options.elements.get_header_scale_input()
+    this.set_contents_hash()
     this.set_scale()
-    // this.set_center_scale_value()
+    this.set_event()
+  }
+  
+  set_event(){
+    // 機能切り替え
+    this.header.addEventListener('click' , this.click_header.bind(this))
+    // スケール切り替え
+    this.scale_range.addEventListener('input' , this.change_scale.bind(this))
   }
 
   click_header(e){
     const target = Options.elements.upper_selector(e.target , 'header > ul.view > li')
     if(!target){return}
-    setTimeout(this.set_contents_hash , 0)
+    const hash = target.getAttribute('id') || ''
+    this.set_contents_hash(hash)
+    // setTimeout(this.set_contents_hash , 0)
   }
 
-  set_contents_hash(){
-    const hash = Options.common.get_hash()
+  set_contents_hash(hash){
+    // hash = hash || Options.common.get_hash()
     document.body.setAttribute('data-hash' , hash)
     // ImageCommon.reset_transform()
     // if(Options.undo){
@@ -61,7 +71,6 @@ export class Header{
     if(center_scale < 0.5){
       center_scale = 0.5
     }
-    // console.log(max+"-"+scale+"="+center_scale)
     view_area.style.setProperty('--scale' , center_scale)
   }
 }

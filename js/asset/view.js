@@ -3,27 +3,17 @@ import { Options }      from '../options.js'
 export class View{
   constructor(){
     this.scale = Options.elements.get_area_view()
-    // const rect = this.scale.getBoundingClientRect()
-    // this.x = rect.left
-    // this.margin = 0
-    // this.set_move_event()
     this.move_cursor = Options.elements.get_view_move_cursor()
   }
 
-  // // 左（マイナス値）へはみ出したオブジェクトの対応
-  // set_margin(elm){
-  //   const rect = elm.getBoundingClientRect()
-  //   const x = (rect.left - this.x) * -1
-  //   // console.log(x)
-  //   if(x < 0){return}
-  //   const margin = this.margin + x
-  //   this.scale.style.setProperty('margin-left' , `${margin}px` , '')
-  //   this.margin = margin
-  // }
-
   mousedown(e){
     const move = Options.elements.upper_selector(e.target , `[name='view'] > .move`)
-    if(move){
+    // reset
+    if(this.check_double_click(e)){
+      this.move_reset()
+    }
+    // move
+    else if(move){
       const pos = {
         x : e.pageX,
         y : e.pageY,
@@ -37,6 +27,11 @@ export class View{
         pos  : pos,
         offset : offset,
       }
+      this.move_on()
+
+      this.set_double_click(e)
+      
+      
     }
   }
 
@@ -54,7 +49,47 @@ export class View{
   mouseup(e){
     if(this.move_flg){
       delete this.move_flg
+      this.move_off()
     }
+  }
+
+  move_on(){
+    const move = Options.elements.get_view_move_cursor()
+    if(!move){return}
+    move.setAttribute('data-status','active')
+  }
+  move_off(){
+    const move = Options.elements.get_view_move_cursor()
+    if(!move){return}
+    if(!move.hasAttribute('data-status')){return}
+    move.removeAttribute('data-status')
+  }
+
+  // ダブルクリック設定
+  set_double_click(e){
+    this.flg_double_click = {
+      posx : ~~(e.pageX),
+      time : (+new Date()),
+    }
+  }
+  // ダブルクリック判定
+  check_double_click(e){
+    if(!this.flg_double_click){return}
+    const before_time = this.flg_double_click.time
+    const before_posx = this.flg_double_click.posx
+    delete this.flg_double_click
+    const diff = (+new Date()) - before_time
+    if(~~(e.pageX) !== before_posx){return}
+    if(diff > 300){return}
+    return true
+  }
+
+
+  move_reset(){
+    const move = Options.elements.get_view_move_cursor()
+    if(!move){return}
+    this.scale.style.setProperty('left' , `0px`,'')
+    this.scale.style.setProperty('top'  , `0px`,'')
   }
   
 }
