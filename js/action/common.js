@@ -107,6 +107,10 @@ export function animation_name_list_decide() {
     const data = get_animation_data()
     Options.datas.add_animation(name , data)
   }
+
+  // 切り替え後一度transformをクリアする
+  ImageCommon.reset_transform()
+
   // view表示
   Options.play.transform_img_all()
 
@@ -121,7 +125,7 @@ export function animation_name_list_decide() {
     ImageCommon.img_select(uuid)
   }
 
-  // nameがブランクの時は、選択解除？
+  
 
 }
 

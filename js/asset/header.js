@@ -1,5 +1,6 @@
-import { Options }      from '../options.js'
-import * as ImageCommon from '../images/common.js'
+import { Options }       from '../options.js'
+import * as ImageCommon  from '../images/common.js'
+import * as ActionCommon from '../action/common.js'
 
 export class Header{
   constructor(){
@@ -31,7 +32,14 @@ export class Header{
     // console.log(hash)
     // hash = hash || Options.common.get_hash()
     document.body.setAttribute('data-hash' , hash)
-    // ImageCommon.reset_transform()
+    ImageCommon.reset_transform()
+
+    // switch(hash){
+    //   case 'action':
+    //     ActionCommon.animation_name_list_decide()
+    //     break
+    // }
+    
     // if(Options.undo){
     //   Options.undo.clear_history()
     // }

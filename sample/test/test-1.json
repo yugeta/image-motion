@@ -146,7 +146,7 @@
       "cy": 0,
       "order": -1,
       "posz": 0,
-      "shape_table": {},
+      "shape_table": {"x":1,"y":1},
       "parent": "1BCF8A86-54AC-4462-9AEC-4C79898882DA",
       "shape_use": 1
     },
