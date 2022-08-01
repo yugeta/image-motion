@@ -259,7 +259,7 @@ body[data-hash='upload'] .contents .header .plus{
 .contents .header .renew{
   display:none;
 }
-.contents[data-status='active'] .header .renew{
+body[data-hash='upload'] .contents[data-status='active'] .header .renew{
   display:block;
 }
 .contents .header .renew{

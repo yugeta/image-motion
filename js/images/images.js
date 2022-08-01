@@ -213,27 +213,21 @@ export class Images{
 
   // srcのみを入れ替える
   set_renew_img(data){
-    // var area       = Options.elements.get_area_view()
-    // let template   = Options.common.get_template('image_pic')
-    // template       = Options.common.doubleBlancketConvert(template , data)
-    // if(!template){return}
-    // area.insertAdjacentHTML('beforeend' , template)
-    // const pic      = area.querySelector(`[data-uuid='${data.uuid}']`)
-    // const img      = pic.querySelector(`img`)
-    // img.onload     = this.loaded_src.bind(this)
-    // img.src        = img.getAttribute('data-src')
-    // img.removeAttribute('data-src')
-
-    // this.cache.pic = pic
-    // this.cache.img = img
-
-    // this.set_visibility(data.uuid)
-    // ImageShape.set_shape_split(data.uuid)
 
     // 表示切り替え
     const img = Options.elements.get_uuid_view_img(this.uuid)
-    if(!img){return}
-    img.src = data.result
+    if(img){
+      img.src = data.result
+    }
+    const shape_splits = Options.elements.get_shape_images(this.uuid)
+    if(shape_splits && shape_splits.length){
+      for(let item of shape_splits){
+        const shape_img = item.querySelector(':scope > img')
+        if(shape_img){
+          shape_img.src = data.result
+        }
+      }
+    }
 
     // データ処理
     this.cache.src = data.result

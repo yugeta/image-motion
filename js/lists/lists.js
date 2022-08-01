@@ -1,6 +1,52 @@
-import { Options } from '../options.js'
+import { Options }      from '../options.js'
+import * as ImageCommon from '../images/common.js'
+import { Upload      }  from '../images/upload.js'
+import { Renew       }  from '../images/renew.js'
 
 export class Lists{
+  constructor(){
+    this.upload()
+  }
+
+  upload(){
+    // Options.event.set(
+    //   document.querySelector('.contents [name="images"]'),
+    //   'click',
+    //   Options.control.image_upload,
+    // )
+    const area = document.querySelector('.contents [name="images"]')
+    area.addEventListener('click' , this.lists_click.bind(this))
+  }
+
+  lists_click(e){
+    // image-add-button
+    if(Options.elements.upper_selector(e.target , '.plus')){
+      new Upload()
+    }
+
+    // image-renew
+    else if(Options.elements.upper_selector(e.target , '.renew')){
+      new Renew()
+    }
+
+    // 除外
+    else if(Options.elements.upper_selector(e.target , '.visibility')){console.log(1)
+      return
+    }
+
+    // list-click
+    else{console.log(2)
+      const list = Options.elements.upper_selector(e.target , '.item[data-uuid]')
+      if(list){
+        const uuid = list.getAttribute('data-uuid')
+        ImageCommon.img_select(uuid)
+      }
+      // const uuid = list ? list.getAttribute('data-uuid') : null
+      // ImageCommon.img_select(uuid)
+    }
+  }
+
+
   add(uuid , image_datas){
     if(!uuid || !image_datas){return}
     this.data = image_datas
