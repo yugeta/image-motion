@@ -84,6 +84,12 @@ export class Elements{
     return document.querySelector(`.contents [name='view'] > .move`)
   }
 
+  get_uuid_view_img(uuid){
+    if(!uuid){return}
+    const area = this.get_area_view()
+    return area.querySelector(`.pic[data-uuid='${uuid}'] > img`)
+  }
+
   // ----------
   // Property
 

@@ -30,6 +30,7 @@
   padding:4px 4px 4px 0;
   cursor:pointer;
   display:flex;
+  align-items:center;
   height: var(--lists-size-item);
   position:relative;
 }
@@ -60,15 +61,19 @@
 }
 
 .contents [name='images'] .item .visibility{
-  display:block;
+  display:flex;
   width : var(--lists-size-visibility);
+  height:100%;
+  align-items:center;
+  text-align:center;
 }
 .contents [name='images'] .item .visibility svg{
   width:65%;
   fill:var(--color-font);
-  display:block;
-  margin:50% auto;
-  transform:translate(0,-50%);
+  margin:0 auto;
+  /* display:block; */
+  /* margin:50% auto; */
+  /* transform:translate(0,-50%); */
 }
 .contents [name='images'] .item .visibility svg:hover{
   fill:white;
@@ -79,6 +84,7 @@
 .contents [name='images'] .item .img{
   display:block;
   width:var(--lists-size-img);
+  height:100%;
 }
 .contents [name='images'] .item .name{
   width:calc(100% - var(--lists-size-img));
@@ -178,6 +184,9 @@
 body .contents .header .plus{
   display:none;
 }
+body .contents .header{
+  --size-header-icon : 18px;
+}
 body[data-hash='upload'] .contents .header .plus{
   display:block;
 }
@@ -187,11 +196,12 @@ body[data-hash='upload'] .contents .header .plus{
   top:50%;
   transform:translateY(-50%);
   display:block;
-  width:16px;
-  height:16px;
+  width:var(--size-header-icon);
+  height:var(--size-header-icon);
   border-radius:50%;
   background-color:var(--color-font);
   cursor:pointer;
+  padding:2px;
 }
 .contents .header .plus::before,
 .contents .header .plus::after{
@@ -244,3 +254,35 @@ body[data-hash='upload'] .contents .header .plus{
 .contents .header .remove:hover{
   opacity : 0.5;
 } */
+
+/* renew button */
+.contents .header .renew{
+  display:none;
+}
+.contents[data-status='active'] .header .renew{
+  display:block;
+}
+.contents .header .renew{
+  position:absolute;
+  right:35px;
+  top:50%;
+  transform:translateY(-50%);
+  width:var(--size-header-icon);
+  height:var(--size-header-icon);
+  border-radius:50%;
+  background-color:var(--color-font);
+  cursor:pointer;
+  padding:2px;
+}
+.contents .header .renew svg{
+  width:100%;
+  height:100%;
+  fill:var(--color-contents-header);
+  margin:0;
+}
+.contents .header .renew:hover{
+  opacity : 0.5;
+} 
+
+
+

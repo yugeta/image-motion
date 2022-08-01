@@ -2,6 +2,7 @@ import { Options     }  from '../options.js'
 import { Save        }  from '../data/save.js'
 import { Load        }  from '../data/load.js'
 import { Upload      }  from '../images/upload.js'
+import { Renew       }  from '../images/renew.js'
 import { Active      }  from '../images/active.js'
 import * as ImageEvent  from '../images/event.js'
 import * as ListsEvent  from '../lists/event.js'
@@ -62,6 +63,11 @@ export class Control{
     // image-add-button
     if(Options.elements.upper_selector(e.target , '.plus')){
       new Upload()
+    }
+
+    // image-renew
+    if(Options.elements.upper_selector(e.target , '.renew')){
+      new Renew()
     }
 
     // 除外

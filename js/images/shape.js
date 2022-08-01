@@ -70,10 +70,6 @@ export function mousemove(e){
 export function mouseup(e){
   if(!Options.shape_point_move){return}
   set_data(Options.shape_point_move)
-
-  // // scaleフレームのx軸マイナス値対応
-  // Options.view.set_margin(Options.shape_point_move.point)
-
   delete Options.shape_point_move
 }
 

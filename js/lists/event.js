@@ -299,7 +299,7 @@ function set_view_image_pos_correction(){
 
 // ----------
 // Visibility
-function click_visibility(item , visibility){
+function click_visibility(item , visibility){console.log(item)
   const status = visibility.getAttribute('data-status')
   const uuid   = item.getAttribute('data-uuid')
   const image  = Options.elements.get_uuid_view(uuid)

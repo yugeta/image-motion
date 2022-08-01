@@ -3,22 +3,6 @@
   --col-line  : #474646;
   --size-grid : 20px;
 
-  background-image:
-    repeating-linear-gradient(
-      90deg,
-      var(--col-line) ,
-      var(--col-line) 1px,
-      transparent 1px,
-      transparent var(--size-grid)
-    ),
-    repeating-linear-gradient(
-      0deg,
-      var(--col-line) ,
-      var(--col-line) 1px,
-      var(--col-bg) 1px,
-      var(--col-bg) var(--size-grid)
-    );
-
   overflow : auto;
   -webkit-user-select: none;
 	   -moz-user-select: none;
@@ -111,6 +95,8 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
 
 .contents [name='view'] .pic img{
   pointer-events:none;
+  width:100%;
+  height:100%;
 }
 .contents[data-status='active'] [name='view'] .pic[data-status='active']{
   z-index:100!important;
@@ -166,6 +152,45 @@ body[data-hash='action'] .contents:not([data-animation-name='']) .pic[data-statu
 body[data-hash='action'] .contents:not([data-animation-name='']) .pic[data-status='active'] .shape > .shape-point:hover{
   background-color:red;
 }
+
+/* grid-line */
+
+[name='view']{
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      var(--col-line) ,
+      var(--col-line) 1px,
+      transparent 1px,
+      transparent var(--size-grid)
+    ),
+    repeating-linear-gradient(
+      0deg,
+      var(--col-line) ,
+      var(--col-line) 1px,
+      var(--col-bg) 1px,
+      var(--col-bg) var(--size-grid)
+    );
+}
+
+/* scaleのみにgridを表示する場合（拡縮値に依存するので見栄えが悪いため使用しない） */
+/* [name='view'] > .scale{
+  background-image:
+    repeating-linear-gradient(
+      90deg,
+      var(--col-line) ,
+      var(--col-line) 1px,
+      transparent 1px,
+      transparent var(--size-grid)
+    ),
+    repeating-linear-gradient(
+      0deg,
+      var(--col-line) ,
+      var(--col-line) 1px,
+      var(--col-bg) 1px,
+      var(--col-bg) var(--size-grid)
+    );
+} */
 
 
 /* move : open with */

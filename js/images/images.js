@@ -95,6 +95,7 @@ export class Images{
     this.set_transform()
 
     ImageCommon.set_level()
+    e.target.onload = null
   }
 
   set_cache(){
@@ -194,5 +195,48 @@ export class Images{
   //   if(!this.cache.shape_use){return}
   //   ImageShape.set_shape_split(this.cache.uuid)
   // }
+
+  renew(data){
+    
+    // console.log(uuid,data)
+    // console.log(this.cache)
+    // this.cache = Options.datas.set_cache(data.uuid , data)
+
+    // データ取得
+    const fileReader  = new FileReader()
+    fileReader.onload = this.set_renew_img.bind(this, fileReader)
+		fileReader.readAsDataURL(data)
+
+    // 画像構成の削除
+
+  }
+
+  // srcのみを入れ替える
+  set_renew_img(data){
+    // var area       = Options.elements.get_area_view()
+    // let template   = Options.common.get_template('image_pic')
+    // template       = Options.common.doubleBlancketConvert(template , data)
+    // if(!template){return}
+    // area.insertAdjacentHTML('beforeend' , template)
+    // const pic      = area.querySelector(`[data-uuid='${data.uuid}']`)
+    // const img      = pic.querySelector(`img`)
+    // img.onload     = this.loaded_src.bind(this)
+    // img.src        = img.getAttribute('data-src')
+    // img.removeAttribute('data-src')
+
+    // this.cache.pic = pic
+    // this.cache.img = img
+
+    // this.set_visibility(data.uuid)
+    // ImageShape.set_shape_split(data.uuid)
+
+    // 表示切り替え
+    const img = Options.elements.get_uuid_view_img(this.uuid)
+    if(!img){return}
+    img.src = data.result
+
+    // データ処理
+    this.cache.src = data.result
+  }
 
 }
