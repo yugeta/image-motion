@@ -421,7 +421,6 @@ export class Datas{
     return  data.shape_use ? 1 : 0
   }
   set_shape_use(uuid , flg){
-    console.log('set-use : '+flg)
     const data = this.get_data(uuid)
     data.shape_use = flg
   }
