@@ -1,7 +1,9 @@
-import { Options }      from '../options.js'
-import { Uuid    }      from '../common/uuid.js'
-import * as ImageCommon from './common.js'
-import * as ImageShape  from './shape.js'
+import { Options }       from '../options.js'
+import { Uuid    }       from '../common/uuid.js'
+import * as ImageCommon  from '../images/common.js'
+import * as ImageShape   from '../images/shape.js'
+import * as ActionCommon from '../action/common.js'
+import { Timeline }      from '../action/timeline.js'
 
 export class Images{
   constructor(data){
@@ -257,8 +259,17 @@ export class Images{
     this.set_center_pos()
     this.set_transform()
     ImageShape.clear_shape(uuid)
+    ImageShape.clear_shape_animation(uuid)
     if(Options.shape){
       Options.shape.clear_shape_use()
+    }
+    // timelineに表示されている場合は、表示削除する
+    // ActionCommon.timeline_remake()
+    const animation_name = ActionCommon.get_animation_name()
+    if(Options.timeline
+    && Options.timeline.name === animation_name
+    && Options.timeline.uuid === uuid){
+      Options.timeline = new Timeline(animation_name , uuid)
     }
   }
 

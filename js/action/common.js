@@ -356,4 +356,9 @@ export function timeline_timing(e){
   Options.datas.set_animation_header(animation_name , 'timing' , value)
 }
 
+// // アニメーションデータが変更になった場合に、timelineデータ（表示）の再構築をする処理
+// export function timeline_remake(){
+
+// }
+
 
