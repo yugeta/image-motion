@@ -103,7 +103,7 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
   transform:translateZ(100px);
 }
 .contents[data-status='active'] [name='view'] .pic:not([data-status='active']){
-  z-index:-1!important;
+  z-index:auto!important;
   transform:translateZ(-1px);
 }
 .contents[data-status='active'] [name='view'] .pic[data-status='active'] > img,
