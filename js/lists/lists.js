@@ -30,12 +30,12 @@ export class Lists{
     }
 
     // 除外
-    else if(Options.elements.upper_selector(e.target , '.visibility')){console.log(1)
+    else if(Options.elements.upper_selector(e.target , '.visibility')){
       return
     }
 
     // list-click
-    else{console.log(2)
+    else{
       const list = Options.elements.upper_selector(e.target , '.item[data-uuid]')
       if(list){
         const uuid = list.getAttribute('data-uuid')

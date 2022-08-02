@@ -10,8 +10,6 @@ export class Renew{
   click(){
     let input_file = document.createElement("input")
     input_file.type     = 'file'
-    // input_file.multiple = 'multiple'
-    // input_file.name     = 'images[]'
     input_file.accept   = 'image/*'
     input_file.addEventListener('change' , this.upload_files.bind(this))
     document.querySelector("form[name='upload']").appendChild(input_file)

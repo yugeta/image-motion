@@ -223,21 +223,65 @@ export class Images{
 
     // 表示切り替え
     const img = Options.elements.get_uuid_view_img(this.uuid)
+    const before_data = this.get_image_data(img)
+    img.onload = this.set_renew_img_onload.bind(this , this.uuid , before_data)
     if(img){
       img.src = data.result
     }
-    const shape_splits = Options.elements.get_shape_images(this.uuid)
+    
+    // this.set_renew_images(this.uuid , data.result)
+
+    // データ処理
+    this.cache.src = data.result
+  }
+
+  // shape画像一式を入れ替える
+  set_renew_img_same(uuid , src){
+    const shape_splits = Options.elements.get_shape_images(uuid)
     if(shape_splits && shape_splits.length){
       for(let item of shape_splits){
         const shape_img = item.querySelector(':scope > img')
         if(shape_img){
-          shape_img.src = data.result
+          shape_img.src = src
         }
       }
     }
+  }
 
-    // データ処理
-    this.cache.src = data.result
+  // shapeクリア , サイズクリア , cache(data)クリア
+  set_renew_img_resize(img , uuid){
+    this.cache.w = img.naturalWidth
+    this.cache.h = img.naturalHeight
+    this.set_image_size()
+    this.set_cache()
+    this.set_center_pos()
+    this.set_transform()
+    ImageShape.clear_shape(uuid)
+    if(Options.shape){
+      Options.shape.clear_shape_use()
+    }
+  }
+
+  // 画像の情報を取得
+  get_image_data(img){
+    return {
+      src : img.src,
+      naturalWidth : img.naturalWidth,
+      naturalHeight : img.naturalHeight,
+    }
+  }
+  // 古い画像との比較をする
+  set_renew_img_onload(uuid , before_data , e){
+    const img = e.target
+    const src = img.getAttribute('src')
+    const current_data = this.get_image_data(img)
+    if(current_data.naturalWidth  === before_data.naturalWidth
+    && current_data.naturalHeight === before_data.naturalHeight){
+      this.set_renew_img_same(uuid , src)
+    }
+    else{
+      this.set_renew_img_resize(img , uuid)
+    }
   }
 
 }
