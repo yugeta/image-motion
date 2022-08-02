@@ -16,8 +16,8 @@ export class Load{
     let input_file = document.createElement("input")
     input_file.type     = 'file'
     input_file.multiple = 'multiple'
-    input_file.name     = 'json_file'
-    input_file.accept   = '.json'
+    // input_file.name     = 'json_file'
+    input_file.accept   = Options.save_file_extension
     input_file.addEventListener('change' , this.get_file.bind(this))
     document.querySelector("form[name='upload']").appendChild(input_file)
     input_file.click()
@@ -25,8 +25,15 @@ export class Load{
 
   get_file(e){
     if(!e.target.files.length){return}
+    this.set_filename(e.target.files[0].name)
     this.upload(e.target.files[0])
   }
+
+  set_filename(filename){
+    const sp = filename.split('.')
+    Options.load_filename = sp.splice(0,sp.length-1).join('.')
+  }
+
   upload(file){
     const fileReader  = new FileReader()
     fileReader.onload = this.loaded.bind(this, fileReader)

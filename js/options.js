@@ -7,4 +7,6 @@ export const Options = {
   strage_key  : 'image_motion',
 
   trans_datas : {},
+
+  save_file_extension : '.json',
 }

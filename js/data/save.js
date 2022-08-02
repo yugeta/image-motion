@@ -8,10 +8,18 @@ export class Save{
   
   download(data){
     const url  = this.get_url(data)
-    const link = this.make_link(url , 'test.json')
+    const filename = this.get_filename()
+    const link = this.make_link(url , filename + this.get_extension())
+    document.body.appendChild(link);
     link.click()
+    document.body.removeChild(link);
     URL.revokeObjectURL(url)
   }
+
+  get_extension(){
+    return Options.save_file_extension
+  }
+
   get_url(data){
     const blob    = new Blob(
       [JSON.stringify(data, null, '  ')],
@@ -23,6 +31,16 @@ export class Save{
     const link    = document.createElement('a')
     link.href     = url
     link.download = filename
+    link.style.display = 'none'
     return link
+  }
+
+  get_filename(){
+    if(Options.load_filename){
+      return Options.load_filename
+    }
+    else{
+      return (+new Date())
+    }
   }
 }
