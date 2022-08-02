@@ -46,6 +46,10 @@ export class Shape{
       matrix_table.appendChild(tr)
     }
   }
+  clear_matric(){
+    const matrix_table = Options.elements.get_shape_property_matrix()
+    matrix_table.innerHTML = ''
+  }
 
   set_event(){
     Options.event.set(
@@ -108,6 +112,13 @@ export class Shape{
     
     // viewのflgセット
     ImageShape.set_pic_shape_mode(this.uuid)
+  }
+  clear_shape_use(){
+    const checkbox = Options.elements.get_shape_property_use()
+    checkbox.checked = false
+    this.click_shape_use(checkbox)
+    Options.datas.set_shape_table(this.uuid , {x:1,y:1})
+    this.clear_matric()
   }
 
   click_shape_segment(name , mode){

@@ -187,3 +187,11 @@ function set_data(data){
 
 }
 
+// 任意のshape情報を削除する（画像入れ替え処理にて使用）
+export function clear_shape(uuid){
+  const shape_splits = Options.elements.get_shape_images(uuid)
+  shape_splits.innerHTML = ''
+  Options.datas.set_shape_use(uuid , 0)
+  set_pic_shape_mode(uuid)
+}
+
