@@ -3,7 +3,7 @@
   --lists-size-sort-target  : 1px;
   --lists-size-indent       : 20px;
   --lists-size-sort-color   : white;
-  --lists-size-img          : 30px;
+  --lists-size-img          : 35px;
   --lists-size-visibility   : 30px;
   --lists-color-item-hover  : #474646;
   --lists-color-item-select : #FF464655;
@@ -103,7 +103,9 @@
   display:block;
   height: var(--lists-size-item);
   position:relative;
-  height : var(--lists-size-item);
+  /* height : var(--lists-size-item); */
+  /* display:flex;
+  align-items:center; */
 }
 .lists_sortItem .info{
   display:flex;
@@ -114,11 +116,14 @@
   height:100%;
 }
 .lists_sortItem .name{
-  width:calc(100% - var(--lists-size-img) - var(--lists-size-indent));
+  /* width:calc(100% - var(--lists-size-img) - var(--lists-size-indent)); */
+  width:calc(100% - var(--lists-size-img));
   padding-left:10px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  display:flex;
+  align-items:center;
 }
 
 

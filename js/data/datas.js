@@ -135,6 +135,20 @@ export class Datas{
     return Options.animations
   }
 
+  set_animation_header(name , key , value){
+    if(!name || !key){return}
+    const datas = this.get_animations()
+    if(!datas[name]){return}
+    if(value === '' || value === null || value === undefined){
+      if(typeof datas[name][key] !== 'undefined'){
+        delete datas[name][key]
+      }
+    }
+    else{
+      datas[name][key] = value
+    }
+  }
+
 
   get_animation_name_datas(name){
     const datas = this.get_animations()
