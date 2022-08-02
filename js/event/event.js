@@ -110,6 +110,13 @@ export class Event {
 
     // animation-name-list delete
     this.set(Options.elements.get_animation_header_trash() , 'click' , ActionCommon.click_animation_name_list_trash.bind(this))
+
+    // ----------
+    // headerイベント
+    const timeline_header = Options.elements.get_timeline_header()
+    this.set(timeline_header.querySelector(`input[name='duration']`) , 'input' , ActionCommon.timeline_duration.bind(this))
+    this.set(timeline_header.querySelector(`input[name='count']`)    , 'change' , ActionCommon.timeline_count.bind(this))
+    this.set(timeline_header.querySelector(`select[name='timing']`)  , 'change' , ActionCommon.timeline_timing.bind(this))
   }
 
   key(){

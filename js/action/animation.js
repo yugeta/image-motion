@@ -1,5 +1,5 @@
-import { Options }       from '../options.js'
-import * as ActionCommon from './common.js'
+import { Options }         from '../options.js'
+import * as ActionCommon   from './common.js'
 
 export class Animation{
   constructor(name , uuid){

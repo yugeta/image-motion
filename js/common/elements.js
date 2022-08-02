@@ -199,6 +199,9 @@ export class Elements{
   get_timeline_cursor(){
     return document.querySelector(`.contents [name='timeline'] .timeline .cursor`)
   }
+  get_timeline_header(){
+    return document.querySelector(`.contents [name='timeline'] .timeline .header`)
+  }
 
   get_timeline_header(){
     return document.querySelector(`.contents [name='timeline'] .header`)

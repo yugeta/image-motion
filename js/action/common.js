@@ -2,6 +2,7 @@ import { Options }      from '../options.js'
 import * as ActionEvent from './event.js'
 import * as ImageCommon from '../images/common.js'
 import * as ShapeCommon from '../shape/common.js'
+// import { ActionHeader } from '../action/header.js'
 
 // ----------
 // animation-name
@@ -94,8 +95,15 @@ export function get_animation_name() {
 
 export function animation_name_list_decide() {
   animation_name_list_hidden()
+
+  // header情報の初期設定
   set_default_setting()
+
+
   const name = get_animation_name()
+
+  
+
   // 既存データ
   if (get_data(name)){
     if(Options.animation){
@@ -125,8 +133,6 @@ export function animation_name_list_decide() {
     ImageCommon.img_select(uuid)
   }
 
-  
-
 }
 
 export function get_animation_data(){
@@ -134,6 +140,9 @@ export function get_animation_data(){
 }
 
 export function set_default_setting() {
+  // 値をリセット
+  timeline_header_reset()
+
   const data = Options.datas.get_animations()
   const name = get_animation_name()
   if(!data || !name || !data[name]){return}
@@ -303,3 +312,48 @@ export function click_animation_name_list_trash(){
   input.value = ''
   animation_name_list_decide()
 }
+
+
+// ----------
+// timeline-header
+
+// headerの値をリセットする。
+export function timeline_header_reset(){
+  const timeline_header = Options.elements.get_timeline_header()
+    const duration = timeline_header.querySelector(`input[name='duration']`)
+    const count    = timeline_header.querySelector(`input[name='count']`)
+    const timing   = timeline_header.querySelector(`select[name='timing']`)
+    duration.value = duration.getAttribute('value')
+    count.value    = count.getAttribute('value')
+    timing.value   = timing.options[0].value
+  }
+
+// duration値の変更
+export function timeline_duration(e){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  const value = Number(e.target.value || 1)
+  Options.datas.set_animation_header(animation_name , 'duration' , value)
+}
+
+// count値の変更
+export function timeline_count(e){
+  if(e.target.value === ''){
+    e.target.value = e.target.getAttribute('value')
+    return
+  }
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  const value = e.target.value.match(/^\d.+?$/) ? Number(e.target.value) : e.target.value
+  Options.datas.set_animation_header(animation_name , 'count' , value)
+}
+
+// timing値の変更
+export function timeline_timing(e){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  const value = e.target.value
+  Options.datas.set_animation_header(animation_name , 'timing' , value)
+}
+
+
