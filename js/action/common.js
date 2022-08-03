@@ -2,7 +2,7 @@ import { Options }      from '../options.js'
 import * as ActionEvent from './event.js'
 import * as ImageCommon from '../images/common.js'
 import * as ShapeCommon from '../shape/common.js'
-// import { ActionHeader } from '../action/header.js'
+import { Play }         from '../action/play.js'
 
 // ----------
 // animation-name
@@ -102,8 +102,6 @@ export function animation_name_list_decide() {
 
   const name = get_animation_name()
 
-  
-
   // 既存データ
   if (get_data(name)){
     if(Options.animation){
@@ -133,6 +131,11 @@ export function animation_name_list_decide() {
     ImageCommon.img_select(uuid)
   }
 
+  // animation設定値の反映
+  // const current_per = get_timeline_per()
+  // Options.play.set_timeline_per(current_per)
+  // Options.timeline.set_value()
+  Options.animation.change_timeline()
 }
 
 export function get_animation_data(){
@@ -266,6 +269,7 @@ export function set_current_num(name , uuid){
     const parent = Options.elements.upper_selector(input , `li > .${type}`)
     const range  = parent.querySelector(`input[type='range']`)
     range.value  = value
+    // console.log(per , type , value)
   }
 }
 
@@ -275,6 +279,14 @@ export function set_type_value_of_view(name , uuid , type , per){
     case 'shape':
       const shape_value = ShapeCommon.get_current_per_data(name , uuid , type , per)
       Options.datas.set_animation_data_value(name , uuid , per , type , shape_value)
+      break
+    
+    case 'opacity':
+      const opacity_input = Options.elements.get_animation_lists_input_type(type)
+      if(!opacity_input){return}
+      const opacity_value = Number(opacity_input.value || 1)
+      Options.datas.set_animation_data_value(name , uuid , per , type , opacity_value)
+      console.log(type , opacity_value)
       break
 
     // rotate , posx , posy , posz
