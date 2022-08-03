@@ -13,6 +13,13 @@ export function mousedown(e){
     return
   }
 
+  // folder
+  const folder = Options.elements.upper_selector(e.target , `.folder`)
+  if(!Options.list_drag && folder){
+    click_folder(item , folder)
+    return
+  }
+
   const mouse = {
     x : ~~(e.pageX),
     y : ~~(e.pageY),
@@ -333,7 +340,7 @@ function set_view_image_pos_correction(){
 
 // ----------
 // Visibility
-function click_visibility(item , visibility){console.log(item)
+function click_visibility(item , visibility){
   const status = visibility.getAttribute('data-status')
   const uuid   = item.getAttribute('data-uuid')
   const image  = Options.elements.get_uuid_view(uuid)
@@ -352,6 +359,21 @@ function click_visibility(item , visibility){console.log(item)
     // ImageCommon.img_select(uuid)
   }
   
+}
+
+// ----------
+// Folder
+function click_folder(item , folder){
+  switch(folder.getAttribute('data-status')){
+    case 'open':
+      folder.setAttribute('data-status' , 'close')
+      item.setAttribute('data-folder-status' , 'close')
+      break
+    case 'close':
+      folder.setAttribute('data-status' , 'open')
+      item.setAttribute('data-folder-status' , 'open')
+      break
+  }
 }
 
 

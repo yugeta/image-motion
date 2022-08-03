@@ -33,6 +33,9 @@ export class Lists{
     else if(Options.elements.upper_selector(e.target , '.visibility')){
       return
     }
+    else if(Options.elements.upper_selector(e.target , '.folder')){
+      return
+    }
 
     // list-click
     else{
