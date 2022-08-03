@@ -162,23 +162,26 @@ export class Animation{
 
 
   change_timeline(){
-    // console.log('--1')
-    // const per = ActionCommon.get_timeline_per()
     ActionCommon.set_current_num(this.name , this.uuid)
-    // this.transform_img()
     Options.play.transform_img_all()
   }
 
   // uuid対象のimg全体を動かす
   transform_img(){
     const pic = Options.elements.get_uuid_view(this.uuid)
-    const transforms = this.get_transform_css()
+    const [transforms ,styles ] = this.get_transform_css()
     pic.style.setProperty('transform',transforms,'')
+    if(styles.length){
+      for(let style of styles){
+        pic.style.setProperty(style.property , style.value,'')
+      }
+    }
   }
   get_transform_css(){
     const area   = Options.elements.get_animation_lists()
     const inputs = area.querySelectorAll(`input[type='text']`)
     const transforms = []
+    const styles     = []
     for(let input of inputs){
       const value  = input.value || 0
       switch(this.get_type(input)){
@@ -197,9 +200,13 @@ export class Animation{
         case 'posz':
           transforms.push(`translateZ(${value}px)`)
           break
+
+        case 'opacity':
+          styles.push({property : '' , value: `${value}`})
+          break
       }
     }
-    return transforms.join(' ')
+    return [transforms.join(' ') , styles]
   }
 
   // timelineのkey-frameにkey-pointがセットされているかどうか（type指定必須） [keyアリ : true , keyナシ : false]

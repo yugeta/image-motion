@@ -149,32 +149,39 @@ export class Datas{
     }
   }
 
-
+  get_animation_default_value(type){
+    switch(type){
+      case 'opacity':
+        return 1.0
+      default:
+        return 0
+    }
+  }
   get_animation_name_datas(name){
     const datas = this.get_animations()
     if(!datas
-    || !datas[name]){return null}
+    || typeof datas[name] === 'undefined'){return null}
     return datas[name] || {}
   }
   get_animation_uuid(name , uuid){
     const datas = this.get_animation_name_datas(name)
     if(!datas
     || !datas.items
-    || !datas.items[uuid]){return null}
+    || typeof datas.items[uuid] === 'undefined'){return null}
     return datas.items[uuid] || {}
   }
   get_animation_per_datas(name , uuid , per){
     const datas = this.get_animation_uuid(name , uuid)
     if(!datas
     || !datas.keyframes
-    || !datas.keyframes[per]){return null}
+    || typeof datas.keyframes[per] === 'undefined'){return null}
     return datas.keyframes[per] || {}
   }
   get_animation_name_data(name , uuid , per , type){
     const datas = this.get_animation_per_datas(name , uuid , per)
-    if(!datas
-    || !datas[type]){return null}
-    return datas[type] || 0
+    if(!datas || typeof datas[type] === 'undefined'){return null}
+    return datas[type]
+    // return datas[type] || this.get_animation_default_value(type)
   }
   del_animation_name_data(name , uuid , per , type){
     const datas = this.get_animation_per_datas(name , uuid , per)
@@ -215,10 +222,10 @@ export class Datas{
     }
     const per_between_pers = this.get_per_between_pers(name , uuid , per , type)
     if(!per_between_pers || !per_between_pers.length){
-      return 0
+      return this.get_animation_default_value(type)
     }
     const between_num = this.get_calc_between_num(name , uuid , per , type , per_between_pers)
-    return between_num || 0
+    return between_num !== null ? between_num : this.get_animation_default_value(type)
   }
   get_animation_name_shape_between(name , uuid , per){
     // 対象フレーム数の値（データ）を取得
@@ -274,7 +281,7 @@ export class Datas{
     
     const num_prev    = this.get_animation_name_data(name , uuid , pers[0] , type)
     const num_next    = this.get_animation_name_data(name , uuid , pers[1] , type)
-
+// console.log('get_calc_between_num',num_prev,num_next)
     // 先頭perよりも手前の場合
     if(per <= pers[0]){
       return num_prev

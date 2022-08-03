@@ -7,7 +7,8 @@
 }
 
 /* Input */
-[name='animation'] input[type='text']{
+[name='animation'] input[type='text'],
+[name='animation'] input[type='number']{
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -17,6 +18,11 @@
   border:0;
   /* text-align:right; */
   outline:0;
+}
+
+[name='animation'] input[type='number']::-webkit-inner-spin-button {
+  margin: 0;
+  -webkit-appearance: none;
 }
 
 /* Header */
@@ -155,12 +161,14 @@
 [name='animation'] .lists .input{
   width : var(--size-input);
 }
-[name='animation'] .lists .input input[type='text']{
+[name='animation'] .lists .input input[type='text'],
+[name='animation'] .lists .input input[type='number']{
   text-align:right;
 }
 
 [name='animation'] .lists input[type='range'],
-[name='animation'] .lists input[type='text']{
+[name='animation'] .lists input[type='text'],
+[name='animation'] .lists input[type='number']{
   width:100%;
 }
 
