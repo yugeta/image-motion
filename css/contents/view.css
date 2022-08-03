@@ -3,7 +3,7 @@
   --col-line  : #474646;
   --size-grid : 20px;
 
-  overflow : auto;
+  overflow : hidden;
   -webkit-user-select: none;
 	   -moz-user-select: none;
 	    -ms-user-select: none;
@@ -14,6 +14,34 @@
 .contents [name='view'] .scale{
   transform-origin : left top;
   position:relative;
+  width:100%;
+  height:100%;
+  /* border:1px solid red; */
+}
+
+/* 中心点表示 */
+.contents [name='view'] .scale::before,
+.contents [name='view'] .scale::after{
+  content:'';
+  display:block;
+  position:absolute;
+  pointer-events:none;
+  width:20px;
+  height:20px;
+  border-color:rgba(255,255,255,0.5);
+  border-style:solid;
+  
+}
+.contents [name='view'] .scale::before{
+  border-width: 1px 0 0 1px;
+  top:0;
+  left:0;
+}
+.contents [name='view'] .scale::after{
+  border-width: 0 1px 1px 0;
+  top:0;
+  left:0;
+  transform:translate(calc(-100% + 1px),calc(-100% + 1px));
 }
 
 .contents [name='view'] .pic{
@@ -99,15 +127,19 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
   height:100%;
 }
 .contents[data-status='active'] [name='view'] .pic[data-status='active']{
-  z-index:100!important;
+  z-index:10000!important;
+  transform:translateZ(100px);
 }
 .contents[data-status='active'] [name='view'] .pic:not([data-status='active']){
   z-index:auto!important;
+  transform:translateZ(-1px);
 }
-.contents[data-status='active'] [name='view'] .pic[data-status='active'] > img{
+.contents[data-status='active'] [name='view'] .pic[data-status='active'] > img,
+.contents[data-status='active'] [name='view'] .pic[data-status='active'] > .shape{
   opacity:1.0;
 }
-.contents[data-status='active'] [name='view'] .pic:not([data-status='active']) > img{
+.contents[data-status='active'] [name='view'] .pic:not([data-status='active']) > img,
+.contents[data-status='active'] [name='view'] .pic:not([data-status='active']) > .shape{
   opacity:0.3;
 }
 

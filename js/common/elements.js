@@ -135,6 +135,9 @@ export class Elements{
   get_elm_input_scale(){
     return document.querySelector(`header .range input[type='range'][name='scale']`)
   }
+  get_elm_contents_view(){
+    return document.querySelector(`.contents [name='view']`)
+  }
   get_elm_contents_scale(){
     return document.querySelector(`.contents [name='view'] .scale`)
   }

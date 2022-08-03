@@ -194,4 +194,7 @@ export function clear_shape(uuid){
   Options.datas.set_shape_use(uuid , 0)
   set_pic_shape_mode(uuid)
 }
+export function clear_shape_animation(uuid){
+  Options.datas.remove_animation_shape_data(uuid)
+}
 

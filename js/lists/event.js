@@ -30,6 +30,7 @@ export function mousemove(e){
     y : ~~(e.pageY),
   }
   sort_mousemove(mouse , e.target)
+  over_scroll(mouse)
 }
 
 export function mouseup(e){
@@ -57,19 +58,22 @@ function sert_mousedown(item , mouse){
 
   // view-target
   const view_target = Options.elements.get_uuid_view(uuid)
-  const view_rect    = view_target.getBoundingClientRect()
+  const view_rect   = view_target.getBoundingClientRect()
+  const area_rect   = area.getBoundingClientRect()
 
   const data = {
-    uuid   : uuid,
-    item   : item,
-    items  : items,
-    mouse  : mouse,
-    pos    : pos,
-    offset : offset,
-    size   : size,
-    scroll : scroll,
+    uuid        : uuid,
+    item        : item,
+    items       : items,
+    mouse       : mouse,
+    pos         : pos,
+    offset      : offset,
+    size        : size,
+    scroll      : scroll,
     view_target : view_target,
     view_rect   : view_rect,
+    area        : area,
+    area_rect   : area_rect,
     before_pos  : {
       x : view_target.offsetLeft,
       y : view_target.offsetTop,
@@ -113,6 +117,30 @@ function sort_mousemove(mouse , target){
   const overlap_target = Options.elements.upper_selector(target , '.item[data-uuid]')
   if(!overlap_target || overlap_target === Options.list_drag.item){return}
   set_flg_sort_target(Options.list_drag.item , overlap_target , mouse)
+}
+
+// item移動が枠の上（下）を超えて移動した場合、内部リストをスクロールさせる
+function over_scroll(mouse){
+  if(!Options.list_drag){return}
+  const rect_area = Options.list_drag.area_rect
+  const over_pos  = mouse.y - rect_area.top
+  const under_pos = mouse.y - (rect_area.top + rect_area.height)
+
+  // 上にスクロール
+  if(over_pos < 0){
+    scroll_lists(-1)
+  }
+  // 下にスクロール
+  else if(under_pos > 0){
+    scroll_lists(+1)
+  }
+  
+}
+
+function scroll_lists(direction){
+  if(!Options.list_drag){return}
+  // console.log(direction)
+  Options.list_drag.area.scrollTop += direction
 }
 
 function set_flg_sort_target(current , target , mouse){
@@ -221,6 +249,7 @@ function sort_up(current , target){
 }
 
 function sort_down(current , target){
+  if(!target){return}
   if(target.nextSibling){
     target.parentNode.insertBefore(current , target.nextSibling)
   }
@@ -249,11 +278,16 @@ function set_parent(current ,target){
 }
 
 function insert_level(current ,target){
-  const sub_lists = target.querySelector(':scope > .sub-lists')
-  if(sub_lists){
-    sub_lists.appendChild(current)
+  try{
+    const sub_lists = target.querySelector(':scope > .sub-lists')
+    if(sub_lists){
+      sub_lists.appendChild(current)
+    }
+    set_parent(current ,target)
   }
-  set_parent(current ,target)
+  catch(err){
+    console.warn(err)
+  }
 }
 
 
@@ -319,4 +353,6 @@ function click_visibility(item , visibility){console.log(item)
   }
   
 }
+
+
 

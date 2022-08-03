@@ -456,6 +456,23 @@ export class Datas{
     }
   }
 
+  remove_animation_shape_data(uuid){
+    const animation_datas = this.get_animations()
+    if(!animation_datas){return}
+    for(let animation_name in animation_datas){
+      const animation_data = animation_datas[animation_name]
+      if(!animation_data.items
+      || !animation_data.items[uuid]
+      || !animation_data.items[uuid].keyframes){continue}
+      for(let key_num in animation_data.items[uuid].keyframes){
+        const key_data = animation_data.items[uuid].keyframes[key_num]
+        if(!key_data.shape){continue}
+        console.log(animation_name , key_num,key_data)
+        delete key_data.shape
+      }
+    }
+  }
+
 
 
 }

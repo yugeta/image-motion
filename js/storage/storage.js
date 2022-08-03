@@ -4,16 +4,16 @@ export class Storage{
   constructor(){
     this.name = Options.storage_name
     this.cache = this.load()
-    this.init()
+    // this.init()
   }
 
-  init(){
-    if(Options.header){
-      if(this.cache.scale){
-        Options.header.set_scale_value(this.cache.scale)
-      }
-    }
-  }
+  // init(){
+  //   if(Options.header){
+  //     if(this.cache.scale){
+  //       Options.header.set_init_value(this.cache.scale)
+  //     }
+  //   }
+  // }
 
   load(){
     const json = localStorage.getItem(this.name)
