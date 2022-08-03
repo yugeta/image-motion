@@ -146,7 +146,7 @@ export class Images{
   }
   set_image_transform(){
     const z = Number(this.cache.traz) || 0
-    // this.cache.pic.style.setProperty('transform'  , z ? `${z}px` : '0' , '')
+    this.cache.pic.style.setProperty('transform'  , `transformZ(${z}px)` , '')
   }
 
   set_center_pos(){

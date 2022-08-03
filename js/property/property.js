@@ -113,12 +113,14 @@ export class Property{
   chenge_num(key , e){
     const uuid = this.get_uuid()
     const num  = e.target.value || 0
-    if(!String(num).match(/^[\d\-\.].+$/)){return}
+    // if(!String(num).match(/^[\-\.\d].+$/)){return}
+    if(Number(num) === NaN){return}
     Options.datas.set_data(uuid , key , Number(num))
     this.image_move(uuid , key)
     Options.img_datas[uuid].set_image_order()
     Options.img_datas[uuid].set_image_transform()
   }
+
   chenge_string(key , e){
     const uuid = this.get_uuid()
     const str  = e.target.value || ''
