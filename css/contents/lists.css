@@ -60,27 +60,39 @@
   background-color:var(--lists-color-item-select);
 }
 
-.contents [name='images'] .item .visibility{
+.contents [name='images'] .item .visibility,
+.contents [name='images'] .item .folder{
   display:flex;
   width : var(--lists-size-visibility);
   height:100%;
   align-items:center;
   text-align:center;
 }
-.contents [name='images'] .item .visibility svg{
+.contents [name='images'] .item .visibility svg,
+.contents [name='images'] .item .folder svg{
   width:65%;
   fill:var(--color-font);
   margin:0 auto;
-  /* display:block; */
-  /* margin:50% auto; */
-  /* transform:translate(0,-50%); */
 }
-.contents [name='images'] .item .visibility svg:hover{
+.contents [name='images'] .item .visibility svg:hover,
+.contents [name='images'] .item .folder svg:hover{
   fill:white;
 }
-.contents [name='images'] .item .visibility[data-status='hidden'] svg{
+.contents [name='images'] .item .visibility[data-status='hidden'] svg,
+.contents [name='images'] .item .folder[data-status='hidden'] svg{
   display:none;
 }
+.contents [name='images'] .item .folder[data-status='open'] svg.close{
+  display:none;
+}
+.contents [name='images'] .item .folder[data-status='close'] svg.open{
+  display:none;
+}
+.contents [name='images'] .item[data-folder-status='close'] > .sub-lists{
+  display:none;
+}
+
+
 .contents [name='images'] .item .img{
   display:block;
   width:var(--lists-size-img);
@@ -98,7 +110,7 @@
 /* lists_sortItem */
 
 .lists_sortItem{
-  padding:4px 4px 4px 30px;
+  padding:2px 2px 2px var(--lists-size-indent);
   cursor:pointer;
   display:block;
   height: var(--lists-size-item);
@@ -111,9 +123,22 @@
   display:flex;
   height:100%;
 }
+.lists_sortItem .visibility{
+  display:flex;
+  width : var(--lists-size-visibility);
+  height:100%;
+  align-items:center;
+  text-align:center;
+}
+.lists_sortItem .visibility svg{
+  width:65%;
+  fill:var(--color-font);
+  margin:0 auto;
+}
 .lists_sortItem .img{
   width:var(--lists-size-img);
   height:100%;
+  object-fit:cover;
 }
 .lists_sortItem .name{
   /* width:calc(100% - var(--lists-size-img) - var(--lists-size-indent)); */
@@ -163,7 +188,6 @@
   overflow:hidden;
 }
 
-.lists_sortItem .visibility > *,
 .lists_sortItem .sub-lists{
   display:none;
 }
