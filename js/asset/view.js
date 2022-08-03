@@ -4,6 +4,7 @@ export class View{
   constructor(){
     this.scale = Options.elements.get_area_view()
     this.move_cursor = Options.elements.get_view_move_cursor()
+    this.init()
   }
 
   mousedown(e){
@@ -28,10 +29,7 @@ export class View{
         offset : offset,
       }
       this.move_on()
-
       this.set_double_click(e)
-      
-      
     }
   }
 
@@ -41,8 +39,8 @@ export class View{
         x : this.move_flg.offset.x + e.pageX - this.move_flg.pos.x,
         y : this.move_flg.offset.y + e.pageY - this.move_flg.pos.y,
       }
-      this.scale.style.setProperty('left' , `${pos.x}px`,'')
-      this.scale.style.setProperty('top'  , `${pos.y}px`,'')
+      this.move(pos)
+      this.save_storage(pos)
     }
   }
 
@@ -65,6 +63,17 @@ export class View{
     move.removeAttribute('data-status')
   }
 
+  init(){
+    // move
+    if(typeof Options.storage.cache.posx !== 'undefined'
+    && typeof Options.storage.cache.posy !== 'undefined'){
+      this.move({
+        x : Number(Options.storage.cache.posx),
+        y : Number(Options.storage.cache.posy),
+      })
+    }
+  }
+
   // ダブルクリック設定
   set_double_click(e){
     this.flg_double_click = {
@@ -84,12 +93,22 @@ export class View{
     return true
   }
 
+  move(pos){
+    this.scale.style.setProperty('left' , `${pos.x}px`,'')
+    this.scale.style.setProperty('top'  , `${pos.y}px`,'')
+  }
+  save_storage(pos){
+    Options.storage.set_data('posx' , pos.x)
+    Options.storage.set_data('posy' , pos.y)
+  }
 
   move_reset(){
     const move = Options.elements.get_view_move_cursor()
     if(!move){return}
-    this.scale.style.setProperty('left' , `0px`,'')
-    this.scale.style.setProperty('top'  , `0px`,'')
+    this.move({
+      x : 0,
+      y : 0, 
+    })
   }
   
 }

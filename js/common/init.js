@@ -29,16 +29,15 @@ export class Init{
 
   set_modules(){
     Options.common    = new Common()
+    Options.storage   = new Storage()
     Options.elements  = new Elements()
     Options.datas     = new Datas()
     Options.control   = new Control()
     Options.lists     = new Lists()
-    // Options.transform = new Transform()
     Options.property  = new Property()
     Options.header    = new Header()
     Options.view      = new View()
     Options.play      = new Play()
-    Options.storage   = new Storage()
     Options.undo      = new Undo()
     Options.event     = new Event()
     
