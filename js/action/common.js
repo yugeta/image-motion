@@ -24,8 +24,16 @@ export function animation_name_list_other_click(e){
   if(!Options.elements.upper_selector(e.target , `[name='animation'] .input`)){
     animation_name_list_hidden()
   }
-  
 }
+
+// contextmenuが表示されている時に、別の場所をクリックしたら、リストを閉じる処理
+export function contextmenu_other_click(e){
+  if(!Options.elements.upper_selector(e.target , `.contextmenu`) && Options.contextmenu){
+    Options.contextmenu.close()
+  }
+}
+
+
 
 function get_datas() {
   return Options.datas.get_animations()
@@ -50,19 +58,12 @@ function animation_name_list_view() {
   const html = Options.common.doubleBlancketConvert(base, { items: item_html })
   area.insertAdjacentHTML('beforeend', html)
   const lists = Options.elements.get_animation_name_lists()
-  // animation_name_list_view_additem(lists.querySelector(':scope > ul'))
   Options.event.set(
     lists,
     'click',
     click_animation_name.bind(this)
   )
 }
-// function animation_name_list_view_additem(area){
-//   const add_button = document.createElement('li')
-//   add_button.setAttribute('data-type' , 'add')
-//   add_button.textContent = '( + add )'
-//   area.appendChild(add_button)
-// }
 
 function animation_name_list_hidden() {
   const lists = Options.elements.get_animation_name_lists()
@@ -162,19 +163,8 @@ export function set_default_setting() {
 
   const elm_direction = area.querySelector(`[name='direction']`)
   elm_direction.value = data[name].direction || 'normal'
-
-  // for(let i in data[name]){
-  //   if(i === 'items'){continue}
-  //   set_default_value(i , data[name][i])
-  // }
 }
 
-// function set_default_value(key , value){
-//   const area = Options.elements.get_timeline_header()
-//   const elm  = area.querySelector(`[name='${key}']`)
-//   if(!elm){return}
-//   elm.value = value
-// }
 
 
 export function hidden(){
@@ -268,31 +258,29 @@ export function set_current_num(name , uuid){
     const parent = Options.elements.upper_selector(input , `li > .${type}`)
     const range  = parent.querySelector(`input[data-mode='range']`)
     range.value  = value
-    // console.log(per , type , value)
   }
 }
 
 // view情報から、animation値の値を取得
-export function set_type_value_of_view(name , uuid , type , per){
+export function set_type_value_of_view(name , uuid , type , per , data){
   switch(type){
     case 'shape':
-      const shape_value = ShapeCommon.get_current_per_data(name , uuid , type , per)
+      const shape_value = data !== undefined ? data : ShapeCommon.get_current_per_data(name , uuid , type , per)
       Options.datas.set_animation_data_value(name , uuid , per , type , shape_value)
       break
     
     case 'opacity':
       const opacity_input = Options.elements.get_animation_lists_input_type(type)
       if(!opacity_input){return}
-      const opacity_value = Number(opacity_input.value || 1)
+      const opacity_value = data !== undefined ? data : Number(opacity_input.value || 1)
       Options.datas.set_animation_data_value(name , uuid , per , type , opacity_value)
-      console.log(type , opacity_value)
       break
 
     // rotate , posx , posy , posz
     default:
       const animation_input = Options.elements.get_animation_lists_input_type(type)
       if(!animation_input){return}
-      const value = Number(animation_input.value || 0)
+      const value = data !== undefined ? data : Number(animation_input.value || 0)
       Options.datas.set_animation_data_value(name , uuid , per , type , value)
       break
   }
@@ -371,5 +359,15 @@ export function timeline_timing(e){
 // export function timeline_remake(){
 
 // }
+
+export function is_point(name , uuid , type , per){
+  const datas = Options.datas.get_animation_per_datas(name , uuid , per)
+  if(!datas || typeof datas[type] === 'undefined'){
+    return false
+  }
+  else{
+    return true
+  }
+}
 
 

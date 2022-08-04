@@ -5,6 +5,7 @@
 @import './property.css';
 @import './transform.css';
 @import './shape.css';
+@import './contextmenu.css';
 
 .contents{
   --size-property-area-height : 250px;

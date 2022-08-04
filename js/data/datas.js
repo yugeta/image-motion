@@ -209,7 +209,7 @@ export class Datas{
 
   set_animation_data_move(name , uuid , type , before_per , after_per){
     const datas = this.get_animation_uuid(name , uuid)
-    if(!datas || !datas.keyframes){return}
+    if(!datas || !datas.keyframes || !datas.keyframes[before_per]){return}
     const value = this.get_animation_name_data(name , uuid , before_per , type)
     delete datas.keyframes[before_per][type]
     this.set_animation_data_value(name , uuid , after_per , type , value)
