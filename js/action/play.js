@@ -127,6 +127,7 @@ export class Play{
     // point-pos
     const point_elms  = Options.elements.get_shape_points(uuid)
     // const point_datas = ShapeCommon.get_date2points(datas.points)
+    // console.log(datas)
     const point_datas = ShapeCommon.get_table2pointDatas(uuid , datas.points)
     // console.log(point_datas)
     for(let i=0; i<point_elms.length; i++){

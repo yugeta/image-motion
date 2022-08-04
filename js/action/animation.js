@@ -80,7 +80,7 @@ export class Animation{
         return Number(value || 0).toFixed(2)
 
       default:
-        return value || 0
+        return Number(value) || 0
     }
   }
   set_value(elm , value , mode){

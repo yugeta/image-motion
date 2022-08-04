@@ -330,7 +330,7 @@ export class Datas{
       }
       datas.points.push(pos)
     }
-
+console.log(data_prev)
     for(let i=0; i<data_prev.matrix.length; i++){
       const matrix = new M_Matrix(base_points[i].corners , datas.points[i])
       datas.matrix.push(matrix)
