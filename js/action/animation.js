@@ -153,7 +153,7 @@ export class Animation{
   
 
 
-  change_timeline(){
+  change_timeline(){console.log(123)
     ActionCommon.set_current_num(this.name , this.uuid)
     Options.play.transform_img_all()
   }

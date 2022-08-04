@@ -20,6 +20,11 @@ export class Active{
       this.active(uuid)
       Options.transform = new Transform(uuid)
       Options.action    = new Action(uuid)
+
+      // animation設定値の反映
+      if(Options.animation){
+        Options.animation.change_timeline()
+      }
     }
   }
 
