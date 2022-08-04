@@ -7,8 +7,9 @@ import { Event }     from './lib/event.js'
 
 export class Player{
   constructor(options){
+    this.css     = this.get_css()
     this.options = new Init(options).options
-    this.style   = new Style()
+    this.style   = new Style(this.css)
 
     if(this.options.file){
       this.load_data(this.options.file)
@@ -42,6 +43,12 @@ export class Player{
     this.style.add(this.animation.css)
     this.event     = new Event(this.options)
     // this.shape = new Shape(this.options)
+  }
+
+  get_css(){
+    const base = import.meta
+    const path = base.url.replace(/player.js$/ , 'main.css')
+    return path
   }
 }
 
