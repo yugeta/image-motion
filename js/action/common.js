@@ -135,7 +135,9 @@ export function animation_name_list_decide() {
   // const current_per = get_timeline_per()
   // Options.play.set_timeline_per(current_per)
   // Options.timeline.set_value()
-  Options.animation.change_timeline()
+  if(Options.animation){
+    Options.animation.change_timeline()
+  }
 }
 
 export function get_animation_data(){
@@ -260,14 +262,14 @@ export function click_next(){
 export function set_current_num(name , uuid){
   const per      = get_timeline_per()
   const area     = Options.elements.get_animation_lists()
-  const inputs   = area.querySelectorAll(`input[type='text']`)
+  const inputs   = area.querySelectorAll(`input[data-mode='input']`)
   for(let input of inputs){
     const type   = input.getAttribute('name')
     const value  = Options.datas.get_animation_name_data_between(name , uuid , per , type)
     if(value === null){continue}
     input.value  = value
     const parent = Options.elements.upper_selector(input , `li > .${type}`)
-    const range  = parent.querySelector(`input[type='range']`)
+    const range  = parent.querySelector(`input[data-mode='range']`)
     range.value  = value
     // console.log(per , type , value)
   }

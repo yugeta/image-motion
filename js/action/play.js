@@ -38,7 +38,8 @@ export class Play{
     for(let uuid in datas.items){
       if(!datas.items[uuid].keyframes){continue}
       const types = this.get_transform_types(datas.items[uuid].keyframes)
-      const [transform , styles] = this.get_transform_css(animation_name , uuid , per , types)
+      const transform = this.get_transform_css(animation_name , uuid , per , types)
+      const styles    = this.get_style_css(animation_name , uuid , per , types)
       const pic   = Options.elements.get_uuid_view(uuid)
       if(transform){
         pic.style.setProperty('transform' , transform , '')
@@ -69,7 +70,6 @@ export class Play{
   
   get_transform_css(name , uuid , per , types){
     const transforms = []
-    const styles = []
     for(let type of types){
       const value = Options.datas.get_animation_name_data_between(name , uuid , per , type)
       switch(type){
@@ -78,32 +78,42 @@ export class Play{
           break
 
         case 'posx':
-          transforms.push(`translateX(${value}px)`)
+          transforms.unshift(`translateX(${value}px)`)
           break
 
         case 'posy':
-          transforms.push(`translateY(${value}px)`)
+          transforms.unshift(`translateY(${value}px)`)
           break
 
         case 'posz':
-          transforms.push(`translateZ(${value}px)`)
+          transforms.unshift(`translateZ(${value}px)`)
           break
 
         case 'scalex':
-          transforms.push(`scaleX(${value})`)
+          transforms.unshift(`scaleX(${value})`)
           break
 
         case 'scaley':
-          transforms.push(`scaleY(${value})`)
+          transforms.unshift(`scaleY(${value})`)
           break
-
+      }
+    }
+    return transforms.join(' ')
+  }
+  get_style_css(name , uuid , per , types){
+    const styles = []
+    for(let type of types){
+      const value = Options.datas.get_animation_name_data_between(name , uuid , per , type)
+      switch(type){
         case 'opacity':
           styles.push({property : 'opacity' , value:`${value}`})
           break
       }
     }
-    return [transforms.join(' ') , styles]
+    return styles
   }
+
+
   set_shape(name , uuid , per , types){
     if(!types.indexOf('shape') === -1){return}
     const datas  = Options.datas.get_animation_name_shape_between(name , uuid , per)

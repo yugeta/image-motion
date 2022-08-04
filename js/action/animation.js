@@ -5,32 +5,26 @@ export class Animation{
   constructor(name , uuid){
     this.uuid = uuid
     this.name = name
+    this.area = Options.elements.get_animation_lists()
     this.view()
-    // this.set_tools()
     this.set_event()
   }
 
   view(){
-    // this.init_data()
     let template = Options.common.get_template('animation')
     if(!template){return}
     const cache    = Options.datas.get_data(this.uuid)
     template       = Options.common.doubleBlancketConvert(template , cache)
-    const area     = Options.elements.get_animation_lists()
-    area.innerHTML = template
+    this.area.innerHTML = template
   }
   
-
   hidden(){
-    const target = Options.elements.get_animation_lists()
-    target.textContent = ''
+    this.area.textContent = ''
   }
 
   set_event(){
-    const area   = Options.elements.get_animation_lists()
-
     // ranges
-    const ranges = area.querySelectorAll(`input[type='range']`)
+    const ranges = this.area.querySelectorAll(`input[data-mode='range']`)
     for(let range of ranges){
       Options.event.set(
         range,
@@ -50,7 +44,7 @@ export class Animation{
     }
 
     // inputs
-    const inputs = area.querySelectorAll(`input[type='text']`)
+    const inputs = this.area.querySelectorAll(`input[data-mode='input']`)
     for(let input of inputs){
       Options.event.set(
         input,
@@ -78,12 +72,21 @@ export class Animation{
     return Options.elements.upper_selector(elm , 'li .flex').getAttribute('data-type')
   }
   get_value(elm){
-    return Number(elm.value || 0)
+    return this.get_type_value(elm.value , this.get_type(elm))
   }
-  set_value(elm , value , type){
+  get_type_value(value , type){
+    switch(type){
+      case 'opacity':
+        return Number(value || 0).toFixed(2)
+
+      default:
+        return value || 0
+    }
+  }
+  set_value(elm , value , mode){
     const parent  = this.get_parent(elm)
     if(!parent){return}
-    const input   = parent.querySelector(`input[type='${type}']`)
+    const input   = parent.querySelector(`input[data-mode='${mode}']`)
     if(!input){return}
     input.value   = value
   }
@@ -91,42 +94,33 @@ export class Animation{
   focus_range(e){
     const elm = e.target
     const value = this.get_value(e.target)
-    const type = 'text'
     const animation_name = ActionCommon.get_animation_name()
     Options.undo.add_history({
       name : 'animation_range',
-      call : ((animation_name , value , type , elm)=>{
-        if(ActionCommon.get_animation_name() !== animation_name){return}
-        elm.value = value
-        this.update_range(elm,type)
-      }).bind(this , animation_name , value , type , elm)
+      call : this.set_input.bind(this , animation_name , value , elm)
     })
   }
   blur_range(e){
     const elm = e.target
     elm.blur()
     const value = this.get_value(e.target)
-    const type = 'text'
     const animation_name = ActionCommon.get_animation_name()
     Options.undo.set_current({
       name : 'animation_range',
-      call : ((animation_name , value , type , elm)=>{
-        if(ActionCommon.get_animation_name() !== animation_name){return}
-        elm.value = value
-        this.update_range(elm,type)
-      }).bind(this , animation_name , value , type , elm)
+      call : this.set_input.bind(this , animation_name , value , elm)
     })
   }
 
   input_range(e){
-    this.update_range(e.target , 'text')
+    this.update_value(e.target)
   }
   change_input(e){
-    this.update_range(e.target , 'range')
+    this.update_value(e.target)
   }
-  update_range(elm , type){
+  update_value(elm){
+    const mode = elm.getAttribute('data-mode') !== 'range' ? 'range' : 'input'
     const value = this.get_value(elm)
-    this.set_value(elm , value , type)
+    this.set_value(elm , value , mode)
     this.transform_img()
     this.set_data(this.get_type(elm) , value)
   }
@@ -134,31 +128,29 @@ export class Animation{
   focus_input(e){
     const elm = e.target
     const value = this.get_value(e.target)
-    const type = 'tange'
     const animation_name = ActionCommon.get_animation_name()
     Options.undo.add_history({
       name : 'animation_input',
-      call : ((animation_name , value , type , elm)=>{
-        if(ActionCommon.get_animation_name() !== animation_name){return}
-        elm.value = value
-        this.update_range(elm,type)
-      }).bind(this , animation_name , value , type , elm)
+      call : this.set_input(this , animation_name , value , elm),
     })
   }
   blur_input(e){
     const elm = e.target
     const value = this.get_value(e.target)
-    const type = 'range'
     const animation_name = ActionCommon.get_animation_name()
     Options.undo.set_current({
       name : 'animation_input',
-      call : ((animation_name , value , type , elm)=>{
-        if(ActionCommon.get_animation_name() !== animation_name){return}
-        elm.value = value
-        this.update_range(elm,type)
-      }).bind(this , animation_name , value , type , elm)
+      call : this.set_input(this , animation_name , value , elm),
     })
   }
+  set_input(animation_name , value , elm){
+    if(ActionCommon.get_animation_name() !== animation_name){return}
+    const parent = Options.elements.upper_selector(elm , '.flex')
+    elm.value = this.get_type_value(value , parent.getAttribute('data-type'))
+    this.update_value(elm)
+  }
+
+  
 
 
   change_timeline(){
@@ -169,7 +161,8 @@ export class Animation{
   // uuid対象のimg全体を動かす
   transform_img(){
     const pic = Options.elements.get_uuid_view(this.uuid)
-    const [transforms ,styles ] = this.get_transform_css()
+    const transforms = this.get_transform_css()
+    const styles     = this.get_style_css()
     pic.style.setProperty('transform',transforms,'')
     if(styles.length){
       for(let style of styles){
@@ -179,9 +172,8 @@ export class Animation{
   }
   get_transform_css(){
     const area   = Options.elements.get_animation_lists()
-    const inputs = area.querySelectorAll(`input[type='text']`)
+    const inputs = area.querySelectorAll(`input[data-mode='input']`)
     const transforms = []
-    const styles     = []
     for(let input of inputs){
       const value  = input.value || 0
       switch(this.get_type(input)){
@@ -190,23 +182,42 @@ export class Animation{
           break
 
         case 'posx':
-          transforms.push(`translateX(${value}px)`)
+          transforms.unshift(`translateX(${value}px)`)
           break
 
         case 'posy':
-          transforms.push(`translateY(${value}px)`)
+          transforms.unshift(`translateY(${value}px)`)
           break
 
         case 'posz':
-          transforms.push(`translateZ(${value}px)`)
+          transforms.unshift(`translateZ(${value}px)`)
           break
 
-        case 'opacity':
-          styles.push({property : '' , value: `${value}`})
+        case 'scalex':
+          transforms.unshift(`scaleX(${value})`)
+          break
+
+        case 'scaley':
+          transforms.unshift(`scaleY(${value})`)
           break
       }
     }
-    return [transforms.join(' ') , styles]
+    return transforms.join(' ')
+  }
+
+  get_style_css(){
+    const area   = Options.elements.get_animation_lists()
+    const inputs = area.querySelectorAll(`input[data-mode='input']`)
+    const styles     = []
+    for(let input of inputs){
+      const value  = input.value || 0
+      switch(this.get_type(input)){
+        case 'opacity':
+          styles.unshift({property : '' , value: `${value}`})
+          break
+      }
+    }
+    return styles
   }
 
   // timelineのkey-frameにkey-pointがセットされているかどうか（type指定必須） [keyアリ : true , keyナシ : false]
@@ -214,8 +225,6 @@ export class Animation{
     current_per = current_per !== undefined ? current_per : ActionCommon.get_timeline_per()
     const data = Options.datas.get_animation_name_data(this.name , this.uuid , current_per , type)
     console.log(data)
-    // const elm = document.querySelector(`.contents [name='timeline'] .lists li.${type} .point[data-per='${current_per}']`)
-    // console.log(type+":"+current_per , elm)
     return typeof data !== 'undefined' ? true : false
   }
 
@@ -223,7 +232,6 @@ export class Animation{
     const per  = ActionCommon.get_timeline_per()
 
     // timeline-pointの存在確認
-    // if(!this.is_type_per(type , per)){return}
     if(!Options.timeline.is_point(per , type)){return}
 
     Options.datas.set_animation_data_value(this.name , this.uuid , per , type , value)
