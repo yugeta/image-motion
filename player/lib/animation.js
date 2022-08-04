@@ -78,7 +78,6 @@ export class Animation{
       const styles = this.get_styles(keyframes[i])
       if(styles && styles.length){
         for(let style of styles){
-          console.log(style)
           css.push(`    ${style}`)
         }
       }

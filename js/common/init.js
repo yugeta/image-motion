@@ -1,7 +1,7 @@
 import { Options   }  from '../options.js'
-import { Templates }  from './templates.js'
-import { Common    }  from './common.js'
-import { Elements  }  from './elements.js'
+import { Templates }  from '../common/templates.js'
+import { Common    }  from '../common/common.js'
+import { Elements  }  from '../common/elements.js'
 import { Control   }  from '../event/control.js'
 import { Datas     }  from '../data/datas.js'
 import { Property  }  from '../property/property.js'
@@ -13,6 +13,7 @@ import { Storage   }  from '../storage/storage.js'
 import { Home      }  from '../home/home.js'
 import { Undo      }  from '../event/undo.js'
 import { View      }  from '../asset/view.js'
+import { Footer    }  from '../asset/footer.js'
 
 export class Init{
   constructor(){
@@ -40,7 +41,7 @@ export class Init{
     Options.play      = new Play()
     Options.undo      = new Undo()
     Options.event     = new Event()
-    
+    Options.footer    = new Footer()
     
     new Home()
   }
