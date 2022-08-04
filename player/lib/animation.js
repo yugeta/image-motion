@@ -70,10 +70,18 @@ export class Animation{
   get_keyframes(keyframes){
     const css = []
     for(let i in keyframes){
-      const transform = this.get_transform(keyframes[i])
-      if(!transform){continue}
       css.push(`  ${i}%{`)
-      css.push(`    transform : ${transform};`)
+      const transform = this.get_transform(keyframes[i])
+      if(transform){
+        css.push(`    transform : ${transform};`)
+      }
+      const styles = this.get_styles(keyframes[i])
+      if(styles && styles.length){
+        for(let style of styles){
+          console.log(style)
+          css.push(`    ${style}`)
+        }
+      }
       css.push('  }')
     }
     return css.join('\n')
@@ -81,20 +89,33 @@ export class Animation{
 
   // css-keyframesのtransformの取得
   get_transform(transform_data){
-    let datas = []
-    if(transform_data.rotate){
+    const datas = []
+    if(typeof transform_data.rotate !== 'undefined'){
       datas.push(`rotate(${transform_data.rotate}deg)`)
     }
-    if(transform_data.posx){
-      datas.push(`translateX(${transform_data.posx}px)`)
+    if(typeof transform_data.posx !== 'undefined'){
+      datas.unshift(`translateX(${transform_data.posx}px)`)
     }
-    if(transform_data.posy){
-      datas.push(`translateY(${transform_data.posy}px)`)
+    if(typeof transform_data.posy !== 'undefined'){
+      datas.unshift(`translateY(${transform_data.posy}px)`)
     }
-    if(transform_data.shape){
-      datas.push('scale(1.0)')
+    if(typeof transform_data.scalex !== 'undefined'){
+      datas.unshift(`scaleX(${transform_data.scalex})`)
     }
+    if(typeof transform_data.scaley !== 'undefined'){
+      datas.unshift(`scaleY(${transform_data.scaley})`)
+    }
+    // if(typeof transform_data.shape !== 'undefined'){
+    //   datas.push('scale(1.0)')
+    // }
     return datas.join(' ')
+  }
+  get_styles(data){
+    const styles = []
+    if(typeof data.opacity !== 'undefined'){
+      styles.push(`opacity:${data.opacity};`)
+    }
+    return styles
   }
 
 
