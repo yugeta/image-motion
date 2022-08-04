@@ -1,5 +1,5 @@
 // import { Options  }  from '../options.js'
-import { Ajax     }  from './ajax.js'
+import { Ajax } from '../common/ajax.js'
 
 export class Templates{
   constructor(options){

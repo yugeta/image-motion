@@ -26,6 +26,9 @@ export class Elements{
     return document.querySelector(".contents .home")
   }
   
+  get_version(){
+    return document.querySelector('footer .version-value')
+  }
 
   get_area_lists(){
     return document.querySelector(".contents [name='images']")
