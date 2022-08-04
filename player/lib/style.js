@@ -1,19 +1,36 @@
 import { Options } from '../options.js'
+import { Ajax }    from './ajax.js'
 
 export class Style{
-  constructor(){
-    this.elm = this.get_style()
+  constructor(css_path){
+    this.css = css_path
+    this.set_style()
   }
 
-  get_style(){
+  set_style(){
     const elm = document.querySelector(`style[data-service='${Options.service_name}']`)
     if(elm){
-      return elm
+      this.elm = elm
     }
     else{
-      return this.create_style()
+      this.elm = this.create_style()
+      if(this.css){
+        this.load_css()
+      }
     }
   }
+  load_css(){
+    new Ajax({
+      url : this.css,
+      method : 'get',
+      callback : this.loaded_css.bind(this)
+    })
+  }
+  loaded_css(e){
+    this.elm = this.create_style()
+    this.elm.textContent = e.target.response +'\n'
+  }
+
   // styleタグの設置
   create_style(){
     const style = document.createElement('style')

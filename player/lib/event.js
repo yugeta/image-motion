@@ -134,7 +134,6 @@ export class Event{
   }
 
   shape_stop_mutation(uuid){
-    console.log('stop')
 //     const options   = elm.cache.options
 // console.log(options.root)
     if(!this.cache){return}
