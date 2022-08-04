@@ -1,0 +1,22 @@
+.contextmenu{
+  position:absolute;
+  background-color:var(--color-contents-header);
+  border:1px solid var(--color-font);
+  border-radius:4px;
+  z-index:10000;
+}
+.contextmenu > ul{
+
+}
+.contextmenu > ul > li{
+  padding:5px 20px;
+  cursor:pointer;
+  font-size:14px;
+}
+.contextmenu > ul > li:hover{
+  color:white;
+}
+.contextmenu > ul > li+*{
+  border-top:1px solid var(--color-font);
+}
+

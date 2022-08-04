@@ -27,6 +27,9 @@ export class Event {
     )
   }
   mouse(){
+    // 右クリック
+    window.oncontextmenu =  Options.control.contextmenu.bind(Options.control)
+
     this.set(
       window , 
       'mousedown',

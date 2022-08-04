@@ -47,6 +47,10 @@ export class Elements{
     return document.querySelector('.contents .under')
   }
 
+  get_contextmenu(){
+    return document.querySelector('.contextmenu')
+  }
+
   // ----------
   // View 
   

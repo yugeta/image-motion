@@ -34,18 +34,20 @@ export class Timeline{
     if(this.flg_double_click && ~~(e.pageX) === this.flg_double_click.posx){
       const diff = (+new Date()) - this.flg_double_click.time
       delete this.flg_double_click
-      if(diff > 500){
+      if(diff > 300){
         return
       }
+
       // point追加
       const parent = Options.elements.upper_selector(e.target , '.lists > li')
       const type   = parent.getAttribute('class')
-      // const per = ActionCommon.get_timeline_per()
       const per    = ActionCommon.set_timeline_pos2per(e.target , e.pageX)
 
+      // ポイントがあれば削除
       if(this.is_point(per , type)){
         this.del_point(per , type , e.target)
       }
+      // ポイントが無ければ追加
       else{
         this.add_point(per , type)
       }
@@ -102,15 +104,11 @@ export class Timeline{
     // point追加
     this.set_keyframes(per , type)
 
-    // const uuid = ImageCommon.get_current_uuid()
-    // if(!uuid){
-    //   alert('Error ! no-uuid')
-    //   return
-    // }
-    // const name = ActionCommon.get_animation_name()
     // keyframeデータの更新
     ActionCommon.set_type_value_of_view(this.name , this.uuid , type , per)
   }
+
+  
 
   del_point(per , type , elm){
     const point = Options.elements.upper_selector(elm , `[name='timeline'] .lists .point`)
@@ -120,9 +118,21 @@ export class Timeline{
     point.parentNode.removeChild(point)
 
     // keyframeデータ削除
-    // ActionCommon.del_type_value_of_view(this.name , this.uuid , type , per)
     Options.datas.del_animation_name_data(this.name , this.uuid , per , type)
+
+    // view表示処理
+    Options.play.set_timeline_per(per)
   }
 
+  copy_point(type , before_per , after_per){
+    if(!type){return}
+    const datas = Options.datas.get_animation_per_datas(this.name , this.uuid , before_per)
+    if(!datas || typeof datas[type] === 'undefined'){return}
+    // point追加
+    this.set_keyframes(after_per , type)
+    // keyframeデータの更新
+    ActionCommon.set_type_value_of_view(this.name , this.uuid , type , after_per , datas[type])
+    return true
+  }
   
 }

@@ -1,30 +1,51 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from './common.js'
+import { Contextmenu }   from '../asset/contextmenu.js'
 
 export function resize(e){
   set_cursor_num2pos()
   set_points_resize()
 }
 
+export function contextmenu(e , type){
+  // 通常クリック処理を削除
+  if(Options.timeline_cursor){
+    delete Options.timeline_cursor
+  }
+  if(Options.move_key_point){
+    delete Options.move_key_point
+  }
+
+
+  Options.contextmenu = new Contextmenu({
+    type  : type ,
+    x     : e.pageX,
+    y     : e.pageY,
+    event : e
+  })
+
+  // カーソル移動
+  if(Options.contextmenu.status){
+    move_timeline_cursor(e)
+  }
+}
 export function mousedown(e){
+  
   switch(start_check(e)){
     case 'cursor':
       set_timeline_cursor(e)
       break
     case 'timeline-lists':
       click_timeline_lists(e)
-
-      // // カーソル移動
-      // move_timeline_cursor(e)
       break
   }
   ActionCommon.animation_name_list_other_click(e)
+  ActionCommon.contextmenu_other_click(e)
 }
 
 export function mousemove(e){
   if(Options.timeline_cursor){
     move_timeline_cursor(e)
-    // console.log('--3')
     Options.play.transform_img_all()
     change_timeline()
   }
@@ -58,16 +79,9 @@ function start_check(e){
 
 function set_timeline_cursor(e){
   const cursor = Options.elements.get_timeline_cursor()
-  // const mouse = {
-  //   x : ~~(e.pageX),
-  //   y : ~~(e.pageY),
-  // }
-  // const rect = cursor.getBoundingClientRect()
   Options.timeline_cursor = true
   move_timeline_cursor(e)
-  // console.log('--4')
   Options.play.transform_img_all()
-  // set_cover()
   change_timeline()
 
   const under = Options.elements.get_under()
