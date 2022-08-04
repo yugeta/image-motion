@@ -67,19 +67,6 @@ export class Event {
     )
   }
 
-  // header(){
-  //   this.set(
-  //     Options.elements.get_elm_header(),
-  //     'click',
-  //     Options.header.click_header.bind(Options.header),
-  //   )
-  //   this.set(
-  //     Options.elements.get_elm_input_scale(),
-  //     'input',
-  //     Options.header.change_scale.bind(Options.header),
-  //   )
-  // }
-
   animation(){
     // animation-nameリストの選択イベント
     const elm = Options.elements.get_animation_name_list_input()
@@ -94,7 +81,6 @@ export class Event {
       'input',
       ActionCommon.animation_name_list_input.bind(Options.header),
     )
-    
     this.set(
       elm,
       'change',

@@ -132,9 +132,6 @@ export function animation_name_list_decide() {
   }
 
   // animation設定値の反映
-  // const current_per = get_timeline_per()
-  // Options.play.set_timeline_per(current_per)
-  // Options.timeline.set_value()
   if(Options.animation){
     Options.animation.change_timeline()
   }
