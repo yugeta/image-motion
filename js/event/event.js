@@ -68,6 +68,11 @@ export class Event {
       'click',
       Options.control.load,
     )
+    this.set(
+      document.querySelector(`header .text-menu .lists .item[data-mode='new']`) , 
+      'click',
+      Options.control.new,
+    )
   }
 
   animation(){
