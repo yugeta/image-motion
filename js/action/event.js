@@ -1,5 +1,5 @@
 import { Options }       from '../options.js'
-import * as ActionCommon from './common.js'
+import * as ActionCommon from '../action/common.js'
 import { Contextmenu }   from '../asset/contextmenu.js'
 
 export function resize(e){

@@ -1,7 +1,7 @@
 import { Options }       from '../options.js'
-import { Animation }     from './animation.js'
-import { Timeline }      from './timeline.js'
-import * as ActionCommon from './common.js'
+import { Animation }     from '../action/animation.js'
+import { Timeline }      from '../action/timeline.js'
+import * as ActionCommon from '../action/common.js'
 
 export class Action{
   constructor(uuid){

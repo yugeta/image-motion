@@ -1,55 +1,29 @@
-import { Options }     from '../options.js'
-import * as ImageShape from '../images/shape.js'
-import { M_Points }    from './m_points.js'
-import { M_Matrix }    from './m_matrix.js'
+import { Options }       from '../options.js'
+// import * as ImageShape   from '../images/shape.js'
+// import * as ImageCommon  from '../images/common.js'
+import * as ActionCommon from '../action/common.js'
+import * as ShapeDeform  from '../shape/deformation.js'
+import { M_Points }      from '../shape/m_points.js'
+import { M_Matrix }      from '../shape/m_matrix.js'
+import { Corner  }       from '../shape/corner.js'
 
 export class Shape{
+
   constructor(uuid){
     if(!uuid){return}
-    const view_elm = Options.elements.get_uuid_view(uuid)
-    if(!view_elm){return}
-    this.uuid = uuid
-    this.view = view_elm
+    const pic_elm = Options.elements.get_uuid_view(uuid)
+    if(!pic_elm){return}
+    this.uuid  = uuid
+    this.pic   = pic_elm
+
     this.view_property()
     this.set_event()
     this.set_use()
-    this.set_data()
+    // this.set_data()
   }
 
-  clear(){
-    this.clear_property()
-  }
-  clear_property(){
-    const target = Options.elements.get_shape_property_info()
-    target.innerHTML = ''
-  }
-
-  view_property(){
-    const target = Options.elements.get_shape_property_info()
-    if(!target){return}
-    const template = Options.common.get_template('shape')
-    target.innerHTML = template
-    this.set_matrix()
-  }
-  set_matrix(){
-    const matrix_table = Options.elements.get_shape_property_matrix()
-    if(!matrix_table){return}
-    const table = Options.datas.get_shape_table(this.uuid)
-    const shape_x = table.x || 1
-    const shape_y = table.y || 1
-    for(let y=0; y<shape_y; y++){
-      const tr = document.createElement('tr')
-      for(let x=0; x<shape_x; x++){
-        const td = document.createElement('td')
-        tr.appendChild(td)
-      }
-      matrix_table.appendChild(tr)
-    }
-  }
-  clear_matric(){
-    const matrix_table = Options.elements.get_shape_property_matrix()
-    matrix_table.innerHTML = ''
-  }
+  // ----------
+  // init
 
   set_event(){
     Options.event.set(
@@ -89,41 +63,91 @@ export class Shape{
     )
   }
 
+
+  // ----------
+  // Property
+
+  view_property(){
+    const target = Options.elements.get_shape_property_info()
+    if(!target){return}
+    const template = Options.common.get_template('shape')
+    target.innerHTML = template
+    this.set_table()
+  }
+
+  clear_property(){
+    const target = Options.elements.get_shape_property_info()
+    target.innerHTML = ''
+  }
+
+  set_table(){
+    const matrix = this.get_table()
+    const table_data = Options.datas.get_shape_table(this.uuid)
+    const shape_x = table_data.x || 1
+    const shape_y = table_data.y || 1
+    for(let y=0; y<shape_y; y++){
+      const tr = document.createElement('tr')
+      for(let x=0; x<shape_x; x++){
+        const td = document.createElement('td')
+        tr.appendChild(td)
+      }
+      matrix.appendChild(tr)
+    }
+  }
+
+  get_table(){
+    if(!this.table){
+      this.table = Options.elements.get_shape_property_matrix()
+    }
+    return this.table
+  }
+
+  clear_table(){
+    this.get_table().innerHTML = '<tr><td></td></tr>'
+  }
+
   click_shape_use_event(e){
     this.click_shape_use(e.target)
   }
+
   click_shape_use(target){
     const preview = Options.elements.get_shape_property_preview()
-    switch(target.checked){
-      case true:
+    // shape-use on
+    if(target.checked){
         preview.setAttribute('data-status' , 'active')
         Options.datas.set_shape_use(this.uuid , 1)
         Options.datas.set_shape_table(this.uuid , {x:1,y:1})
         this.set_view()
-        break
+    }
 
-      case false:
-      default:
+    // shape-use off
+    else{
+        if(this.is_animation_datas()
+        && !confirm('アニメーションデータが削除されます。よろしいですか？')){
+          target.checked = true
+          return
+        }
         preview.setAttribute('data-status' , '')
         Options.datas.set_shape_use(this.uuid , 0)
+        Options.datas.set_shape_table(this.uuid , {x:1,y:1})
         this.clear_view()
-        break
+        this.clear_shape_animation()
     }
     
     // viewのflgセット
-    ImageShape.set_pic_shape_mode(this.uuid)
+    this.set_pic_shape_mode()
   }
+
   clear_shape_use(){
     const checkbox = Options.elements.get_shape_property_use()
     checkbox.checked = false
     this.click_shape_use(checkbox)
     Options.datas.set_shape_table(this.uuid , {x:1,y:1})
-    this.clear_matric()
+    this.clear_table()
   }
 
   click_shape_segment(name , mode){
     const matrix_table = this.get_property_matrix()
-    // let add = 0
     switch(name){
       case 'x':
         if(mode === '+'){
@@ -136,7 +160,6 @@ export class Shape{
           matrix_table.x--
         }
         break
-
       case 'y':
         if(mode === '+'){
           this.click_shape_segment_table_add_y()
@@ -152,22 +175,22 @@ export class Shape{
     this.set_martix_data(matrix_table)
     this.set_view()
   }
+
   click_shape_segment_table_add_x(){
-    const matrix = Options.elements.get_shape_property_matrix()
-    let tr_arr = matrix.querySelectorAll('tr') || []
+    let tr_arr = this.table.querySelectorAll('tr') || []
     if(!tr_arr.length){
       const tr = document.createElement('tr')
-      matrix.appendChild(tr)
-      tr_arr = matrix.querySelectorAll('tr')
+      this.table.appendChild(tr)
+      tr_arr = this.table.querySelectorAll('tr')
     }
     for(let tr of tr_arr){
       const td = document.createElement('td')
       tr.appendChild(td)
     }
   }
+
   click_shape_segment_table_del_x(){
-    const matrix = Options.elements.get_shape_property_matrix()
-    const tr_arr = matrix.querySelectorAll('tr') || []
+    const tr_arr = this.table.querySelectorAll('tr') || []
     if(!tr_arr.length){return}
     for(let tr of tr_arr){
       const td = tr.querySelector('td:last-child')
@@ -178,9 +201,9 @@ export class Shape{
       }
     }
   }
+
   click_shape_segment_table_add_y(){
-    const matrix = Options.elements.get_shape_property_matrix()
-    let tr_arr = matrix.querySelectorAll('tr') || []
+    let tr_arr = this.table.querySelectorAll('tr') || []
     const tr = document.createElement('tr')
     if(!tr_arr.length){
       const td = document.createElement('td')
@@ -189,37 +212,41 @@ export class Shape{
     else{
       tr.innerHTML = tr_arr[0].innerHTML
     }
-    matrix.appendChild(tr)
+    this.table.appendChild(tr)
   }
 
   click_shape_segment_table_del_y(){
-    const matrix = Options.elements.get_shape_property_matrix()
-    const tr_arr = matrix.querySelectorAll('tr') || []
+    const tr_arr = this.table.querySelectorAll('tr') || []
     if(!tr_arr.length){return}
-    matrix.removeChild(tr_arr[tr_arr.length-1])
+    this.table.removeChild(tr_arr[tr_arr.length-1])
   }
 
   get_property_matrix(){
-    const elm = Options.elements.get_shape_property_matrix()
-    if(!elm){return}
     return {
-      x : elm.querySelectorAll('tr:first-child td').length,
-      y : elm.querySelectorAll('tr').length,
+      x : this.table.querySelectorAll('tr:first-child td').length,
+      y : this.table.querySelectorAll('tr').length,
     }
   }
 
+
+  // ----------
+  // Use
+
+  // shape-use-checkbox -> on
   set_use(){
     const data = Options.datas.get_data(this.uuid)
-    if(data && data.shape_use){
-      // use
-      const flg = Options.elements.get_shape_property_use()
-      flg.checked = true
-      // table-matrix-preview
-      const preview = Options.elements.get_shape_property_preview()
-      preview.setAttribute('data-status' , 'active')
-    }
+    if(!data || !data.shape_use){return}
+
+    // use
+    const checkbox = Options.elements.get_shape_property_use()
+    checkbox.checked = true
+
+    // table-matrix-preview
+    const preview = Options.elements.get_shape_property_preview()
+    preview.setAttribute('data-status' , 'active')
   }
 
+  // tableデータのセット
   set_martix_data(matrix){
     matrix = matrix || {}
     matrix.x = matrix.x || 1
@@ -228,26 +255,24 @@ export class Shape{
   }
 
   set_view(){
-    ImageShape.clear_shape_split(this.uuid)
-    ImageShape.set_shape_split(this.uuid)
+    this.clear_shape_split()
+    this.set_shape_split()
   }
+
   clear_view(){
-    ImageShape.clear_shape_split(this.uuid)
+    this.clear_shape_split()
+    this.clear_table()
   }
 
-  set_data(){
-    // Options.datas.set_shape_data(this.uuid)
-  }
-
+  // pointを定位置に戻す
   click_reset(){
-    if(!Options.shape){return}
-    Options.shape.reset_points()
-    Options.shape.reset_images()
+    this.reset_points()
+    this.reset_images()
   }
 
   reset_points(){
     const points = Options.elements.get_shape_points(this.uuid)
-    const datas = Options.corner.points
+    const datas = this.corner.points
 
     for(let i=0; i<points.length; i++){
       const point = points[i]
@@ -258,8 +283,8 @@ export class Shape{
       point.style.setProperty('left' , `${pos.x}px` , '')
       point.style.setProperty('top'  , `${pos.y}px` , '')
     }
-
   }
+
   reset_images(){
     const images = Options.elements.get_shape_images(this.uuid)
     for(let img of images){
@@ -298,5 +323,198 @@ export class Shape{
     }
     return datas
   }
+
+  // ----------
+  // Data
+
+  set_data(){
+    // Options.datas.set_shape_data(this.uuid)
+    
+    // animation-nameの取得
+    const name = ActionCommon.get_animation_name()
+
+    // 現在timeline値(%)の取得
+    const per = ActionCommon.get_timeline_per()
+
+    // timeline-pointの存在確認（存在しない場合は処理しない）
+    if(!Options.timeline.is_point(per , 'shape')){return}
+
+    // データ保存
+    ActionCommon.set_type_value_of_view(name , this.uuid , 'shape' , per)
+  }
+
+
+  // ----------
+  // Event
+
+  mousedown(e){
+    // shape-pointの確認
+    const pic   = Options.elements.upper_selector(e.target , `[name='view'] .pic`)
+    const point = Options.elements.upper_selector(e.target , `[name='view'] .pic > .shape > .shape-point`)
+    if(!pic || !point){return}
+    
+    const area      = Options.elements.get_area_view()
+    const rect      = area.getBoundingClientRect()
+    const uuid      = pic.getAttribute('data-uuid')
+    const image_num = point.getAttribute('data-image')
+
+    this.shape_point_move = {
+      mx        : e.pageX,
+      my        : e.pageY,
+      x         : point.offsetLeft,
+      y         : point.offsetTop,
+      area      : area,
+      rect      : rect,
+      point     : point,
+      uuid      : uuid,
+      image_num : image_num,
+    }
+  }
+  mousemove(e){
+    if(!this.shape_point_move){return}
+    const scale = Options.common.get_scale()
+    const diff = {
+      x : e.pageX - this.shape_point_move.mx,
+      y : e.pageY - this.shape_point_move.my,
+    }
+    const pos = {
+      x : ~~(this.shape_point_move.x + diff.x / scale),
+      y : ~~(this.shape_point_move.y + diff.y / scale),
+    }
+    const point = this.shape_point_move.point
+    point.style.setProperty('left' , `${pos.x}px` ,'')
+    point.style.setProperty('top'  , `${pos.y}px` ,'')
+    const point_num = point.getAttribute('data-num')
+
+    // deformation
+    const point_data = {
+      num : point_num,
+      x   : pos.x,
+      y   : pos.y,
+    }
+    // const uuid = ImageCommon.get_current_uuid()
+    // console.log(this.corner)
+    const target_shape_image_datas = this.corner.get_adjacent_images(point_num)
+    for(let target_shape_image_data of target_shape_image_datas){
+      ShapeDeform.img(this.uuid , target_shape_image_data , point_data)
+    }
+  }
+  mouseup(e){
+    if(!this.shape_point_move){return}
+    this.set_data(this.shape_point_move)
+    delete this.shape_point_move
+  }
+
+  // ----------
+  // Set & Clear
+
+  // view-shapeをセットする。
+  set_shape_split(){
+    if(!Options.datas.get_shape_use(this.uuid)){return}
+    const pic_img   = Options.elements.get_view_img(this.uuid)
+    const shape_elm = Options.elements.get_view_shape(this.uuid)
+    if(!pic_img || !shape_elm){return}
+    const data      = Options.datas.get_data(this.uuid)
+    const table     = Options.datas.get_shape_table(this.uuid)
+    const w         = data.w / table.x
+    const h         = data.h / table.y
+    let num         = 0
+    for(let i=0; i<table.y; i++){
+      const y = i * h
+      for(let j=0; j<table.x; j++){
+        const x = j * w
+        this.set_element(shape_elm,pic_img,x,y,w,h,data,num)
+        num++
+      }
+    }
+    this.set_shape_points()
+  }
+
+  set_element(shape_elm,pic_img,x,y,w,h,data,num){
+    const div = document.createElement('div')
+    div.className = 'shape-item'
+    div.style.setProperty('width'  , `${w}px` , '')
+    div.style.setProperty('height' , `${h}px` , '')
+    div.style.setProperty('left'   , `${x}px` , '')
+    div.style.setProperty('top'    , `${y}px` , '')
+    const transform_origin = `-${x}px -${y}px`
+    div.style.setProperty('transform-origin' , transform_origin , '')
+    const img = document.createElement('img')
+    img.src = pic_img.src
+    img.style.setProperty('width'  , `${data.w}px` , '')
+    img.style.setProperty('height' , `${data.h}px` , '')
+    img.style.setProperty('left'   , `-${x}px` , '')
+    img.style.setProperty('top'    , `-${y}px` , '')
+    div.appendChild(img)
+    shape_elm.appendChild(div)
+    div.setAttribute('data-num' , num)
+  }
+
+  // shape-pointの設置
+  set_shape_points(){
+    const shape_elm = Options.elements.get_view_shape(this.uuid)
+    if(!shape_elm){return}
+    this.corner = new Corner(this.uuid)
+    const data     = Options.datas.get_data(this.uuid)
+    const table    = Options.datas.get_shape_table(this.uuid)
+    const w        = Number((data.w / table.x).toFixed(2))
+    const h        = Number((data.h / table.y).toFixed(2))
+    let image_num  = 0
+    for(let i=0; i<table.y; i++){
+      const y = i * h
+      for(let j=0; j<table.x; j++){
+        const x = j * w
+        const pos = this.corner.set_transform(x , y , w , h)
+        this.corner.add(pos , i , j)
+        Options.datas.set_shape_corners(this.uuid , image_num , pos)
+        image_num++
+      }
+    }
+    this.corner.create()
+  }
+
+  // view-shapeの内容をクリアする
+  clear_shape_split(){
+    const shape_elm = Options.elements.get_view_shape(this.uuid)
+    if(!shape_elm){return}
+    shape_elm.innerHTML = ''
+  }
+
+  // 任意のshape情報を削除する（画像入れ替え処理にて使用）
+  clear_shape(){
+    const shape_splits = Options.elements.get_shape_images(this.uuid)
+    shape_splits.innerHTML = ''
+    Options.datas.set_shape_use(this.uuid , 0)
+    this.set_pic_shape_mode()
+  }
+
+  // 対象画像のshapeデータを削除する
+  clear_shape_animation(){
+    // データを削除する
+    Options.datas.remove_animation_shape_data(this.uuid)
+
+    // timeline上のkeyframeを削除する（表示）
+    if(Options.timeline){
+      Options.timeline.clear_type_all('shape')
+    }
+  }
+
+  // picのdata-shapeフラグの切り替え処理
+  set_pic_shape_mode(){
+    const use  = Options.datas.get_shape_use(this.uuid)
+    this.pic.setAttribute('data-shape' , use)
+  }
+
+  // shapeアニメが存在するかチェックする
+  is_animation_datas(){
+    const datas = Options.datas.get_shape_data(this.uuid)
+    if(datas){
+      return true
+    }
+    else{
+      return false
+    }
+  }
+
 
 }

@@ -67,16 +67,17 @@ export function get_current_uuid(){
   return elm.getAttribute('data-uuid')
 }
 
-
+// イメージ選択
 export function img_select(uuid){
   new Active('active' , uuid)
   Options.shape = new Shape(uuid)
 }
 
+// イメージ選択解除
 export function img_unselect(){
   new Active('all_passive')
   if(Options.shape){
-    Options.shape.clear()
+    Options.shape.clear_property()
     delete Options.shape
   }
 }

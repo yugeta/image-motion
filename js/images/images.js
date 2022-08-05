@@ -1,9 +1,10 @@
 import { Options }       from '../options.js'
 import { Uuid    }       from '../common/uuid.js'
 import * as ImageCommon  from '../images/common.js'
-import * as ImageShape   from '../images/shape.js'
+// import * as ImageShape   from '../images/shape.js'
 import * as ActionCommon from '../action/common.js'
 import { Timeline }      from '../action/timeline.js'
+import { Shape }         from '../shape/shape.js'
 
 export class Images{
   constructor(data){
@@ -71,9 +72,14 @@ export class Images{
     this.cache.img = img
 
     this.set_visibility(data.uuid)
-    ImageShape.set_shape_split(data.uuid)
-    // this.set_shape()
 
+    // shape-split表示をする
+    if(Options.shape){
+      Options.shape.set_shape_split()
+    }
+    else{
+      new Shape(data.uuid).set_shape_split()
+    }
   }
 
 
@@ -133,7 +139,6 @@ export class Images{
   set_image_pos(){
     const x = this.cache.x || 0
     const y = this.cache.y || 0
-// console.log(x,y)
     this.cache.pic.style.setProperty('top'  , `${y}px` , '')
     this.cache.pic.style.setProperty('left' , `${x}px` , '')
 
@@ -200,11 +205,6 @@ export class Images{
     elm.parentNode.removeChild(elm)
   }
 
-  // set_shape(){
-  //   if(!this.cache.shape_use){return}
-  //   ImageShape.set_shape_split(this.cache.uuid)
-  // }
-
   renew(data){
     
     // console.log(uuid,data)
@@ -258,9 +258,10 @@ export class Images{
     this.set_cache()
     this.set_center_pos()
     this.set_transform()
-    ImageShape.clear_shape(uuid)
-    ImageShape.clear_shape_animation(uuid)
     if(Options.shape){
+      // Options.shape.clear_shape()
+      Options.shape.clear_shape_split()
+      Options.shape.clear_shape_animation()
       Options.shape.clear_shape_use()
     }
     // timelineに表示されている場合は、表示削除する

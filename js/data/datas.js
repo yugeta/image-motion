@@ -127,9 +127,6 @@ export class Datas{
       if(!Object.keys(Options.animations[key].items).length){
         delete Options.animations[key].items
       }
-      if(!Object.keys(Options.animations[key]).length){
-        delete Options.animations[key]
-      }
     }
 
     return Options.animations
@@ -330,7 +327,6 @@ export class Datas{
       }
       datas.points.push(pos)
     }
-console.log(data_prev)
     for(let i=0; i<data_prev.matrix.length; i++){
       const matrix = new M_Matrix(base_points[i].corners , datas.points[i])
       datas.matrix.push(matrix)
@@ -474,10 +470,12 @@ console.log(data_prev)
       for(let key_num in animation_data.items[uuid].keyframes){
         const key_data = animation_data.items[uuid].keyframes[key_num]
         if(!key_data.shape){continue}
-        console.log(animation_name , key_num,key_data)
         delete key_data.shape
       }
     }
+  }
+  remove_shape_corner_data(uuid){
+
   }
 
 

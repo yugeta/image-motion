@@ -1,5 +1,5 @@
 import { Options }       from '../options.js'
-import * as ActionCommon from './common.js'
+import * as ActionCommon from '../action/common.js'
 import * as ImageCommon  from '../images/common.js'
 import * as ShapeCommon  from '../shape/common.js'
 

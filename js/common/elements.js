@@ -225,6 +225,10 @@ export class Elements{
     if(!area){return}
     return area.querySelector(`.${name}`)
   }
+  get_timeline_type_points(type){
+    if(!type){return}
+    return document.querySelectorAll(`.contents [name='timeline'] .lists .${type} .point`)
+  }
 
   // ----------
   // Animation
