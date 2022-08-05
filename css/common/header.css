@@ -91,7 +91,7 @@ header .text-menu > li .lists{
   top:100%;
   left:0;
   background-color: var(--color-contents-header);
-  width:100px;
+  width:200px;
   z-index:1000;
   box-shadow:2px 2px 10px rgba(0,0,0,0.5);
 }
@@ -103,7 +103,7 @@ header .text-menu > li .lists .item{
   padding:10px 10px;
   cursor:pointer;
   line-height:normal;
-  text-align:center;
+  text-align:left;
 }
 header .text-menu > li .lists .item:hover{
   color:white;

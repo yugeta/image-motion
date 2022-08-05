@@ -1,5 +1,6 @@
 import { Options }      from '../options.js'
 import { Images  }      from '../images/images.js'
+import { New  }         from '../data/new.js'
 
 export class Load{
   constructor(){
@@ -35,6 +36,7 @@ export class Load{
   }
 
   upload(file){
+    new New()
     const fileReader  = new FileReader()
     fileReader.onload = this.loaded.bind(this, fileReader)
     fileReader.readAsText(file)

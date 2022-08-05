@@ -1,6 +1,7 @@
 import { Options     }   from '../options.js'
 import { Save        }   from '../data/save.js'
 import { Load        }   from '../data/load.js'
+import { New         }   from '../data/new.js'
 import * as ImageEvent   from '../images/event.js'
 import * as ListsEvent   from '../lists/event.js'
 import * as PropEvent    from '../property/event.js'
@@ -15,6 +16,9 @@ export class Control{
   }
   load(){
     new Load()
+  }
+  new(){
+    new New()
   }
 
   resize(e){
