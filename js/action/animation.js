@@ -1,5 +1,5 @@
 import { Options }         from '../options.js'
-import * as ActionCommon   from './common.js'
+import * as ActionCommon   from '../action/common.js'
 
 export class Animation{
   constructor(name , uuid){
@@ -80,7 +80,7 @@ export class Animation{
         return Number(value || 0).toFixed(2)
 
       default:
-        return value || 0
+        return Number(value) || 0
     }
   }
   set_value(elm , value , mode){

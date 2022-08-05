@@ -1,6 +1,6 @@
 import { Options }      from '../options.js'
-import { M_Matrix }     from './m_matrix.js'
-import { M_Points }     from './m_points.js'
+import { M_Matrix }     from '../shape/m_matrix.js'
+import { M_Points }     from '../shape/m_points.js'
 
 export function img(uuid , image_data , point_data){
   const img = Options.elements.get_shape_image_num2split_image(uuid , image_data.num)

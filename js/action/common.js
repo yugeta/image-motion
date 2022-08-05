@@ -1,5 +1,5 @@
 import { Options }      from '../options.js'
-import * as ActionEvent from './event.js'
+import * as ActionEvent from '../action/event.js'
 import * as ImageCommon from '../images/common.js'
 import * as ShapeCommon from '../shape/common.js'
 import { Play }         from '../action/play.js'

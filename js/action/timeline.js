@@ -1,6 +1,6 @@
 import { Options }       from '../options.js'
-import * as ActionEvent  from './event.js'
-import * as ActionCommon from './common.js'
+import * as ActionEvent  from '../action/event.js'
+import * as ActionCommon from '../action/common.js'
 import * as ImageCommon  from '../images/common.js'
 
 export class Timeline{
@@ -101,6 +101,9 @@ export class Timeline{
     }
   }
   add_point(per , type){
+
+    if(type === 'shape' && !this.is_shape_use()){return}
+
     // point追加
     this.set_keyframes(per , type)
 
@@ -108,7 +111,14 @@ export class Timeline{
     ActionCommon.set_type_value_of_view(this.name , this.uuid , type , per)
   }
 
-  
+  is_shape_use(){
+    if(Options.datas.get_shape_use(this.uuid)){
+      return true
+    }
+    else{
+      return false
+    }
+  }
 
   del_point(per , type , elm){
     const point = Options.elements.upper_selector(elm , `[name='timeline'] .lists .point`)
@@ -132,6 +142,15 @@ export class Timeline{
     this.set_keyframes(after_per , type)
     // keyframeデータの更新
     ActionCommon.set_type_value_of_view(this.name , this.uuid , type , after_per , datas[type])
+    return true
+  }
+
+  clear_type_all(type){
+    const type_points = Options.elements.get_timeline_type_points(type)
+    if(!type_points || !type_points.length){return}
+    for(let i=type_points.length-1; i>=0; i--){
+      type_points[i].parentNode.removeChild(type_points[i])
+    }
     return true
   }
   

@@ -1,4 +1,4 @@
-import * as sylvester from './sylvester/sylvester.mod.js'
+import * as sylvester from '../shape/sylvester/sylvester.mod.js'
 
 // 参考 : https://qiita.com/as_kuya/items/45bc930b11123e3f072b
 export class M_Matrix{

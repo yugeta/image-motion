@@ -1,6 +1,7 @@
 import { Options }      from '../options.js'
 
 export class Corner{
+  
   constructor(uuid){
     this.uuid      = uuid
     this.points    = []

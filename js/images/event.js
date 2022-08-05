@@ -44,6 +44,9 @@ export function mouseup(e){
 // Image
 
 function image_mousedown(e){
+  // moveアイコン操作時は処理しない
+  if(Options.elements.upper_selector(e.target , `[name='view'] > .move`)){return}
+
   const img  = Options.elements.upper_selector(e.target , `[name='view'] [data-uuid]`)
   // 画像の移動または選択
   if(img){
