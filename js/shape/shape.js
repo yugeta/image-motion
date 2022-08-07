@@ -124,7 +124,7 @@ export class Shape{
     // shape-use off
     else{
         if(this.is_animation_datas()
-        && !confirm('アニメーションデータが削除されます。よろしいですか？')){
+        && !confirm('Shapeアニメーションデータが削除されます。よろしいですか？')){
           target.checked = true
           return
         }
@@ -510,13 +510,28 @@ export class Shape{
 
   // shapeアニメが存在するかチェックする
   is_animation_datas(){
-    const datas = Options.datas.get_shape_data(this.uuid)
-    if(datas){
-      return true
+    const animation_datas = Options.datas.get_animations()
+    if(!animation_datas){return}
+    const uuid = this.uuid
+    const animation_name = ActionCommon.get_animation_name()
+    if(!animation_datas[animation_name]){return}
+    const animation_data = animation_datas[animation_name]
+    if(!animation_data.items
+    || !animation_data.items[uuid]
+    || !animation_data.items[uuid].keyframes){return}
+    for(let key_num in animation_data.items[uuid].keyframes){
+      const key_data = animation_data.items[uuid].keyframes[key_num]
+      if(key_data.shape){
+        return true
+      }
     }
-    else{
-      return false
-    }
+    // const datas = Options.datas.get_shape_data(this.uuid)
+    // if(datas){
+    //   return true
+    // }
+    // else{
+    //   return false
+    // }
   }
 
 
