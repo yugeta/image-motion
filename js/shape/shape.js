@@ -20,6 +20,7 @@ export class Shape{
     this.set_event()
     this.set_use()
     // this.set_data()
+    this.corner = new Corner(this.uuid)
   }
 
   // ----------
@@ -394,6 +395,8 @@ export class Shape{
     }
     // const uuid = ImageCommon.get_current_uuid()
     // console.log(this.corner)
+    // console.log(this.uuid)
+    // console.log(this)
     const target_shape_image_datas = this.corner.get_adjacent_images(point_num)
     for(let target_shape_image_data of target_shape_image_datas){
       ShapeDeform.img(this.uuid , target_shape_image_data , point_data)
@@ -454,7 +457,7 @@ export class Shape{
   set_shape_points(){
     const shape_elm = Options.elements.get_view_shape(this.uuid)
     if(!shape_elm){return}
-    this.corner = new Corner(this.uuid)
+    // this.corner = new Corner(this.uuid)
     const data     = Options.datas.get_data(this.uuid)
     const table    = Options.datas.get_shape_table(this.uuid)
     const w        = Number((data.w / table.x).toFixed(2))
