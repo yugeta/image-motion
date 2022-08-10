@@ -3,7 +3,11 @@
 
 .under{
   --size-list-height : 30px;
-  
+  --size-timeline-right-margin : 20px;
+  --size-header : 30px;
+  height: var(--size-under);
+  display          : grid;
+  grid-template-columns : 250px 1fr var(--size-timeline-right-margin);
 }
 
 .under[data-status='drag'] *{

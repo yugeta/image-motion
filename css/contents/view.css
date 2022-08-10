@@ -2,6 +2,7 @@
   --col-bg    : #343434;
   --col-line  : #474646;
   --size-grid : 20px;
+  --size-move : 30px;
 
   overflow : hidden;
   -webkit-user-select: none;
@@ -161,6 +162,7 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
 .contents .pic .shape > .shape-item{
   position:absolute;
   overflow:hidden;
+  pointer-events:none;
 }
 .contents .pic .shape > .shape-item > img{
   position:absolute;
@@ -227,9 +229,9 @@ body[data-hash='action'] .contents:not([data-animation-name='']) .pic[data-statu
 
 /* move : open with */
 [name='view'] .move{
-  --size : 30px;
-  width:var(--size);
-  height:var(--size);
+  
+  width:var(--size-move);
+  height:var(--size-move);
   border:1px solid var(--color-font);
   border-radius:4px;
   position:absolute;

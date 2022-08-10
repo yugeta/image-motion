@@ -25,6 +25,10 @@ export class Elements{
   get_home(){
     return document.querySelector(".contents .home")
   }
+
+  get_footer(){
+    return document.querySelector('footer')
+  }
   
   get_version(){
     return document.querySelector('footer .version-value')
@@ -139,9 +143,7 @@ export class Elements{
   get_elm_header(){
     return document.querySelector('header')
   }
-  get_elm_input_scale(){
-    return document.querySelector(`header .range input[type='range'][name='scale']`)
-  }
+  
   get_elm_contents_view(){
     return document.querySelector(`.contents [name='view']`)
   }
@@ -150,11 +152,11 @@ export class Elements{
   }
 
   // scale
-  get_header_scale_input(){
-    return document.querySelector(`header input[name='scale']`)
+  get_elm_input_scale(){
+    return document.querySelector(`input[type='range'][name='view-scale']`)
   }
   get_header_scale_value(){
-    return document.querySelector(`header .range .scale-value`)
+    return document.querySelector(`input[type='range'][name='view-scale'] ~ .scale-value`)
   }
 
   // ----------
@@ -312,4 +314,13 @@ export class Elements{
     return document.querySelectorAll(`.contents [name='view'] .pic[data-uuid='${uuid}'] > .shape > .shape-item`)
   }
 
+
+  // ----------
+  // timeline-scroll
+  get_timeline_scroll_area(){
+    return document.querySelector(`.timeline-scroll-area`)
+  }
+  get_timeline_scroll_bar(){
+    return document.querySelector(`.timeline-scroll-bar`)
+  }
 }

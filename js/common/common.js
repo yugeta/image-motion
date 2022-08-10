@@ -88,8 +88,10 @@ export class Common{
 
   // range : 0.0 - 1.0
   get_scale(){
-    let scale = document.querySelector(`input[type='range'][name='scale']`).value
-    return Number(scale) * 0.01
+    // const scale_elm = document.querySelector(`input[type='range'][name='scale']`)
+    const scale_elm = Options.elements.get_elm_input_scale()
+    const scale_val = scale_elm.value
+    return Number(scale_val) * 0.01
   }
 
   // filePath -> name

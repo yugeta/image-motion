@@ -4,8 +4,6 @@ import * as ImageCommon from '../images/common.js'
 // import { Shape   } from '../shape/shape.js'
 
 export function mousedown(e){
-  
-
   // viewエリア以外のクリックは処理しない
   if(!Options.elements.upper_selector(e.target , `[name='view']`)){return}
 
@@ -46,6 +44,7 @@ export function mouseup(e){
 function image_mousedown(e){
   // moveアイコン操作時は処理しない
   if(Options.elements.upper_selector(e.target , `[name='view'] > .move`)){return}
+  if(Options.elements.upper_selector(e.target , `[name='view'] > .change-scale`)){return}
 
   const img  = Options.elements.upper_selector(e.target , `[name='view'] [data-uuid]`)
   // 画像の移動または選択

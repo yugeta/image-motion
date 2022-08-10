@@ -4,9 +4,38 @@ export class Corner{
   
   constructor(uuid){
     this.uuid      = uuid
-    this.points    = []
     this.shape_elm = Options.elements.get_view_shape(uuid)
-    this.table     = Options.datas.get_shape_table(uuid)
+    this.table = Options.datas.get_shape_table(this.uuid)
+    this.set_points()
+    this.set_calc()
+  }
+
+  init(){
+    this.points = []
+    this.set_calc()
+  }
+
+  set_points(){
+    this.points = []
+    const data  = Options.datas.get_data(this.uuid)
+    const table = Options.datas.get_shape_table(this.uuid)
+    const w     = data.w / table.x
+    const h     = data.h / table.y
+    for(let i=0; i<table.y; i++){
+      const y = i * h
+      let num         = 0
+      for(let j=0; j<table.x; j++){
+        const x = j * w
+        const pos = this.set_transform(x , y , w , h)
+        this.add(pos , i , j)
+        Options.datas.set_shape_corners(this.uuid , num , pos)
+        num++
+      }
+    }
+  }
+
+  set_calc(){
+    this.table = Options.datas.get_shape_table(this.uuid)
     this.calc = {
       x : this.table.x + 1,
       y : this.table.y + 1,
@@ -89,15 +118,11 @@ export class Corner{
 
   create_points(){
     for(let i=0; i<this.points.length; i++){
-      const point = this.points[i]
       const div  = document.createElement('div')
       this.shape_elm.appendChild(div)
       this.set_point_property(div , i)
     }
   }
-  // set_point_datas(){
-  //   Options.set_shape_points(this.points)
-  // }
 
   set_point_property(elm , point_num){
     const data = this.points[point_num]

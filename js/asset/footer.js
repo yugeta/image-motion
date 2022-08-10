@@ -3,6 +3,7 @@ import { Ajax    } from '../common/ajax.js'
 
 export class Footer{
   constructor(){
+    if(!Options.elements.get_footer()){return}
     this.version = Options.elements.get_version()
     this.init()
   }

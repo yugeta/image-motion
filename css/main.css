@@ -7,7 +7,7 @@
 
 :root{
   --size-header-height    : 40px;
-  --size-footer-height    : 30px;
+  --size-footer-height    : 0px;
   --color-border          : #141414;
   --color-contents-header : #333333;
   --color-font            : #727272;

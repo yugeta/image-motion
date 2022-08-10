@@ -6,10 +6,11 @@
 @import './transform.css';
 @import './shape.css';
 @import './contextmenu.css';
+@import './change-scale.css';
 
 .contents{
   --size-property-area-height : 250px;
-  --size-under : 250px;
+  --size-under : 200px;
 
 
   height           : calc(100% - var(--size-header-height) - var(--size-footer-height));
@@ -43,15 +44,7 @@
   height:100%;
 }
 
-.contents .under{
-  height: var(--size-under);
-  display          : grid;
-  grid-template-columns : 250px 1fr 20px;
-  /* overflow-y:scroll; */
-  /* scrollbar-color : rebeccapurple var(--color-contents-header); */
-  /* scrollbar-color: #6969dd #e0e0e0;
-  scrollbar-width: thin; */
-}
+
 /* .contents *::-webkit-scrollbar-track {
   background-color: var(--color-contents-header);
 }

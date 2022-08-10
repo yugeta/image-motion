@@ -1,5 +1,6 @@
 [name='timeline']{
-  --size-timeline : 30px;
+  position:relative;
+  height:100%;
 }
 
 /* Input */
@@ -15,7 +16,6 @@
   border-radius:4px;
   text-align:right;
   outline:0;
-  /* margin-left:5px; */
   margin-right:5px;
   padding-left:5px;
   padding-right:5px;
@@ -45,7 +45,7 @@
 
 /* Timeline */
 [name='timeline'] .timeline{
-  height : var(--size-timeline);
+  height : var(--size-header);
   border-bottom:1px solid var(--color-font);
   position:relative;
 }
@@ -54,7 +54,8 @@
 /* Lists */
 
 [name='timeline'] .lists{
-
+  height : calc(var(--size-under) - var(--size-header) - var(--size-images-header));
+  overflow:hidden;
 }
 
 [name='timeline'] .lists > *{
@@ -150,4 +151,35 @@
   background-color:white;
 }
 
+.timeline-scroll{
+  width:100%;
+  height:var(--size-under);
+}
+.timeline-scroll .timeline-scroll-area{
+  position:relative;
+  margin-top:calc(var(--size-images-header) + var(--size-header));
+  height:calc(100% - var(--size-images-header) - var(--size-header));
+  overflow:hidden;
+}
+.timeline-scroll .timeline-scroll-bar{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  padding:0 4px;
+  /* background-color:red; */
+  cursor:pointer;
+}
+.timeline-scroll .timeline-scroll-bar::before{
+  content:'';
+  display:block;
+  width:100%;
+  height:100%;
+  background-color:var(--color-font);
+  border-radius:4px;
+}
+.timeline-scroll .timeline-scroll-bar:hover{
+  opacity:0.5;
+}
 

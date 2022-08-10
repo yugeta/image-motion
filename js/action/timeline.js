@@ -1,13 +1,15 @@
-import { Options }       from '../options.js'
-import * as ActionEvent  from '../action/event.js'
-import * as ActionCommon from '../action/common.js'
-import * as ImageCommon  from '../images/common.js'
+import { Options }        from '../options.js'
+import * as ActionEvent   from '../action/event.js'
+import * as ActionCommon  from '../action/common.js'
+import * as ImageCommon   from '../images/common.js'
+// import { TimelineScroll } from '../action/timeline_scroll.js'
 
 export class Timeline{
   constructor(name , uuid){
     this.name = name
     this.uuid = uuid
     this.view(name , uuid)
+    Options.timeline_scroll.set_size()
   }
 
   view(name , uuid){

@@ -40,11 +40,11 @@
 
     </ul>
     <ul class='control'>
-      <li class='range'>
+      <!-- <li class='range'>
         <span class='title'>Scale</span>
-        <input type='range' name='scale' value='70' step='1' min='10' max='200'/>
+        <input type='range' name='view-scale' value='70' step='1' min='10' max='200'/>
         <span class='scale-value'></span>
-      </li>
+      </li> -->
       <li class='hidden' id='load'><span class='button'><svg src='img/icon/upload_file.svg'></svg></span></li>
       <li class='hidden' id='save'><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
     </ul>
@@ -104,6 +104,11 @@
         </div>
         <ul class='lists'></ul>
       </div>
+      <div class='timeline-scroll'>
+        <div class='timeline-scroll-area'>
+          <div class='timeline-scroll-bar'></div>
+        </div>
+      </div>
     </div>
 
     <div class='over'>
@@ -124,6 +129,10 @@
       <div name='view'>
         <div class='move'><svg src='img/icon/open_with.svg'></svg></div>
         <div class='scale'></div>
+        <div class='change-scale'>
+          <input type='range' name='view-scale' value='70' step='1' min='10' max='400'/>
+          <span class='scale-value'></span>
+        </div>
       </div>
       <div class='over-right'>
         <div name='property'>

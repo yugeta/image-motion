@@ -19,6 +19,7 @@ export class Shape{
     this.view_property()
     this.set_event()
     this.set_use()
+    
     // this.set_data()
     this.corner = new Corner(this.uuid)
   }
@@ -124,7 +125,7 @@ export class Shape{
     // shape-use off
     else{
         if(this.is_animation_datas()
-        && !confirm('アニメーションデータが削除されます。よろしいですか？')){
+        && !confirm('Shapeアニメーションデータが削除されます。よろしいですか？')){
           target.checked = true
           return
         }
@@ -272,17 +273,16 @@ export class Shape{
   }
 
   reset_points(){
-    const points = Options.elements.get_shape_points(this.uuid)
-    const datas = this.corner.points
-
-    for(let i=0; i<points.length; i++){
-      const point = points[i]
+    const elms = Options.elements.get_shape_points(this.uuid)
+    const points = this.corner.points
+    for(let i=0; i<elms.length; i++){
+      const elm = elms[i]
       const pos = {
-        x: datas[i].x,
-        y: datas[i].y,
+        x: points[i].x,
+        y: points[i].y,
       }
-      point.style.setProperty('left' , `${pos.x}px` , '')
-      point.style.setProperty('top'  , `${pos.y}px` , '')
+      elm.style.setProperty('left' , `${pos.x}px` , '')
+      elm.style.setProperty('top'  , `${pos.y}px` , '')
     }
   }
 
@@ -398,6 +398,7 @@ export class Shape{
     // console.log(this.uuid)
     // console.log(this)
     const target_shape_image_datas = this.corner.get_adjacent_images(point_num)
+    // console.log(target_shape_image_datas)
     for(let target_shape_image_data of target_shape_image_datas){
       ShapeDeform.img(this.uuid , target_shape_image_data , point_data)
     }
@@ -463,17 +464,21 @@ export class Shape{
     const w        = Number((data.w / table.x).toFixed(2))
     const h        = Number((data.h / table.y).toFixed(2))
     let image_num  = 0
+    this.corner.init()
     for(let i=0; i<table.y; i++){
       const y = i * h
       for(let j=0; j<table.x; j++){
         const x = j * w
         const pos = this.corner.set_transform(x , y , w , h)
         this.corner.add(pos , i , j)
+        // this.corner.replace(pos , i , j)
         Options.datas.set_shape_corners(this.uuid , image_num , pos)
         image_num++
       }
     }
+    // console.log(this.corner)
     this.corner.create()
+    // console.log(this.corner.points)
   }
 
   // view-shapeの内容をクリアする
@@ -510,13 +515,28 @@ export class Shape{
 
   // shapeアニメが存在するかチェックする
   is_animation_datas(){
-    const datas = Options.datas.get_shape_data(this.uuid)
-    if(datas){
-      return true
+    const animation_datas = Options.datas.get_animations()
+    if(!animation_datas){return}
+    const uuid = this.uuid
+    const animation_name = ActionCommon.get_animation_name()
+    if(!animation_datas[animation_name]){return}
+    const animation_data = animation_datas[animation_name]
+    if(!animation_data.items
+    || !animation_data.items[uuid]
+    || !animation_data.items[uuid].keyframes){return}
+    for(let key_num in animation_data.items[uuid].keyframes){
+      const key_data = animation_data.items[uuid].keyframes[key_num]
+      if(key_data.shape){
+        return true
+      }
     }
-    else{
-      return false
-    }
+    // const datas = Options.datas.get_shape_data(this.uuid)
+    // if(datas){
+    //   return true
+    // }
+    // else{
+    //   return false
+    // }
   }
 
 
