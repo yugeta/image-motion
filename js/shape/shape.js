@@ -398,6 +398,7 @@ export class Shape{
     // console.log(this.uuid)
     // console.log(this)
     const target_shape_image_datas = this.corner.get_adjacent_images(point_num)
+    // console.log(target_shape_image_datas)
     for(let target_shape_image_data of target_shape_image_datas){
       ShapeDeform.img(this.uuid , target_shape_image_data , point_data)
     }
@@ -463,16 +464,19 @@ export class Shape{
     const w        = Number((data.w / table.x).toFixed(2))
     const h        = Number((data.h / table.y).toFixed(2))
     let image_num  = 0
+    this.corner.clear()
     for(let i=0; i<table.y; i++){
       const y = i * h
       for(let j=0; j<table.x; j++){
         const x = j * w
         const pos = this.corner.set_transform(x , y , w , h)
         this.corner.add(pos , i , j)
+        // this.corner.replace(pos , i , j)
         Options.datas.set_shape_corners(this.uuid , image_num , pos)
         image_num++
       }
     }
+    // console.log(this.corner)
     this.corner.create()
   }
 

@@ -6,7 +6,11 @@ export class Corner{
     this.uuid      = uuid
     this.points    = []
     this.shape_elm = Options.elements.get_view_shape(uuid)
-    this.table     = Options.datas.get_shape_table(uuid)
+    this.set_calc()
+  }
+
+  set_calc(){
+    this.table = Options.datas.get_shape_table(this.uuid)
     this.calc = {
       x : this.table.x + 1,
       y : this.table.y + 1,
@@ -63,6 +67,12 @@ export class Corner{
     // bottom-right
     this.points.push(pos_arr[3])
   }
+
+  clear(){
+    this.points = []
+    this.set_calc()
+  }
+
 
   xy_sort(){
     if(!this.points.length){return}
