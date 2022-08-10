@@ -56,6 +56,7 @@
 [name='timeline'] .lists{
   height : calc(var(--size-under) - var(--size-header) - var(--size-images-header));
   overflow:hidden;
+  /* overflow:visible clip; */
 }
 
 [name='timeline'] .lists > *{
