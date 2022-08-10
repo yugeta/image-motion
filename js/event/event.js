@@ -1,5 +1,6 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
+import { About }         from '../asset/about.js'
 
 export class Event {
   constructor(){
@@ -72,6 +73,13 @@ export class Event {
       document.querySelector(`header .text-menu .lists .item[data-mode='new']`) , 
       'click',
       Options.control.new,
+    )
+    this.set(
+      document.querySelector(`header .text-menu .lists .item[data-mode='about']`) , 
+      'click',
+      (()=>{
+        new About()
+      }).bind(this),
     )
   }
 

@@ -2,6 +2,8 @@ import { Options }  from '../options.js'
 
 export class Save{
   constructor(){
+    const images = Options.elements.get_image_lists()
+    if(!images.length){return}
     const data = Options.datas.get_save_data()
     this.download(data)
   }
