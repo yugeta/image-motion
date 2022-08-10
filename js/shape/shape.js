@@ -19,6 +19,7 @@ export class Shape{
     this.view_property()
     this.set_event()
     this.set_use()
+    
     // this.set_data()
     this.corner = new Corner(this.uuid)
   }
@@ -272,17 +273,16 @@ export class Shape{
   }
 
   reset_points(){
-    const points = Options.elements.get_shape_points(this.uuid)
-    const datas = this.corner.points
-
-    for(let i=0; i<points.length; i++){
-      const point = points[i]
+    const elms = Options.elements.get_shape_points(this.uuid)
+    const points = this.corner.points
+    for(let i=0; i<elms.length; i++){
+      const elm = elms[i]
       const pos = {
-        x: datas[i].x,
-        y: datas[i].y,
+        x: points[i].x,
+        y: points[i].y,
       }
-      point.style.setProperty('left' , `${pos.x}px` , '')
-      point.style.setProperty('top'  , `${pos.y}px` , '')
+      elm.style.setProperty('left' , `${pos.x}px` , '')
+      elm.style.setProperty('top'  , `${pos.y}px` , '')
     }
   }
 
@@ -464,7 +464,7 @@ export class Shape{
     const w        = Number((data.w / table.x).toFixed(2))
     const h        = Number((data.h / table.y).toFixed(2))
     let image_num  = 0
-    this.corner.clear()
+    this.corner.init()
     for(let i=0; i<table.y; i++){
       const y = i * h
       for(let j=0; j<table.x; j++){
@@ -478,6 +478,7 @@ export class Shape{
     }
     // console.log(this.corner)
     this.corner.create()
+    // console.log(this.corner.points)
   }
 
   // view-shapeの内容をクリアする
