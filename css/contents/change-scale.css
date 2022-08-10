@@ -1,0 +1,19 @@
+.change-scale{
+  position:absolute;
+  top:10px;
+  right:calc(var(--size-move) + 10px + 10px);
+  display:flex;
+  align-items:center;
+  width:200px;
+}
+.change-scale input{
+  width:75%;
+}
+.change-scale .scale-value{
+  display:block;
+  width:25%;
+  text-align:center;
+}
+.change-scale .scale-value:after{
+  content : '%';
+}

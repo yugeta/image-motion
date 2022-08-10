@@ -62,8 +62,8 @@ export class Control{
     PropEvent.mousedown(e)
     ActionEvent.mousedown(e)
     if(Options.shape){Options.shape.mousedown(e)}
-    // ImageShape.mousedown(e)
     Options.view.mousedown(e)
+    Options.timeline_scroll.mousedown(e)
   }
   mousemove(e){
     ImageEvent.mousemove(e)
@@ -71,8 +71,8 @@ export class Control{
     PropEvent.mousemove(e)
     ActionEvent.mousemove(e)
     if(Options.shape){Options.shape.mousemove(e)}
-    // ImageShape.mousemove(e)
     Options.view.mousemove(e)
+    Options.timeline_scroll.mousemove(e)
   }
   mouseup(e){
     ImageEvent.mouseup(e)
@@ -80,8 +80,8 @@ export class Control{
     PropEvent.mouseup(e)
     ActionEvent.mouseup(e)
     if(Options.shape){Options.shape.mouseup(e)}
-    // ImageShape.mouseup(e)
     Options.view.mouseup(e)
+    Options.timeline_scroll.mouseup(e)
   }
 
   keydown(e){

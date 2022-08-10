@@ -9,11 +9,13 @@ import { Event     }  from '../event/event.js'
 import { Lists     }  from '../lists/lists.js'
 import { Play      }  from '../action/play.js'
 import { Header    }  from '../asset/header.js'
+import { Scale     }  from '../asset/scale.js'
 import { Storage   }  from '../storage/storage.js'
 import { Home      }  from '../home/home.js'
 import { Undo      }  from '../event/undo.js'
 import { View      }  from '../asset/view.js'
 import { Footer    }  from '../asset/footer.js'
+import { TimelineScroll } from '../action/timeline_scroll.js'
 
 export class Init{
   constructor(){
@@ -37,11 +39,13 @@ export class Init{
     Options.lists     = new Lists()
     Options.property  = new Property()
     Options.header    = new Header()
+    Options.scale     = new Scale()
     Options.view      = new View()
     Options.play      = new Play()
     Options.undo      = new Undo()
     Options.event     = new Event()
     Options.footer    = new Footer()
+    Options.timeline_scroll = new TimelineScroll()
     
     new Home()
   }

@@ -4,6 +4,10 @@
   --size-tool  : 30px;
   --size-header-title:30%;
   --size-header-trash:25px;
+
+  height:100%;
+  /* overflow:hidden;
+  height: var(--size-under); */
 }
 
 /* Input */
@@ -138,7 +142,8 @@
 
 
 [name='animation'] .lists{
-
+  height : calc(var(--size-under) - var(--size-header) - var(--size-images-header));
+  overflow:hidden;
 }
 
 [name='animation'] .lists > *{
