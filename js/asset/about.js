@@ -47,7 +47,6 @@ export class About{
   }
 
   get_message(){
-    console.log(Options.version)
     const version = {
       main : Options.versions.main,
       sub  : Options.versions.sub,

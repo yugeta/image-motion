@@ -2,7 +2,7 @@ import { Options } from '../options.js'
 import { Ajax }    from '../common/ajax.js'
 
 export class Version{
-  constructor(){console.log(1)
+  constructor(){
     // this.version = Options.elements.get_version()
     this.init()
   }

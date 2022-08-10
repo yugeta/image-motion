@@ -1,10 +1,12 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
 import { About }         from '../asset/about.js'
+import { HashChange }    from '../event/hash_change.js'
 
 export class Event {
   constructor(){
     this.init()
+    this.hashchange()
   }
 
   init(){
@@ -25,6 +27,11 @@ export class Event {
       window , 
       'resize',
       Options.control.resize.bind(Options.control),
+    )
+    this.set(
+      window,
+      'hashchange',
+      this.hashchange.bind(this)
     )
   }
   mouse(){
@@ -132,6 +139,10 @@ export class Event {
       'keyup',
       Options.control.keyup.bind(Options.control),
     )
+  }
+
+  hashchange(){
+    new HashChange()
   }
 
 }

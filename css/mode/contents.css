@@ -1,0 +1,9 @@
+body[data-hash='upload'] .contents-home,
+body[data-hash='action'] .contents-home{
+  display:none;
+}
+
+body[data-hash='upload'] .contents,
+body[data-hash='action'] .contents{
+  display:block;
+}

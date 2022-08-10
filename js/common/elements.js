@@ -18,6 +18,10 @@ export class Elements{
     return cur
   }
 
+  get_iframe(){
+    return document.querySelector(".contents-home iframe")
+  }
+
   get_root(){
     return document.querySelector(".contents")
   }
