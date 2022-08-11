@@ -10,6 +10,11 @@ export class TimelineScroll{
     this.set_size()
   }
 
+  init(){
+    this.set_size()
+    this.set_current_scroll()
+  }
+
   mousedown(e){
     if(!Options.elements.upper_selector(e.target , '.timeline-scroll-bar')){return}
     this.cache = {
@@ -35,8 +40,7 @@ export class TimelineScroll{
     }
     this.bar.style.setProperty('top' , `${move_y}px` , '')
     const move_y_rate = move_y / rate
-    this.scroll_timeline(move_y_rate)
-    this.scroll_animation(move_y_rate)
+    this.set_current_scroll(move_y_rate)
   }
 
   mouseup(e){
@@ -55,15 +59,12 @@ export class TimelineScroll{
   get_rate(){
     const base_height  = this.get_base_height()
     const inner_height = this.get_inner_height()
-    // console.log(base_height +" / "+ inner_height)
     return base_height / inner_height
   }
 
   set_size(){
-    // console.log(this.get_base_height() +" * "+ this.get_inner_height() +" / "+ this.get_base_height())
     const base_height  = this.get_base_height()
     const rate = this.get_rate()
-    // console.log(rate)
     const bar_size = base_height * rate
     this.bar.style.setProperty('height',`${bar_size}px`,'')
   }
@@ -76,5 +77,15 @@ export class TimelineScroll{
     this.animation.scrollTop = move_y
   }
 
+  get_current_scrollTop(){
+    const rate = this.get_rate()
+    const top  = this.bar.offsetTop
+    return top / rate
+  }
+  set_current_scroll(move_y_rate){
+    move_y_rate = move_y_rate || this.get_current_scrollTop()
+    this.scroll_timeline(move_y_rate)
+    this.scroll_animation(move_y_rate)
+  }
 
 }
