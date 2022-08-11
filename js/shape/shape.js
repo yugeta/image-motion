@@ -16,8 +16,8 @@ export class Shape{
     this.pic = Options.elements.get_uuid_view(uuid)
     if(!this.pic){return}
 
-    this.use = Options.datas.get_shape_use(uuid)
-    if(!this.use){return}
+    const shape_use = Options.datas.get_shape_use(uuid)
+    if(!shape_use){return}
 
     // this.view_property()
     // this.set_event()
@@ -25,6 +25,9 @@ export class Shape{
     
     // this.set_data()
     this.corner = new Corner(this.uuid)
+    // this.corner.create()
+    // this.set_view()
+    // this.set_shape_points()
   }
 
   // ----------
@@ -246,8 +249,8 @@ export class Shape{
 
   // shape-use-checkbox -> on
   set_use(){
-    // const data = Options.datas.get_data(this.uuid)
-    // if(!data || !data.shape_use){return}
+    const shape_use = Options.datas.get_shape_use(this.uuid)
+    if(!shape_use){return}
 
     // use
     const checkbox = Options.elements.get_shape_property_use()
@@ -470,7 +473,8 @@ export class Shape{
   set_shape_points(){
     const shape_elm = Options.elements.get_view_shape(this.uuid)
     if(!shape_elm){return}
-    if(!this.use || !this.corner){return}
+    const shape_use = Options.datas.get_shape_use(this.uuid)
+    if(!shape_use || !this.corner){return}
 
     // this.corner = new Corner(this.uuid)
     const data     = Options.datas.get_data(this.uuid)

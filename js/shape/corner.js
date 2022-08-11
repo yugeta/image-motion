@@ -13,7 +13,6 @@ export class Corner{
     this.table     = Options.datas.get_shape_table(this.uuid)
     this.points    = []
     // console.log(uuid , Options)
-
     // this.set_points()
     this.set_calc()
   }
