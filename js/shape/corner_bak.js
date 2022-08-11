@@ -1,35 +1,27 @@
 import { Options }      from '../options.js'
 
-/**
- * shapeのコーナーポイントを管理する処理
- */
-
 export class Corner{
-
-  // 基本定義
+  
   constructor(uuid){
     this.uuid      = uuid
     this.shape_elm = Options.elements.get_view_shape(uuid)
-    this.table     = Options.datas.get_shape_table(this.uuid)
-    this.points    = []
-    // console.log(uuid , Options)
-
-    // this.set_points()
-    this.set_calc()
-  }
-
-  check_use(){
-    return Options.datas.get_shape_use(this.uuid)
+    this.table = Options.datas.get_shape_table(this.uuid)
+    this.set_points()
+    // this.set_calc()
   }
 
   init(){
-    // this.points = Options.datas.get_shape_data(this.uuid) || []
-
-    // console.log(this.uuid,this.points)
+    this.points = Options.datas.get_shape_data(this.uuid) || []
+    console.log(this.uuid,this.points)
     this.set_calc()
   }
 
   set_points(){
+    // this.points = []
+    // const data  = Options.datas.get_data(this.uuid)
+    // const table = Options.datas.get_shape_table(this.uuid)
+    // const w     = data.w / table.x
+    // const h     = data.h / table.y
     const data     = Options.datas.get_data(this.uuid)
     const table    = Options.datas.get_shape_table(this.uuid)
     const w        = Number((data.w / table.x).toFixed(2))
@@ -49,7 +41,7 @@ export class Corner{
   }
 
   set_calc(){
-    // this.table = Options.datas.get_shape_table(this.uuid)
+    this.table = Options.datas.get_shape_table(this.uuid)
     this.calc = {
       x : this.table.x + 1,
       y : this.table.y + 1,
@@ -87,24 +79,24 @@ export class Corner{
     return data
   }
 
-  add(transforms , x , y){
+  add(pos_arr , x , y){
     // top-left
     if(x === 0 && y === 0){
-      this.points.push(transforms[0])
+      this.points.push(pos_arr[0])
     }
 
     // top-right
     if(x === 0){
-      this.points.push(transforms[1])
+      this.points.push(pos_arr[1])
     }
 
     // bottom-left
     if(y === 0){
-      this.points.push(transforms[2])
+      this.points.push(pos_arr[2])
     }
 
     // bottom-right
-    this.points.push(transforms[3])
+    this.points.push(pos_arr[3])
   }
 
   clear(){
@@ -163,7 +155,7 @@ export class Corner{
    */
   get_adjacent_images(point_num){
     point_num = Number(point_num)
-// console.log(point_num,this.calc)
+
     // 左上
     if(point_num === 0){
       return [

@@ -405,7 +405,6 @@ export class Datas{
   }
   set_shape_data(uuid , key , value){
     const shapes = this.get_shape_data(uuid)
-    // console.log(JSON.stringify(shapes))
     shapes[key] = value
   }
 

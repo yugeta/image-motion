@@ -71,6 +71,7 @@ export function get_current_uuid(){
 export function img_select(uuid){
   new Active('active' , uuid)
   Options.shape = new Shape(uuid)
+  Options.shape.view_property()
 }
 
 // イメージ選択解除

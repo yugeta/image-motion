@@ -61,6 +61,7 @@ export class Images{
     let template   = Options.common.get_template('image_pic')
     template       = Options.common.doubleBlancketConvert(template , data)
     if(!template){return}
+
     area.insertAdjacentHTML('beforeend' , template)
     const pic      = area.querySelector(`[data-uuid='${data.uuid}']`)
     const img      = pic.querySelector(`img`)
@@ -73,13 +74,10 @@ export class Images{
 
     this.set_visibility(data.uuid)
 
-    // shape-split表示をする
-    if(Options.shape){
-      Options.shape.set_shape_split()
-    }
-    else{
-      new Shape(data.uuid).set_shape_split()
-    }
+    // shape-splitを表示する
+    const shape = new Shape(data.uuid)
+    shape.set_shape_split()
+    shape.set_shape_points()
   }
 
 
