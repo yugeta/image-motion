@@ -117,23 +117,6 @@ function get_parent_pos(uuid){
   return pos
 }
 
-// function img_select(img){
-//   const uuid = img.getAttribute('data-uuid')
-//   if(!uuid){return}
-//   // // 選択されているimageは再度選択処理をしない
-//   // if(this.cache.pic.getAttribute('data-status') === 'active'){return}
-//   new Active('active' , uuid)
-//   Options.shape = new Shape(uuid)
-// }
-
-// function img_unselect(){
-//   new Active('all_passive')
-//   if(Options.shape){
-//     Options.shape.clear()
-//     delete Options.shape
-//   }
-// }
-
 
 
 function image_mousemove(e){

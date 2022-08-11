@@ -44,8 +44,6 @@ export class Lists{
         const uuid = list.getAttribute('data-uuid')
         ImageCommon.img_select(uuid)
       }
-      // const uuid = list ? list.getAttribute('data-uuid') : null
-      // ImageCommon.img_select(uuid)
     }
   }
 

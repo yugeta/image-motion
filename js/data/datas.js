@@ -150,6 +150,10 @@ export class Datas{
     switch(type){
       case 'opacity':
         return 1.0
+
+      case 'scale':
+        return 1.0
+
       default:
         return 0
     }

@@ -106,17 +106,19 @@ export class Images{
 
   set_cache(){
     const center_pos = this.get_center_pos()
-    this.cache.src   = this.cache.img.getAttribute('src')
-    this.cache.x     = this.cache.x  || this.cache.img.offsetLeft
-    this.cache.y     = this.cache.y  || this.cache.img.offsetTop
-    this.cache.w     = this.cache.w  || this.cache.img.offsetWidth
-    this.cache.h     = this.cache.h  || this.cache.img.offsetHeight
-    this.cache.nw    = this.cache.nw || this.cache.img.naturalWidth
-    this.cache.nh    = this.cache.nh || this.cache.img.naturalHeight
-    this.cache.cx    = this.cache.cx || center_pos.x
-    this.cache.cy    = this.cache.cy || center_pos.y
-    this.cache.order = this.cache.order || 0
-    this.cache.posz  = this.cache.posz  || 0
+    this.cache.src     = this.cache.img.getAttribute('src')
+    this.cache.x       = this.cache.x       || this.cache.img.offsetLeft
+    this.cache.y       = this.cache.y       || this.cache.img.offsetTop
+    this.cache.w       = this.cache.w       || this.cache.img.offsetWidth
+    this.cache.h       = this.cache.h       || this.cache.img.offsetHeight
+    this.cache.nw      = this.cache.nw      || this.cache.img.naturalWidth
+    this.cache.nh      = this.cache.nh      || this.cache.img.naturalHeight
+    this.cache.cx      = this.cache.cx      || center_pos.x
+    this.cache.cy      = this.cache.cy      || center_pos.y
+    this.cache.order   = this.cache.order   || 0
+    this.cache.posz    = this.cache.posz    || 0
+    this.cache.scale   = this.cache.scale   || 1
+    this.cache.opacity = this.cache.opacity || 1
   }
 
   get_center_pos(){
