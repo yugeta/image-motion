@@ -159,7 +159,7 @@ export function set_default_setting() {
   elm_count.value = data[name].count || 'infinite'
 
   const elm_timing = area.querySelector(`[name='timing']`)
-  elm_timing.value = data[name].timing || 'ease-in-out'
+  elm_timing.value = data[name].timing || 'linear'//'ease-in-out'
 
   const elm_direction = area.querySelector(`[name='direction']`)
   elm_direction.value = data[name].direction || 'normal'

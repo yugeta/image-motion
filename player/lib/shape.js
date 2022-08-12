@@ -26,7 +26,7 @@ export class Shape{
   //   this.create_shape(this.image_data)
   // }
 
-  create_shape(data){
+  create_shape(data){console.log(1)
     const shape = document.createElement('div')
     shape.className = 'shape'
     this.pic.appendChild(shape)
@@ -49,10 +49,12 @@ export class Shape{
     // this.pic.addEventListener('animationiteration' , ((e)=>{
     //   console.log('anim-end',e)
     // }).bind(this))
-    this.animation = new ShapeAnimation(this.pic , this.full_data)
-    this.pic.addEventListener('animationstart'     , this.animation.play.bind(this.animation))
-    this.pic.addEventListener('animationiteration' , this.animation.play.bind(this.animation))
-    this.pic.addEventListener('animationcancel'    , this.animation.stop.bind(this.animation))
+
+    // this.animation = new ShapeAnimation(this.pic , this.full_data)
+
+    // this.pic.addEventListener('animationstart'     , this.animation.play.bind(this.animation))
+    // this.pic.addEventListener('animationiteration' , this.animation.play.bind(this.animation))
+    // this.pic.addEventListener('animationcancel'    , this.animation.stop.bind(this.animation))
     // this.animation.animation_init()
   }
 

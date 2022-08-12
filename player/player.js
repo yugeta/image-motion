@@ -42,7 +42,6 @@ export class Player{
     this.animation = new Animation(this.options)
     this.style.add(this.animation.css)
     this.event     = new Event(this.options)
-    // this.shape = new Shape(this.options)
   }
 
   get_css(){
