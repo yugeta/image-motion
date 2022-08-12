@@ -93,4 +93,8 @@ export class Control{
     new Key(e).keyup(e)
   }
 
+  wheel(e){
+    Options.timeline_scroll.wheel(e)
+  }
+
 }

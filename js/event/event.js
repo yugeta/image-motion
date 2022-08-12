@@ -53,6 +53,11 @@ export class Event {
       'mouseup',
       Options.control.mouseup.bind(Options.control),
     )
+    this.set(
+      window , 
+      'wheel',
+      Options.control.wheel.bind(Options.control),
+    )
   }
 
   file(){

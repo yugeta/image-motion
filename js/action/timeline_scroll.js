@@ -28,24 +28,37 @@ export class TimelineScroll{
 
   mousemove(e){
     if(!this.cache){return}
-    const rate = this.get_rate()
-    let move_y  = (this.cache.top + (e.pageY - this.cache.pos.y))
-    move_y = move_y
-    const max_y = (this.area.offsetHeight - this.bar.offsetHeight)
+    const move_y = this.adjust_move_range(this.cache.top + (e.pageY - this.cache.pos.y))
+    this.set_scroll(move_y)
+  }
+
+  mouseup(e){
+    if(!this.cache){return}
+    delete this.cache
+  }
+
+  wheel(e){
+    if(!Options.elements.upper_selector(e.target , `[name='timeline'] .lists , [name='animation'] .lists`)){return}
+    const move = e.deltaY
+    if(!move){return}
+    const move_y = this.adjust_move_range(this.bar.offsetTop + move)
+    this.set_scroll(move_y)
+  }
+  adjust_move_range(move_y){
+    const max_y  = (this.area.offsetHeight - this.bar.offsetHeight)
     if(move_y < 0){
       move_y = 0
     }
     else if(move_y > max_y){
       move_y = max_y
     }
+    return move_y
+  }
+  set_scroll(move_y){
+    const rate = this.get_rate()
     this.bar.style.setProperty('top' , `${move_y}px` , '')
     const move_y_rate = move_y / rate
     this.set_current_scroll(move_y_rate)
-  }
-
-  mouseup(e){
-    if(!this.cache){return}
-    delete this.cache
   }
 
   get_base_height(){
