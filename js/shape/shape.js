@@ -11,17 +11,23 @@ export class Shape{
 
   constructor(uuid){
     if(!uuid){return}
-    const pic_elm = Options.elements.get_uuid_view(uuid)
-    if(!pic_elm){return}
     this.uuid  = uuid
-    this.pic   = pic_elm
 
-    this.view_property()
-    this.set_event()
-    this.set_use()
+    this.pic = Options.elements.get_uuid_view(uuid)
+    if(!this.pic){return}
+
+    const shape_use = Options.datas.get_shape_use(uuid)
+    if(!shape_use){return}
+
+    // this.view_property()
+    // this.set_event()
+    // this.set_use()
     
     // this.set_data()
     this.corner = new Corner(this.uuid)
+    // this.corner.create()
+    // this.set_view()
+    // this.set_shape_points()
   }
 
   // ----------
@@ -75,6 +81,8 @@ export class Shape{
     const template = Options.common.get_template('shape')
     target.innerHTML = template
     this.set_table()
+    this.set_event()
+    this.set_use()
   }
 
   clear_property(){
@@ -109,41 +117,46 @@ export class Shape{
   }
 
   click_shape_use_event(e){
-    this.click_shape_use(e.target)
+    this.set_shape_use(e.target.checked)
   }
 
-  click_shape_use(target){
-    const preview = Options.elements.get_shape_property_preview()
+  set_shape_use(check_flg){
     // shape-use on
-    if(target.checked){
-        preview.setAttribute('data-status' , 'active')
-        Options.datas.set_shape_use(this.uuid , 1)
-        Options.datas.set_shape_table(this.uuid , {x:1,y:1})
-        this.set_view()
+    if(check_flg){
+      this.set_shape_use_on()
     }
-
     // shape-use off
     else{
-        if(this.is_animation_datas()
-        && !confirm('Shapeアニメーションデータが削除されます。よろしいですか？')){
-          target.checked = true
-          return
-        }
-        preview.setAttribute('data-status' , '')
-        Options.datas.set_shape_use(this.uuid , 0)
-        Options.datas.set_shape_table(this.uuid , {x:1,y:1})
-        this.clear_view()
-        this.clear_shape_animation()
+      if(this.is_animation_datas()
+      && !confirm('Shapeアニメーションデータが削除されます。よろしいですか？')){
+        // チェックをもとに戻す
+        const checkbox = Options.elements.get_shape_property_use()
+        checkbox.checked = true
+        return
+      }
+      this.set_shape_use_off()
     }
-    
     // viewのflgセット
     this.set_pic_shape_mode()
   }
+  set_shape_use_on(){
+    const preview = Options.elements.get_shape_property_preview()
+    preview.setAttribute('data-status' , 'active')
+    Options.datas.set_shape_use(this.uuid , 1)
+    Options.datas.set_shape_table(this.uuid , {x:1,y:1})
+    this.set_view()
+  }
+  set_shape_use_off(){
+    const preview = Options.elements.get_shape_property_preview()
+    preview.setAttribute('data-status' , '')
+    Options.datas.set_shape_use(this.uuid , 0)
+    Options.datas.set_shape_table(this.uuid , {x:1,y:1})
+    this.clear_view()
+    this.clear_shape_animation()
+  }
 
   clear_shape_use(){
-    const checkbox = Options.elements.get_shape_property_use()
-    checkbox.checked = false
-    this.click_shape_use(checkbox)
+    this.set_shape_use(false)
     Options.datas.set_shape_table(this.uuid , {x:1,y:1})
     this.clear_table()
   }
@@ -236,8 +249,8 @@ export class Shape{
 
   // shape-use-checkbox -> on
   set_use(){
-    const data = Options.datas.get_data(this.uuid)
-    if(!data || !data.shape_use){return}
+    const shape_use = Options.datas.get_shape_use(this.uuid)
+    if(!shape_use){return}
 
     // use
     const checkbox = Options.elements.get_shape_property_use()
@@ -259,6 +272,8 @@ export class Shape{
   set_view(){
     this.clear_shape_split()
     this.set_shape_split()
+    this.corner = new Corner(this.uuid)
+    this.set_shape_points()
   }
 
   clear_view(){
@@ -412,30 +427,31 @@ export class Shape{
   // ----------
   // Set & Clear
 
-  // view-shapeをセットする。
+  // shape-splitを表示する。
   set_shape_split(){
     if(!Options.datas.get_shape_use(this.uuid)){return}
-    const pic_img   = Options.elements.get_view_img(this.uuid)
-    const shape_elm = Options.elements.get_view_shape(this.uuid)
-    if(!pic_img || !shape_elm){return}
-    const data      = Options.datas.get_data(this.uuid)
-    const table     = Options.datas.get_shape_table(this.uuid)
-    const w         = data.w / table.x
-    const h         = data.h / table.y
-    let num         = 0
+    const pic    = Options.elements.get_view_img(this.uuid)
+    const shape  = Options.elements.get_view_shape(this.uuid)
+    if(!pic || !shape){return}
+    const data   = Options.datas.get_data(this.uuid)
+    const table  = Options.datas.get_shape_table(this.uuid)
+    const w      = data.w / table.x
+    const h      = data.h / table.y
+    let num      = 0
     for(let i=0; i<table.y; i++){
       const y = i * h
       for(let j=0; j<table.x; j++){
         const x = j * w
-        this.set_element(shape_elm,pic_img,x,y,w,h,data,num)
+        this.set_element(shape , pic , x , y , w , h , data , num)
         num++
       }
     }
-    this.set_shape_points()
+    // this.set_shape_points()
   }
 
-  set_element(shape_elm,pic_img,x,y,w,h,data,num){
+  set_element(shape , pic , x , y , w , h , data , num){
     const div = document.createElement('div')
+    shape.appendChild(div)
     div.className = 'shape-item'
     div.style.setProperty('width'  , `${w}px` , '')
     div.style.setProperty('height' , `${h}px` , '')
@@ -444,13 +460,12 @@ export class Shape{
     const transform_origin = `-${x}px -${y}px`
     div.style.setProperty('transform-origin' , transform_origin , '')
     const img = document.createElement('img')
-    img.src = pic_img.src
+    div.appendChild(img)
+    img.src = pic.src
     img.style.setProperty('width'  , `${data.w}px` , '')
     img.style.setProperty('height' , `${data.h}px` , '')
     img.style.setProperty('left'   , `-${x}px` , '')
     img.style.setProperty('top'    , `-${y}px` , '')
-    div.appendChild(img)
-    shape_elm.appendChild(div)
     div.setAttribute('data-num' , num)
   }
 
@@ -458,24 +473,28 @@ export class Shape{
   set_shape_points(){
     const shape_elm = Options.elements.get_view_shape(this.uuid)
     if(!shape_elm){return}
+    const shape_use = Options.datas.get_shape_use(this.uuid)
+    if(!shape_use || !this.corner){return}
+
     // this.corner = new Corner(this.uuid)
     const data     = Options.datas.get_data(this.uuid)
     const table    = Options.datas.get_shape_table(this.uuid)
     const w        = Number((data.w / table.x).toFixed(2))
     const h        = Number((data.h / table.y).toFixed(2))
     let image_num  = 0
-    this.corner.init()
+    // this.corner.clear()
     for(let i=0; i<table.y; i++){
       const y = i * h
       for(let j=0; j<table.x; j++){
         const x = j * w
-        const pos = this.corner.set_transform(x , y , w , h)
-        this.corner.add(pos , i , j)
+        const transforms = this.corner.set_transform(x , y , w , h)
+        this.corner.add(transforms , i , j)
         // this.corner.replace(pos , i , j)
-        Options.datas.set_shape_corners(this.uuid , image_num , pos)
+        Options.datas.set_shape_corners(this.uuid , image_num , transforms)
         image_num++
       }
     }
+    // this.corner.set_calc()
     // console.log(this.corner)
     this.corner.create()
     // console.log(this.corner.points)
@@ -518,25 +537,18 @@ export class Shape{
     const animation_datas = Options.datas.get_animations()
     if(!animation_datas){return}
     const uuid = this.uuid
-    const animation_name = ActionCommon.get_animation_name()
-    if(!animation_datas[animation_name]){return}
-    const animation_data = animation_datas[animation_name]
-    if(!animation_data.items
-    || !animation_data.items[uuid]
-    || !animation_data.items[uuid].keyframes){return}
-    for(let key_num in animation_data.items[uuid].keyframes){
-      const key_data = animation_data.items[uuid].keyframes[key_num]
-      if(key_data.shape){
-        return true
+    for(let animation_name in animation_datas){
+      const animation_data = animation_datas[animation_name]
+      if(!animation_data.items
+      || !animation_data.items[uuid]
+      || !animation_data.items[uuid].keyframes){continue}
+      for(let key_num in animation_data.items[uuid].keyframes){
+        const key_data = animation_data.items[uuid].keyframes[key_num]
+        if(key_data.shape){
+          return true
+        }
       }
     }
-    // const datas = Options.datas.get_shape_data(this.uuid)
-    // if(datas){
-    //   return true
-    // }
-    // else{
-    //   return false
-    // }
   }
 
 

@@ -1,5 +1,6 @@
-import { Options }  from '../options.js'
-import { Matrix }   from './matrix.js'
+import { Options }   from '../options.js'
+import { Matrix }    from './matrix.js'
+import { Transform } from './transform.js'
 
 export class Animation{
   constructor(options){
@@ -43,10 +44,10 @@ export class Animation{
       key       : key,
       uuid      : uuid,
       keyframes : anim[key].items[uuid].keyframes,
-      timing    : anim.timing    || 'ease-in-out',
-      duration  : anim.duration  || 1,
-      count     : anim.count     || 'infinite',
-      direction : anim.direction || 'normal',
+      timing    : anim[key].timing    || 'linear', //'ease-in-out',
+      duration  : anim[key].duration  || 1,
+      count     : anim[key].count     || 'infinite',
+      direction : anim[key].direction || 'normal',
     }
     return this.get_normal(data) +'\n'
   }
@@ -71,9 +72,9 @@ export class Animation{
     const css = []
     for(let i in keyframes){
       css.push(`  ${i}%{`)
-      const transform = this.get_transform(keyframes[i])
-      if(transform){
-        css.push(`    transform : ${transform};`)
+      const transform = new Transform(keyframes , i)
+      if(transform.data){
+        css.push(`    transform : ${transform.data};`)
       }
       const styles = this.get_styles(keyframes[i])
       if(styles && styles.length){
@@ -86,29 +87,6 @@ export class Animation{
     return css.join('\n')
   }
 
-  // css-keyframesのtransformの取得
-  get_transform(transform_data){
-    const datas = []
-    if(typeof transform_data.rotate !== 'undefined'){
-      datas.push(`rotate(${transform_data.rotate}deg)`)
-    }
-    if(typeof transform_data.posx !== 'undefined'){
-      datas.unshift(`translateX(${transform_data.posx}px)`)
-    }
-    if(typeof transform_data.posy !== 'undefined'){
-      datas.unshift(`translateY(${transform_data.posy}px)`)
-    }
-    if(typeof transform_data.scalex !== 'undefined'){
-      datas.unshift(`scaleX(${transform_data.scalex})`)
-    }
-    if(typeof transform_data.scaley !== 'undefined'){
-      datas.unshift(`scaleY(${transform_data.scaley})`)
-    }
-    // if(typeof transform_data.shape !== 'undefined'){
-    //   datas.push('scale(1.0)')
-    // }
-    return datas.join(' ')
-  }
   get_styles(data){
     const styles = []
     if(typeof data.opacity !== 'undefined'){
@@ -118,25 +96,18 @@ export class Animation{
   }
 
 
-
-
-
   // ----------
   // Shape
   set_shape_datas(){
     try{
       const animation_names = this.get_animation_names()
       if(!animation_names || !animation_names.length){return}
-      // console.log(animation_names)
-      // const uuids     = this.get_shape_uuid_arr()
       for(let animation_name of animation_names){
         if(!this.options.data.animations[animation_name].items){continue}
         const uuid_arr = Object.keys(this.options.data.animations[animation_name].items)
         for(let image_num=0; image_num<this.options.data.images.length; image_num++){
           const image_data = this.options.data.images[image_num]
           if(image_data.shape_use !== 1){continue}
-          // if(!uuid_arr || uuid_arr.indexOf(image_data.uuid) === -1){continue}
-          // const anim_data = this.options.data.animations[name].items
           this.set_shape_keyframes(
             animation_name,
             image_data,
@@ -163,16 +134,6 @@ export class Animation{
     return this.options.data.animations[animation_name].items
   }
 
-
-  // is_shape(uuid){
-  //   for(let img of this.data.images){
-  //     if(img.uuid !== uuid){continue}
-  //     if(img.shape_use === 1){
-  //       return true
-  //     }
-  //     break
-  //   }
-  // }
   get_shape_table(uuid){
     for(let img of this.options.data.images){
       if(img.uuid !== uuid){continue}
@@ -253,8 +214,6 @@ export class Animation{
   }
 
   get_shape_next_points(per , split_num , keyframes , key_data){
-    // const res = this.get_shape_between_keyframes(per , keyframes , key_data)
-    // console.log(per,res)
     if(!key_data){return}
     const start_points = keyframes[key_data.start].shape.points
     const end_points   = keyframes[key_data.end].shape.points
@@ -270,8 +229,6 @@ export class Animation{
 
   get_shape_between_keyframes(per , keyframes){
     const frames = Object.keys(keyframes)
-    // console.log(keyframes,frames)
-    // console.log(keyframes)
     // keyがあるフレームの場合
     if(keyframes[per]){
       return {
@@ -324,71 +281,5 @@ export class Animation{
       rate  : 1.0,
     }
   }
-
-  // // get_shape_root(options , shape_table){
-  // //   return this.set_shape_table(options , shape_table)
-  // // }
-  // get_shape_root(options ,table){
-  //   if(!options || !table){return ''}
-  //   let css = ''
-  //   let split_image_num = 0
-  //   for(let y=0; y<table.y; y++){
-  //     for(let x=0; x<table.x; x++){
-  //       css += this.get_css_shape(options , split_image_num)
-  //       css += this.get_shape_keyframe(options , split_image_num)
-  //       split_image_num++
-  //     }
-  //   }
-  //   return css
-  // }
-
-  // get_css_shape(options , split_image_num){
-  //   let css = ''
-  //   const name = `${options.name}-${split_image_num}`
-  //   css += `[data-service='${Options.service_name}'][data-name='${options.n}'][data-action='${options.key}'] .pic[data-uuid='${options.uuid}'] > .shape > .shape-item[data-num='${split_image_num}']{`+"\n"
-  //   css += `animation-name : ${name};`+"\n"
-  //   css += `animation-timing-function: ${options.timing};`+"\n"
-  //   css += `animation-duration : ${options.duration}s;`+"\n"
-  //   css += `animation-iteration-count : ${options.count};`+"\n"
-  //   css += `animation-direction: ${options.direction};`+"\n"
-  //   css += '}'+"\n"
-
-  //   css += `@keyframes ${name}{`+"\n"
-  //   css += this.get_shape_keyframe(options.keyframes , split_image_num , options.uuid)
-  //   css += `}`+"\n"
-  //   return css
-  // }
-  // get_shape_keyframe(keyframes , split_image_num , uuid){//console.log(split_image_num)
-  //   let css = ''
-  //   // const pos = this.get_uuid2pos(uuid , split_image_num)
-  //   // const transform_origin = `-${0}px -${289.5}px`
-  //   // div.style.setProperty('transform-origin' , transform_origin , '')
-  //   for(let key_num in keyframes){
-  //     const transform = this.get_shape_transform(keyframes[key_num] , split_image_num)
-  //     if(!transform){continue}
-  //     css += `${key_num}%{`+"\n"
-  //     // css += `transform-origin : ${transform_origin};` +"\n"
-  //     css += `transform : ${transform};` +"\n"
-  //     css += '}'+"\n"
-  //   }
-  //   return css
-  // }
-  // css-keyframesのtransformの取得
-  // get_shape_transform(transform_data , split_image_num){
-  //   if(!transform_data.shape
-  //   || !transform_data.shape.matrix
-  //   || !transform_data.shape.matrix[split_image_num]){return ''}
-  //   return transform_data.shape.matrix[split_image_num].transform
-  // }
-
-  // get_uuid2pos(uuid , split_image_num){
-  //   for(let img of this.data.images){
-  //     if(img.uuid !== uuid){continue}
-  //     if(img.shape_use === 1){
-  //       return img.shape_table
-  //     }
-  //     break
-  //   }
-  // }
 
 }

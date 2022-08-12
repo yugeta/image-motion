@@ -37,15 +37,15 @@ export class Active{
   }
   view_active(uuid){
     if(!uuid){return}
-    const view_target = Options.elements.get_uuid_view(uuid)
-    if(!view_target){return}
-    view_target.setAttribute('data-status' , 'active')
+    const view = Options.elements.get_uuid_view(uuid)
+    if(!view){return}
+    view.setAttribute('data-status' , 'active')
   }
   list_active(uuid){
     if(!uuid){return}
-    const list_target = Options.elements.get_uuid_list(uuid)
-    if(!list_target){return}
-    list_target.setAttribute('data-status' , 'active')
+    const lists = Options.elements.get_uuid_list(uuid)
+    if(!lists){return}
+    lists.setAttribute('data-status' , 'active')
   }
 
   passive(uuid){

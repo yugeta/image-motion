@@ -150,6 +150,10 @@ export class Datas{
     switch(type){
       case 'opacity':
         return 1.0
+
+      case 'scale':
+        return 1.0
+
       default:
         return 0
     }
@@ -405,7 +409,6 @@ export class Datas{
   }
   set_shape_data(uuid , key , value){
     const shapes = this.get_shape_data(uuid)
-    // console.log(JSON.stringify(shapes))
     shapes[key] = value
   }
 

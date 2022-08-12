@@ -1,4 +1,5 @@
 import { Options   }  from '../options.js'
+import { Version   }  from '../asset/version.js'
 import { Templates }  from '../common/templates.js'
 import { Common    }  from '../common/common.js'
 import { Elements  }  from '../common/elements.js'
@@ -45,6 +46,7 @@ export class Init{
     Options.undo      = new Undo()
     Options.event     = new Event()
     Options.footer    = new Footer()
+    Options.version   = new Version()
     Options.timeline_scroll = new TimelineScroll()
     
     new Home()

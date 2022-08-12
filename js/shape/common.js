@@ -20,32 +20,6 @@ export function get_current_per_data(name , uuid , type , per){
   }
 }
 
-// export function get_date2points(datas){
-//   // console.log(datas)
-//   const point_datas = []
-//   for(let img of datas){
-//     for(let split of img){
-//       point_datas.push(split)
-//     }
-//   }
-//   point_datas.filter((x, i, self)=>{
-//     console.log(x,i,self)
-//     return self.indexOf(x) === i;
-//   }).sort((a,b)=>{
-//     if(a.y < b.y){
-//       return -1
-//     }
-//     else if(a.y > b.y){
-//       return +1
-//     }
-//     else{
-//       return 0
-//     }
-//   })
-//   return point_datas
-//   // return Array.from(new Set(point_datas))
-// }
-
 export function get_table2pointDatas(uuid , datas){
   const table = Options.datas.get_shape_table(uuid)
   const point_datas = []

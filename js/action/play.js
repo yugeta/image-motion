@@ -89,12 +89,8 @@ export class Play{
           transforms.unshift(`translateZ(${value}px)`)
           break
 
-        case 'scalex':
-          transforms.unshift(`scaleX(${value})`)
-          break
-
-        case 'scaley':
-          transforms.unshift(`scaleY(${value})`)
+        case 'scale':
+          transforms.unshift(`scale(${value})`)
           break
       }
     }

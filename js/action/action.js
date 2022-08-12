@@ -16,6 +16,7 @@ export class Action{
     else{
       Options.animation = new Animation(name , uuid)
       Options.timeline  = new Timeline(name , uuid)
+      
     }
     // ActionCommon.set_tools()
   }

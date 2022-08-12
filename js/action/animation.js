@@ -13,8 +13,8 @@ export class Animation{
   view(){
     let template = Options.common.get_template('animation')
     if(!template){return}
-    const cache    = Options.datas.get_data(this.uuid)
-    template       = Options.common.doubleBlancketConvert(template , cache)
+    const data = Options.datas.get_data(this.uuid)
+    template   = Options.common.doubleBlancketConvert(template , data)
     this.area.innerHTML = template
   }
   
@@ -77,7 +77,12 @@ export class Animation{
   get_type_value(value , type){
     switch(type){
       case 'opacity':
-        return Number(value || 0).toFixed(2)
+        return Number(value || 1)
+        // return Number(String(value).toFixed(2)) || 0
+
+      case 'scale':
+        return Number(value || 1)
+        // return Number(String(value).toFixed(2)) || 1
 
       default:
         return Number(value) || 0
@@ -193,13 +198,10 @@ export class Animation{
           transforms.unshift(`translateZ(${value}px)`)
           break
 
-        case 'scalex':
-          transforms.unshift(`scaleX(${value})`)
+        case 'scale':
+          transforms.unshift(`scale(${value})`)
           break
 
-        case 'scaley':
-          transforms.unshift(`scaleY(${value})`)
-          break
       }
     }
     return transforms.join(' ')
@@ -213,7 +215,7 @@ export class Animation{
       const value  = input.value || 0
       switch(this.get_type(input)){
         case 'opacity':
-          styles.unshift({property : '' , value: `${value}`})
+          styles.push({property : 'opacity' , value: `${value}`})
           break
       }
     }

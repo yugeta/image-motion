@@ -26,6 +26,7 @@
             <div class='item' data-mode='new'>New</div>
             <div class='item' data-mode='load'>Open</div>
             <div class='item' data-mode='save'>Save</div>
+            <div class='item' data-mode='about'>About</div>
           </div>
         </label>
       </li>
@@ -34,25 +35,18 @@
       <li><a href='#'><svg src='img/icon/home.svg'></svg></a></li>
       <li id='upload'><a href='#upload'><svg src='img/icon/image.svg'></svg></a></li>
       <li id='action'><a href='#action'><svg src='img/icon/accessibility.svg'></svg></a></li>
-      <li id=''></li>
+      <li id='help'><a href='#help'><svg src='img/icon/question_mark.svg'></svg></a></li>
     </ul>
     <ul class='middle'>
 
     </ul>
     <ul class='control'>
-      <!-- <li class='range'>
-        <span class='title'>Scale</span>
-        <input type='range' name='view-scale' value='70' step='1' min='10' max='200'/>
-        <span class='scale-value'></span>
-      </li> -->
       <li class='hidden' id='load'><span class='button'><svg src='img/icon/upload_file.svg'></svg></span></li>
       <li class='hidden' id='save'><span class='button'><svg src='img/icon/save.svg'></svg></span></li>
     </ul>
   </header>
 
   <div class='contents' data-animation-name=''>
-
-    <div class='home'></div>
     <div class='under'>
       <div name='animation'>
         <div class='header flex'>
@@ -68,9 +62,6 @@
             <svg data-status='' xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M16 37.85v-28l22 14Zm3-14Zm0 8.55 13.45-8.55L19 15.3Z"/></svg>
             <svg data-status='on' xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M 16 37.85 v -28 l 22 14 Z Z Z"/></svg>
           </div>
-          <!-- <div class='stop'>
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M15 15v18Zm-3 21V12h24v24Zm3-3h18V15H15Z"/></svg>
-          </div> -->
           <div class='next'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0,0,48,48"><path d="M34 36V12h3v24Zm-23 0V12l17.3 12Zm3-12Zm0 6.25L23.05 24 14 17.75Z"/></svg>
           </div>
@@ -79,13 +70,12 @@
       </div>
       <div name='timeline'>
         <div class='header flex'>
-          <!-- <div class='title'>Timeline</div> -->
           <div class='tools flex'>
             <div class='duration'>duration : <input type='text' name='duration' value='1'>s</div>
             <div class='count'>iteration-count : <input type='text' name='count' value='infinite'></div>
             <div class='timing'>timing-function : <select name='timing'>
-              <option value='ease-in-out'>ease-in-out</option>
               <option value='linear'>linear</option>
+              <option value='ease-in-out'>ease-in-out</option>
               <option value='ease'>ease</option>
               <option value='ease-in'>ease-in</option>
               <option value='ease-out'>ease-out</option>
@@ -116,7 +106,6 @@
         <div name='images'>
           <div class='header'>
             <span>Images</span>
-            <!-- <button class='remove'></button> -->
             <button class='renew'>
               <svg src='img/icon/autorenew.svg'></svg>
             </button>
@@ -150,6 +139,10 @@
       </div>
     </div>
 
+  </div>
+
+  <div class='contents-home'>
+    <iframe></iframe>
   </div>
 
   <footer class='status'>
