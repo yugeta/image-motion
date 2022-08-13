@@ -1,8 +1,10 @@
 @import './common/common.css';
 @import './common/header.css';
 @import './common/footer.css';
+@import './property/common.css';
 @import './contents/contents.css';
 @import './action/action.css';
+@import './sound/common.css';
 
 @import './mode/home.css';
 @import './mode/contents.css';
@@ -14,6 +16,7 @@
   --color-contents-header : #333333;
   --color-font            : #727272;
   --color-font-active     : #525252;
+  --color-bg              : #262626;
   --size-images-header    : 30px;
 }
 

@@ -10,6 +10,7 @@ export class HashChange{
     switch(this.hash){
       case 'upload':
       case 'action':
+      // case 'sound':
         break
 
       case '':

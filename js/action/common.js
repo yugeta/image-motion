@@ -4,6 +4,7 @@ import * as ImageCommon from '../images/common.js'
 import * as ShapeCommon from '../shape/common.js'
 import { Play }         from '../action/play.js'
 import { Modal }        from '../modal/src/modal.js'
+import { SoundKey }     from '../action/sound_key.js'
 
 // ----------
 // animation-name
@@ -279,6 +280,10 @@ export function set_type_value_of_view(name , uuid , type , per , data){
       if(!opacity_input){return}
       const opacity_value = data !== undefined ? data : Number(opacity_input.value || 1)
       Options.datas.set_animation_data_value(name , uuid , per , type , opacity_value)
+      break
+
+    case 'sound':
+      new SoundKey(name , uuid , per)
       break
 
     // rotate , posx , posy , posz

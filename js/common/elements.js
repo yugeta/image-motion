@@ -316,7 +316,7 @@ export class Elements{
     return document.querySelector(`.contents .over .over-right [name='shape'] .matrix tbody`)
   }
   get_shape_property_use(){
-    return document.querySelector(`.contents .over .over-right [name='shape'] .toggle input[name='shape_flg']`)
+    return document.querySelector(`.contents .over .over-right [name='shape'] input[name='shape_flg']`)
   }
   get_shape_property_preview(){
     return document.querySelector(`.contents .over .over-right [name='shape'] .preview`)

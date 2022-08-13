@@ -1,17 +1,17 @@
 
-body[data-hash=''] .contents,
+/* body[data-hash=''] .contents,
 body[data-hash='help'] .contents{
   display:none;
-}
+} */
 
 body[data-hash=''] .contents-home,
-body[data-hash='help'] .contents-home{
+body[data-hash='help'] .contents-home,
+body[data-hash='sound'] .contents-home{
   display:block;
   width:100%;
   height:calc(100% - var(--size-header-height));
 }
-body[data-hash=''] .contents-home iframe,
-body[data-hash='help'] .contents-home iframe{
+body[data-hash] .contents-home iframe{
   border:0;
   width:100%;
   height:100%;

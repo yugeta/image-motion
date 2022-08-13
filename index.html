@@ -35,6 +35,7 @@
       <li><a href='#'><svg src='img/icon/home.svg'></svg></a></li>
       <li id='upload'><a href='#upload'><svg src='img/icon/image.svg'></svg></a></li>
       <li id='action'><a href='#action'><svg src='img/icon/accessibility.svg'></svg></a></li>
+      <li id='sound'><a href='#sound'><svg src='img/icon/music_note.svg'></svg></a></li>
       <li id='help'><a href='#help'><svg src='img/icon/question_mark.svg'></svg></a></li>
     </ul>
     <ul class='middle'>
@@ -143,6 +144,14 @@
           <div class='header'>Shape</div>
           <div class='info'></div>
         </div>
+        <div name='event'>
+          <div class='header'>Event</div>
+          <div class='info'></div>
+        </div>
+        <div name='sound'>
+          <div class='header'>Sound</div>
+          <div class='info'></div>
+        </div>
       </div>
     </div>
 
@@ -152,12 +161,22 @@
     <iframe></iframe>
   </div>
 
+  <!-- <div class='contents-sound'>
+    <div name='sound'>
+      <div class='title'>Sound files</div>
+      <div class='control'>
+
+      </div>
+      <ul class='lists'></ul>
+    </div>
+  </div> -->
+
   <footer class='status'>
     <ul>
       <li class='version'>version <span class='version-value'></span></li>
     </ul>
   </footer>
 
-  <form class='hidden' name="upload" method="post" action="data.php" enctype="multipart/form-data"></form>
+  <form class='hidden' name="upload" method="post" enctype="multipart/form-data"></form>
 </body>
 </html>
