@@ -10,9 +10,10 @@ export const Options = {
   position : {
     vertical : "top",     // 縦 [top , *center(*画像などがある場合はサイズ指定してから使用すること) , bottom]
     horizon  : "center",  // 横 [left , *center , right]
-    // margin   : ["10px","10px","10px","10px"],   // [上、右、下、左]
   },
-  offset  : {x:0,y:0},
+  speed    : "0.5s",  // 表示速度
+  offset  : {x:"0px",y:"0px"},  // 表示位置の調整
+  
   // 閉じるボタン
   close   : {
     html  : "",

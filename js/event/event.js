@@ -123,6 +123,9 @@ export class Event {
     this.set(tools_area.querySelector('.prev') , 'click' , ActionCommon.click_prev.bind(this))
 
     // animation-name-list delete
+    this.set(Options.elements.get_animation_header_add()   , 'click' , ActionCommon.click_animation_name_list_add.bind(this))
+    this.set(Options.elements.get_animation_header_edit()  , 'click' , ActionCommon.click_animation_name_list_edit.bind(this))
+    this.set(Options.elements.get_animation_header_copy()  , 'click' , ActionCommon.click_animation_name_list_copy.bind(this))
     this.set(Options.elements.get_animation_header_trash() , 'click' , ActionCommon.click_animation_name_list_trash.bind(this))
 
     // ----------

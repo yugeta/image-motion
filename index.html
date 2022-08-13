@@ -51,8 +51,8 @@
       <div name='animation'>
         <div class='header flex'>
           <div class='title'>Animation</div>
-          <div class='input'><input type='text' name='animation-name' autocomplete='off'/></div>
-          <div class='trash'><svg src='img/icon/trash.svg'></svg></div>
+          <div class='input'><input type='text' name='animation-name' autocomplete='off' readonly/></div>
+          <!-- <div class='trash' style='display:none'><svg src='img/icon/trash.svg'></svg></div> -->
         </div>
         <div class='tools'>
           <div class='prev'>
@@ -71,9 +71,16 @@
       <div name='timeline'>
         <div class='header flex'>
           <div class='tools flex'>
+            <div class='animation-name-control'>
+              <!-- <div class='input'><input type='text' name='animation-name' autocomplete='off'/></div> -->
+              <div class='add'><svg src='img/icon/add.svg'></svg></div>
+              <div class='edit'><svg src='img/icon/pencil.svg'></svg></div>
+              <div class='copy'><svg src='img/icon/content_copy.svg'></svg></div>
+              <div class='trash'><svg src='img/icon/trash.svg'></svg></div>
+            </div>
             <div class='duration'>duration : <input type='text' name='duration' value='1'>s</div>
-            <div class='count'>iteration-count : <input type='text' name='count' value='infinite'></div>
-            <div class='timing'>timing-function : <select name='timing'>
+            <div class='count' style='display:none;'>iteration-count : <input type='text' name='count' value='infinite'></div>
+            <div class='timing' style='display:none;'>timing-function : <select name='timing'>
               <option value='linear'>linear</option>
               <option value='ease-in-out'>ease-in-out</option>
               <option value='ease'>ease</option>

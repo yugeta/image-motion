@@ -1,0 +1,17 @@
+/* animation-name-control */
+.animation-name-control{
+  display:flex;
+}
+.animation-name-control > *{
+  width:var(--size-header-trash);
+  text-align:right;
+  cursor:pointer;
+  padding:0 5px;
+}
+.animation-name-control > *:hover svg{
+  fill:white;
+}
+.animation-name-control > * svg{
+  height:90%;
+  fill:var(--color-font);
+}

@@ -13,6 +13,7 @@ export class Templates{
       'animation',
       'animation_name_lists',
       'animation_name_list',
+      'animation_name_modal',
       'timeline',
       // 'animation_header_tools',
       'shape',
