@@ -17,7 +17,6 @@ export class Load{
     let input_file = document.createElement("input")
     input_file.type     = 'file'
     input_file.multiple = 'multiple'
-    // input_file.name     = 'json_file'
     input_file.accept   = Options.save_file_extension
     input_file.addEventListener('change' , this.get_file.bind(this))
     document.querySelector("form[name='upload']").appendChild(input_file)

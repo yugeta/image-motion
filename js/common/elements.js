@@ -163,6 +163,14 @@ export class Elements{
     return document.querySelector(`input[type='range'][name='view-scale'] ~ .scale-value`)
   }
 
+  // file
+  get_header_menu_file(){
+    return document.querySelector(`header .text-menu [data-name='file']`)
+  }
+  get_header_menu_file_check(){
+    return document.querySelector(`header .text-menu [data-name='file'] input[type='checkbox'][name='menu']`)
+  }
+
   // ----------
   // Transform
 
