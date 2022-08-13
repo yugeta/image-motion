@@ -620,4 +620,12 @@ export function is_point(name , uuid , type , per){
   }
 }
 
+// mode切り替えの時にanimation-nameが選択されている場合はclearする
+export function animation_name_clear(){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  const input = Options.elements.get_animation_name_list_input()
+  input.value = ''
+}
+
 
