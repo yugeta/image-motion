@@ -35,8 +35,10 @@
   width:var(--size-header-title);
 }
 [name='animation'] .header > .input{
-  width:calc(100% - var(--size-header-title) - var(--size-header-trash));
+  /* width:calc(100% - var(--size-header-title) - var(--size-header-trash)); */
+  width:calc(100% - var(--size-header-title));
 }
+
 [name='animation'] .header > .trash{
   width:var(--size-header-trash);
   text-align:right;
@@ -102,6 +104,10 @@
   background-color:var(--color-contents-header);
   cursor:pointer;
   text-align:left;
+}
+[name='animation'] .header .animation_name_lists li:empty::before{
+  /* content:'\00a0-- empty --'; */
+  content:'-- empty --';
 }
 [name='animation'] .header .animation_name_lists li+*{
   border-top:1px solid var(--color-font);

@@ -93,15 +93,18 @@
   text-align:center;
   min-height:20px;
 }
+.modal-bg .modal-title:empty{
+  display:none;
+}
 .modal-bg .modal-message{
   width:100%;
   margin:0;
-  padding:20px;
+  /* padding:20px; */
 }
 
 .modal-bg .modal-message-contents{
   width:100%;
-  min-height:100px;
+  /* min-height:100px; */
   font-size:12px;
   padding:0px;
   vertical-align:middle;

@@ -223,7 +223,7 @@ export class Elements{
     return document.querySelector(`.contents [name='timeline'] .header`)
   }
   get_duration_input(){
-    return document.querySelector(`.contents [name='timeline'] .header .duration input[name='duration']`)
+    return document.querySelector(`.contents .duration input[name='duration']`)
   }
 
   get_timeline_data_frame(name){
@@ -251,7 +251,8 @@ export class Elements{
 
 
   get_animation_name_list_input(){
-    return document.querySelector(`.contents [name='animation'] .header .input input`)
+    // return document.querySelector(`.contents [name='animation'] .header .input input`)
+    return document.querySelector(`.contents input[name='animation-name']`)
   }
   get_animation_header(){
     return document.querySelector(`.contents [name='animation'] .header`)
@@ -264,8 +265,18 @@ export class Elements{
     return document.querySelector(`.contents [name='animation'] .tools`)
   }
 
+  get_animation_header_add(){
+    return document.querySelector(`.contents .animation-name-control .add`)
+  }
+  get_animation_header_edit(){
+    return document.querySelector(`.contents .animation-name-control .edit`)
+  }
+  get_animation_header_copy(){
+    return document.querySelector(`.contents .animation-name-control .copy`)
+  }
   get_animation_header_trash(){
-    return document.querySelector(`.contents [name='animation'] .header .trash`)
+    // return document.querySelector(`.contents [name='animation'] .header .trash`)
+    return document.querySelector(`.contents .animation-name-control .trash`)
   }
 
   // ----------

@@ -3,6 +3,7 @@ import * as ActionEvent from '../action/event.js'
 import * as ImageCommon from '../images/common.js'
 import * as ShapeCommon from '../shape/common.js'
 import { Play }         from '../action/play.js'
+import { Modal }        from '../modal/src/modal.js'
 
 // ----------
 // animation-name
@@ -87,14 +88,18 @@ export function animation_name_list_input(e) {
   // console.log(e.target.value)
 }
 
-
+export function set_animation_name(value) {
+  const input = Options.elements.get_animation_name_list_input()
+  if (!input) { return }
+  input.value = value
+}
 export function get_animation_name() {
   const input = Options.elements.get_animation_name_list_input()
   if (!input) { return }
   return input.value
 }
 
-export function animation_name_list_decide() {
+export function animation_name_list_decide(){
   animation_name_list_hidden()
 
   // header情報の初期設定
@@ -111,8 +116,8 @@ export function animation_name_list_decide() {
   }
   // 新規key作成
   else{
-    const data = get_animation_data()
-    Options.datas.add_animation(name , data)
+    // const data = get_animation_data()
+    Options.datas.add_animation(name)
   }
 
   // 切り替え後一度transformをクリアする
@@ -138,9 +143,9 @@ export function animation_name_list_decide() {
   }
 }
 
-export function get_animation_data(){
-  // const animation_lists = Options.elements.get_
-}
+// export function get_animation_data(){
+//   // const animation_lists = Options.elements.get_
+// }
 
 export function set_default_setting() {
   // 値をリセット
@@ -294,6 +299,246 @@ export function get_type_value_of_view(name , uuid , type , per){
     default:
       // return Options.datas.
   }
+}
+
+
+export function click_animation_name_list_add(){
+  Options.cache_modal = new Modal({
+    // 表示サイズ
+    size    : {
+      width : "500px",
+      height: "auto"
+    },
+    // 表示位置
+    position : {
+      vertical : "top",     // 縦 [top , *center(*画像などがある場合はサイズ指定してから使用すること) , bottom]
+      horizon  : "center",  // 横 [left , *center , right]
+      
+    },
+    offset:{
+      x : '0px',
+      y : '100px',
+    },
+    speed : "0.3s",
+    
+    // [上段] タイトル表示文字列
+    title   : "Animation add",
+    // [中断] メッセージ表示スタイル
+    message : {
+      html    : Options.common.get_template('animation_name_modal'),
+      height  : "auto",
+      align   : "center",
+      padding : "0px",
+    },
+    // [下段] ボタン
+    button  : [
+      {
+        mode:"close",
+        text:"Cancel"
+      },
+      {
+        mode:"",
+        text:"Add",
+        click : animation_name_list_add
+      }
+    ],
+    // クリック挙動 [ "close" ]
+    background_click : "",
+    loaded : ()=>{
+      const input = document.querySelector('.modal-message-contents input,.modal-message-contents textarea')
+      if(input){
+        input.focus()
+      }
+    }
+  })
+}
+export function animation_name_list_add(){
+  const input_elm = document.querySelector('.animation-name-modal input')
+  if(!input_elm){return}
+  const animation_name = input_elm.value
+
+  // 登録済みの場合はエラー
+  if(get_data(animation_name)){
+    document.querySelector('.animation-name-modal .error').innerHTML = 'already used'
+    return
+  }
+
+  set_animation_name(animation_name)
+  animation_name_list_decide()
+
+  // modal close
+  Options.cache_modal.close()
+  delete Options.cache_modal
+}
+
+
+export function click_animation_name_list_edit(){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  Options.cache_modal = new Modal({
+    // 表示サイズ
+    size    : {
+      width : "500px",
+      height: "auto"
+    },
+    // 表示位置
+    position : {
+      vertical : "top",     // 縦 [top , *center(*画像などがある場合はサイズ指定してから使用すること) , bottom]
+      horizon  : "center",  // 横 [left , *center , right]
+      
+    },
+    offset:{
+      x : '0px',
+      y : '100px',
+    },
+    speed : "0.3s",
+    
+    // [上段] タイトル表示文字列
+    title   : "Animation edit",
+    // [中断] メッセージ表示スタイル
+    message : {
+      html    : Options.common.get_template('animation_name_modal'),
+      height  : "auto",
+      align   : "center",
+      padding : "0px",
+    },
+    // [下段] ボタン
+    button  : [
+      {
+        mode:"close",
+        text:"Cancel"
+      },
+      {
+        mode:"",
+        text:"Edit",
+        click : animation_name_list_edit
+      }
+    ],
+    // クリック挙動 [ "close" ]
+    background_click : "",
+    loaded : ()=>{
+      const input = document.querySelector('.modal-message-contents input,.modal-message-contents textarea')
+      if(input){
+        const name = get_animation_name()
+        input.value = name
+        input.focus()
+      }
+    }
+  })
+}
+export function animation_name_list_edit(){
+  const input_elm = document.querySelector('.animation-name-modal input')
+  if(!input_elm){return}
+  const new_animation_name = input_elm.value
+
+  const current_animation_name = get_animation_name()
+
+  // 変更なし
+  if(!new_animation_name
+  || new_animation_name === current_animation_name){return}
+
+  // 登録済みの場合はエラー
+  if(get_data(new_animation_name)){
+    document.querySelector('.animation-name-modal .error').innerHTML = 'already used'
+    return
+  }
+
+  set_animation_name(new_animation_name)
+  change_animation_key(current_animation_name , new_animation_name)
+  // animation_name_list_decide()
+
+  // modal close
+  Options.cache_modal.close()
+  delete Options.cache_modal
+}
+function change_animation_key(old_key , new_key){
+  const datas = get_datas()
+  datas[new_key] = datas[old_key]
+  delete datas[old_key]
+}
+
+export function click_animation_name_list_copy(){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  Options.cache_modal = new Modal({
+    // 表示サイズ
+    size    : {
+      width : "500px",
+      height: "auto"
+    },
+    // 表示位置
+    position : {
+      vertical : "top",     // 縦 [top , *center(*画像などがある場合はサイズ指定してから使用すること) , bottom]
+      horizon  : "center",  // 横 [left , *center , right]
+      
+    },
+    offset:{
+      x : '0px',
+      y : '100px',
+    },
+    speed : "0.3s",
+    
+    // [上段] タイトル表示文字列
+    title   : "Animation edit",
+    // [中断] メッセージ表示スタイル
+    message : {
+      html    : Options.common.get_template('animation_name_modal'),
+      height  : "auto",
+      align   : "center",
+      padding : "0px",
+    },
+    // [下段] ボタン
+    button  : [
+      {
+        mode:"close",
+        text:"Cancel"
+      },
+      {
+        mode:"",
+        text:"Copy",
+        click : animation_name_list_copy
+      }
+    ],
+    // クリック挙動 [ "close" ]
+    background_click : "",
+    loaded : ()=>{
+      const input = document.querySelector('.modal-message-contents input,.modal-message-contents textarea')
+      if(input){
+        const name = get_animation_name()
+        input.value = name
+        input.focus()
+      }
+    }
+  })
+}
+export function animation_name_list_copy(){
+  const input_elm = document.querySelector('.animation-name-modal input')
+  if(!input_elm){return}
+  const new_animation_name = input_elm.value
+
+  const current_animation_name = get_animation_name()
+
+  // 変更なし
+  if(!new_animation_name
+  || new_animation_name === current_animation_name){return}
+
+  // 登録済みの場合はエラー
+  if(get_data(new_animation_name)){
+    document.querySelector('.animation-name-modal .error').innerHTML = 'already used'
+    return
+  }
+
+  set_animation_name(new_animation_name)
+  copy_animation_data(current_animation_name , new_animation_name)
+  // animation_name_list_decide()
+
+  // modal close
+  Options.cache_modal.close()
+  delete Options.cache_modal
+}
+function copy_animation_data(old_key , new_key){
+  const datas = get_datas()
+  datas[new_key] = JSON.parse(JSON.stringify(datas[old_key]))
 }
 
 // animation-name-listの削除処理

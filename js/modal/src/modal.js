@@ -148,16 +148,11 @@ export class Modal{
     const bg = document.createElement('div')
     bg.className = 'modal-bg'
     bg.setAttribute('data-name' , this.options.name)
-    bg.addEventListener(`click` , this.click_bg.bind(this))
+    if(this.options.background_click === "close"){
+      bg.addEventListener(`click` , this.click_bg.bind(this))
+    }
     document.body.appendChild(bg)
     return bg
-  }
-
-  set_bg(){
-    const bg = document.querySelector(".modal-bg")
-    if(this.options.bgClick === "close"){
-      __event(bg , "click" , (function(e){this.clickBg(e)}).bind(this))
-    }
   }
 
   click_bg(e){
@@ -180,6 +175,7 @@ export class Modal{
     return bg.querySelector(`.modal-close`)
   }
   set_close(){
+    if(!this.options.close){return}
     const close = this.get_close()
     close.style.setProperty(`width`  , this.options.close.size , '')
     close.style.setProperty(`height` , this.options.close.size , '')
@@ -195,6 +191,7 @@ export class Modal{
   }
 
   set_title(){
+    if(!this.options.title){return}
     const bg = this.get_bg()
     const title = bg.querySelector(".modal-title")
     title.innerHTML = this.options.title
@@ -205,6 +202,7 @@ export class Modal{
     const message = bg.querySelector(".modal-message")
     message.style.setProperty(`height`     , this.options.message.height , '')
     message.style.setProperty('text-align' , this.options.message.align  , '')
+    message.style.setProperty('padding'    , this.options.message.padding  , '')
     const message_contents = bg.querySelector(".modal-message-contents")
     message_contents.innerHTML = this.options.message.html
   }
@@ -227,6 +225,7 @@ export class Modal{
   }
 
   set_offset(){
+    const bg   = this.get_bg()
     const base = this.get_base()
     base.setAttribute('data-position-x' , this.options.position.horizon  || 'center')
     base.setAttribute('data-position-y' , this.options.position.vertical || 'center')
@@ -246,9 +245,15 @@ export class Modal{
         transY = '-50%';
         break;
     }
-    transX = this.set_calc_value(transX , this.options.offset.x)
-    transY = this.set_calc_value(transY , this.options.offset.y)
-    base.style.setProperty('transform'  , `translate(${transX} , ${transY})` , '')
+    if(this.options.offset){
+      transX = this.set_calc_value(transX , this.options.offset.x)
+      transY = this.set_calc_value(transY , this.options.offset.y)
+      base.style.setProperty('transform'  , `translate(${transX} , ${transY})` , '')
+    }
+    if(this.options.position.speed){
+      base.style.setProperty('transition-duration'  , this.options.speed , '')
+      bg.style.setProperty('transition-duration'  , this.options.speed , '')
+    }
   }
 
   set_calc_value(val1 , val2){
