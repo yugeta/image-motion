@@ -17,4 +17,6 @@ export const Options = {
   trans_datas  : {},
 
   save_file_extension : '.json',
+
+  sound_elms   : [],
 }

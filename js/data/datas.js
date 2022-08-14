@@ -491,4 +491,10 @@ export class Datas{
     return Options.sounds
   }
 
+  get_sound(uuid){
+    if(!uuid){return}
+    const datas = this.get_sounds()
+    return datas.find(e => e.uuid === uuid)
+  }
+
 }

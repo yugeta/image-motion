@@ -227,15 +227,19 @@ export function click_play(e){
   const key = 'data-status'
   const target = e.currentTarget
   switch(target.getAttribute(key)){
+    // on -> off
     case 'on':
       target.setAttribute(key , '')
       Options.play.stop()
+      new SoundKey().all_pause()
       break
+    // off -> on
     default:
       target.setAttribute(key , 'on')
       const duration = get_duration()
       Options.play.flg_duration = duration / 100 * 1000
       Options.play.play()
+      new SoundKey().all_play()
       break
   }
 }
@@ -283,7 +287,13 @@ export function set_type_value_of_view(name , uuid , type , per , data){
       break
 
     case 'sound':
-      new SoundKey(name , uuid , per)
+      Options.datas.set_animation_data_value(name , uuid , per , type , null)
+      Options.sound_key = new SoundKey({
+        name : name , 
+        uuid : uuid , 
+        per  : per ,
+      })
+        
       break
 
     // rotate , posx , posy , posz

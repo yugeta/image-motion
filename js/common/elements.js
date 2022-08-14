@@ -119,6 +119,15 @@ export class Elements{
     const input = area.querySelector(`input[name='uuid']`)
     return input.value
   }
+  get_sound_info(){
+    return document.querySelector(`.contents [name='sound'] .info`)
+  }
+  get_sound_name(){
+    return document.querySelector(`.contents [name='sound'] .info .sound-name`)
+  }
+  get_sound_uuid(){
+    return document.querySelector(`.contents [name='sound'] .info .sound-name`)
+  }
 
 
   // ----------
@@ -272,6 +281,9 @@ export class Elements{
   get_animation_tools(){
     return document.querySelector(`.contents [name='animation'] .tools`)
   }
+  get_animation_tools_play(){
+    return document.querySelector(`.contents [name='animation'] .tools .play`)
+  }
 
   get_animation_header_add(){
     return document.querySelector(`.contents .animation-name-control .add`)
@@ -346,4 +358,8 @@ export class Elements{
   get_timeline_scroll_bar(){
     return document.querySelector(`.timeline-scroll-bar`)
   }
+
+  
+
+
 }

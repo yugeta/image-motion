@@ -1,4 +1,5 @@
 @import './view.css';
+@import './sound.css';
 
 .contents [name='shape'] .info,
 .contents [name='event'] .info,

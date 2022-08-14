@@ -16,7 +16,6 @@ export function contextmenu(e , type){
     delete Options.move_key_point
   }
 
-
   Options.contextmenu = new Contextmenu({
     type  : type ,
     x     : e.pageX,
@@ -48,6 +47,7 @@ export function mousemove(e){
     move_timeline_cursor(e)
     Options.play.transform_img_all()
     change_timeline()
+    new SoundKey().all_stop()
   }
   drag_move_key_point(e)
 }
@@ -195,11 +195,6 @@ function drag_move_key_point(e){
     per,
     Options.move_key_point.type,
   )
-  // console.log(res,
-  //   Options.move_key_point.name+"/"+
-  //   Options.move_key_point.uuid+"/"+
-  //   per+"/"+
-  //   Options.move_key_point.type)
   if(typeof res === 'number'){return}
 
   set_move_key_point(per)
