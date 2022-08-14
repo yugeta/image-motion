@@ -27,10 +27,12 @@ export class Lists{
 
   view_add(){
     const area = this.get_area()
-    const li = document.createElement('li')
-    li.setAttribute('data-uuid' , this.options.uuid)
-    li.textContent = this.options.name
-    li.innerHTML = this.get_template()
-    area.appendChild(li)
+    const template = this.get_template()
+    area.insertAdjacentHTML('beforeend' , template)
+    // const li = document.createElement('li')
+    // li.setAttribute('data-uuid' , this.options.uuid)
+    // li.textContent = this.options.name
+    // li.innerHTML = this.get_template()
+    // area.appendChild(li)
   }
 }

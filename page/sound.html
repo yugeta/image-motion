@@ -20,10 +20,14 @@
     <form class='hidden' name="upload" method="post" enctype="multipart/form-data"></form>
 
     <div class='hidden template'>
-      <div data-name='sound-list'>
+      <ul data-name='sound-list'>
+      <li data-uuid='{{uuid}}'>
+        <div class='num'></div>
+        <div class='buttons'>
+          <div class='play'></div>
+        </div>
         <div class='name'>{{name}}</div>
-        <div class='play'></div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </body>
 </html>
