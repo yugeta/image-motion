@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='css/sound/main.css' />
+    <script type='module' src='js/sound/main.js'></script>
+  </head>
+  <body>
+    <div class='contents-sound'>
+      <div name='sound'>
+        <div class='title'>Sound files</div>
+        <div class='control'>
+          <button name='add' type='button'>Sound file add</bottun>
+        </div>
+        <div class='lists'>
+          <ul></ul>
+        </div>
+      </div>
+    </div>
+
+    <form class='hidden' name="upload" method="post" enctype="multipart/form-data"></form>
+
+    <div class='hidden template'>
+      <ul data-name='sound-list'>
+      <li data-uuid='{{uuid}}'>
+        <div class='num'></div>
+        <div class='buttons'>
+          <div class='play'></div>
+        </div>
+        <div class='name'>{{name}}</div>
+      </li>
+    </ul>
+  </body>
+</html>

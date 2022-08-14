@@ -4,6 +4,7 @@ import * as ImageCommon from '../images/common.js'
 import * as ShapeCommon from '../shape/common.js'
 import { Play }         from '../action/play.js'
 import { Modal }        from '../modal/src/modal.js'
+import { SoundKey }     from '../action/sound_key.js'
 
 // ----------
 // animation-name
@@ -226,15 +227,19 @@ export function click_play(e){
   const key = 'data-status'
   const target = e.currentTarget
   switch(target.getAttribute(key)){
+    // on -> off
     case 'on':
       target.setAttribute(key , '')
       Options.play.stop()
+      new SoundKey().all_pause()
       break
+    // off -> on
     default:
       target.setAttribute(key , 'on')
       const duration = get_duration()
       Options.play.flg_duration = duration / 100 * 1000
       Options.play.play()
+      new SoundKey().all_play()
       break
   }
 }
@@ -279,6 +284,16 @@ export function set_type_value_of_view(name , uuid , type , per , data){
       if(!opacity_input){return}
       const opacity_value = data !== undefined ? data : Number(opacity_input.value || 1)
       Options.datas.set_animation_data_value(name , uuid , per , type , opacity_value)
+      break
+
+    case 'sound':
+      Options.datas.set_animation_data_value(name , uuid , per , type , null)
+      Options.sound_key = new SoundKey({
+        name : name , 
+        uuid : uuid , 
+        per  : per ,
+      })
+        
       break
 
     // rotate , posx , posy , posz
@@ -613,6 +628,14 @@ export function is_point(name , uuid , type , per){
   else{
     return true
   }
+}
+
+// mode切り替えの時にanimation-nameが選択されている場合はclearする
+export function animation_name_clear(){
+  const animation_name = get_animation_name()
+  if(!animation_name){return}
+  const input = Options.elements.get_animation_name_list_input()
+  input.value = ''
 }
 
 

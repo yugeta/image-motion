@@ -17,6 +17,8 @@ export class Templates{
       'timeline',
       // 'animation_header_tools',
       'shape',
+      'property_event',
+      'property_sound',
     ]
     this.load()
   }
@@ -34,13 +36,16 @@ export class Templates{
     const name = this.lists.shift()
     const path = `template/${name}.html`
     new Ajax({
-    url      : path,
-    method   : 'get',
-    callback : ((name , e) => {
-      this[name] = e.target.response
-      this.load()
-    }).bind(this , name)
-  })
+      url      : path,
+      method   : 'get',
+      callback : ((name , e) => {
+        this[name] = e.target.response
+        this.load()
+      }).bind(this , name)
+    })
   }
   
+  get_template(name){
+    return Options.templates[name]
+  }
 }

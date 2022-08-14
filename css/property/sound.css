@@ -1,0 +1,35 @@
+
+.contents [name='sound'] .info{
+  padding:5px;
+  position:relative;
+}
+.contents [name='sound'] .info .sound-name{
+  padding:5px;
+  border:1px solid var(--color-font);
+  border-radius:4px;
+  cursor:pointer;
+}
+.contents [name='sound'] .info .sound-name:empty::before{
+  content:'\00a0';
+}
+
+.contents [name='sound'] .info .select-lists{
+  position:absolute;
+  /* width:100%; */
+  background-color:var(--color-contents-header);
+  border:1px solid var(--color-font);
+  border-radius:4px;
+  overflow:hidden;
+}
+.contents [name='sound'] .info .select-lists .item{
+  width:100%;
+  padding:5px;
+  cursor:pointer;
+}
+.contents [name='sound'] .info .select-lists .item+*{
+  border-top:1px solid var(--color-font);
+}
+.contents [name='sound'] .info .select-lists .item:hover{
+  background-color:var(--color-font);
+  color:white;
+}

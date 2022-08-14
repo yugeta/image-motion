@@ -119,6 +119,15 @@ export class Elements{
     const input = area.querySelector(`input[name='uuid']`)
     return input.value
   }
+  get_sound_info(){
+    return document.querySelector(`.contents [name='sound'] .info`)
+  }
+  get_sound_name(){
+    return document.querySelector(`.contents [name='sound'] .info .sound-name`)
+  }
+  get_sound_uuid(){
+    return document.querySelector(`.contents [name='sound'] .info .sound-name`)
+  }
 
 
   // ----------
@@ -161,6 +170,14 @@ export class Elements{
   }
   get_header_scale_value(){
     return document.querySelector(`input[type='range'][name='view-scale'] ~ .scale-value`)
+  }
+
+  // file
+  get_header_menu_file(){
+    return document.querySelector(`header .text-menu [data-name='file']`)
+  }
+  get_header_menu_file_check(){
+    return document.querySelector(`header .text-menu [data-name='file'] input[type='checkbox'][name='menu']`)
   }
 
   // ----------
@@ -264,6 +281,9 @@ export class Elements{
   get_animation_tools(){
     return document.querySelector(`.contents [name='animation'] .tools`)
   }
+  get_animation_tools_play(){
+    return document.querySelector(`.contents [name='animation'] .tools .play`)
+  }
 
   get_animation_header_add(){
     return document.querySelector(`.contents .animation-name-control .add`)
@@ -308,7 +328,7 @@ export class Elements{
     return document.querySelector(`.contents .over .over-right [name='shape'] .matrix tbody`)
   }
   get_shape_property_use(){
-    return document.querySelector(`.contents .over .over-right [name='shape'] .toggle input[name='shape_flg']`)
+    return document.querySelector(`.contents .over .over-right [name='shape'] input[name='shape_flg']`)
   }
   get_shape_property_preview(){
     return document.querySelector(`.contents .over .over-right [name='shape'] .preview`)
@@ -338,4 +358,8 @@ export class Elements{
   get_timeline_scroll_bar(){
     return document.querySelector(`.timeline-scroll-bar`)
   }
+
+  
+
+
 }

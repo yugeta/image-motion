@@ -1,0 +1,41 @@
+body[data-hash] > div{
+  display:none;
+}
+
+body[data-hash=''] > .contents-home,
+body[data-hash='help'] > .contents-home{
+  display:block;
+}
+
+body[data-hash='upload'] > .contents{
+  display:block;
+}
+/* body[data-hash='sound'] .contents-sound{
+  display:block;
+} */
+
+
+
+
+body[data-hash] .over-right > *{
+  display:none;
+}
+
+body[data-hash='upload'] .over-right > [name='property'],
+body[data-hash='upload'] .over-right > [name='transform']{
+  display:block;
+}
+
+body[data-hash='action'] .over-right > [name='shape'],
+body[data-hash='action'] .over-right > [name='event'],
+body[data-hash='action'] .over-right > [name='sound']{
+  display:block;
+}
+
+
+
+
+
+
+
+

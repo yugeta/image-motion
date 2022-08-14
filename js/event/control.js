@@ -15,6 +15,7 @@ export class Control{
     new Save()
   }
   load(){
+    // Options.header.open_file_menu()
     new Load()
   }
   new(){

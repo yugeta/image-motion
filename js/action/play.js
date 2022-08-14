@@ -2,6 +2,7 @@ import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
 import * as ImageCommon  from '../images/common.js'
 import * as ShapeCommon  from '../shape/common.js'
+import { SoundKey }      from '../action/sound_key.js'
 
 export class Play{
 
@@ -18,12 +19,20 @@ export class Play{
     if(this.flg_duration){
       delete this.flg_duration
     }
+    if(Options.sound_key){
+      Options.sound_key.all_stop()
+    }
   }
 
   // 任意per（フレーム）に対する、viewのimgすべてをanimationする
   transform_img_all(per){
     // 指定（現在）フレーム数を取得
     per = per !== undefined ? per : ActionCommon.get_timeline_per()
+
+    // 前回と同一フレームの場合は処理をしない
+    if(Options.current_per === per){return}
+    Options.current_per = per
+    
     const animation_name = ActionCommon.get_animation_name()
     if(!animation_name){
       this.transform_img_reset()
@@ -34,13 +43,13 @@ export class Play{
       this.transform_img_reset()
       return
     }
-    // console.log(datas)
+    // image別アニメーション処理
     for(let uuid in datas.items){
       if(!datas.items[uuid].keyframes){continue}
-      const types = this.get_transform_types(datas.items[uuid].keyframes)
+      const types     = this.get_transform_types(datas.items[uuid].keyframes)
       const transform = this.get_transform_css(animation_name , uuid , per , types)
       const styles    = this.get_style_css(animation_name , uuid , per , types)
-      const pic   = Options.elements.get_uuid_view(uuid)
+      const pic       = Options.elements.get_uuid_view(uuid)
       if(transform){
         pic.style.setProperty('transform' , transform , '')
       }
@@ -50,6 +59,7 @@ export class Play{
         }
       }
       this.set_shape(animation_name , uuid , per , types)
+      this.set_sound(animation_name , uuid , per , datas.items[uuid].keyframes)
     }
   }
   transform_img_reset(){
@@ -111,7 +121,7 @@ export class Play{
 
 
   set_shape(name , uuid , per , types){
-    if(!types.indexOf('shape') === -1){return}
+    if(types.indexOf('shape') === -1){return}
     const datas  = Options.datas.get_animation_name_shape_between(name , uuid , per)
     if(!datas || !datas.matrix){return}
     const images = Options.elements.get_shape_images(uuid)
@@ -122,10 +132,7 @@ export class Play{
 
     // point-pos
     const point_elms  = Options.elements.get_shape_points(uuid)
-    // const point_datas = ShapeCommon.get_date2points(datas.points)
-    // console.log(datas)
     const point_datas = ShapeCommon.get_table2pointDatas(uuid , datas.points)
-    // console.log(point_datas)
     for(let i=0; i<point_elms.length; i++){
       const point_elm = point_elms[i]
       const pos       = point_datas[i]
@@ -147,7 +154,6 @@ export class Play{
     const left = ~~(per * rate)
     cursor.style.setProperty('left', `${left}px`,'')
   
-    // console.log('--6')
     this.transform_img_all(per)
     this.timeline_key_point_current(per)
   }
@@ -166,6 +172,19 @@ export class Play{
       }
     }
   }
-
+  set_sound(name , uuid , per , keyframes){
+    if(keyframes[per]
+    && keyframes[per].sound !== undefined){
+      Options.sound_key = new SoundKey({
+        name : name , 
+        uuid : uuid , 
+        per  : per , 
+      })
+    }
+    else if(Options.sound_key){
+      Options.sound_key.property_hidden()
+      delete Options.sound_key
+    }
+  }
 
 }

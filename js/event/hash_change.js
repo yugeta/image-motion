@@ -1,8 +1,10 @@
 import { Options }       from '../options.js'
+import * as ActionCommon from '../action/common.js'
 
 export class HashChange{
   constructor(){
     this.hash = Options.common.get_hash()
+    this.animation_name_clear()
     this.change()
   }
   change(){
@@ -10,6 +12,7 @@ export class HashChange{
     switch(this.hash){
       case 'upload':
       case 'action':
+      // case 'sound':
         break
 
       case '':
@@ -20,8 +23,14 @@ export class HashChange{
         iframe.src = `page/${this.hash}.html`
         break
     }
+    
   }
   get_iframe(){
     return Options.elements.get_iframe()
+  }
+
+  // animation-nameがセットされている場合は、クリアする
+  animation_name_clear(){
+    ActionCommon.animation_name_clear()
   }
 }

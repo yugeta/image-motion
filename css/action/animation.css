@@ -1,6 +1,6 @@
 [name='animation']{
   --size-name  : 20%;
-  --size-input : 40%;
+  --size-input : 30%;
   --size-tool  : 30px;
   --size-header-title:30%;
   --size-header-trash:25px;
@@ -172,37 +172,53 @@
 }
 [name='animation'] .lists .input{
   width : var(--size-input);
+  text-align:right;
+  display:flex;
 }
 [name='animation'] .lists .input input[type='text'],
 [name='animation'] .lists .input input[type='number']{
   text-align:right;
 }
 
-[name='animation'] .lists input[type='range'],
+/* [name='animation'] .lists input[type='range'],
 [name='animation'] .lists input[type='text'],
 [name='animation'] .lists input[type='number']{
   width:100%;
+} */
+[name='animation'] input{
+  width:100%;
 }
 
-[name='animation'] .lists .rotate .input::after{
-  content : 'deg';
+[name='animation'] .lists > li > * > .input::after{
+  content : ' ';
+  display:inline-block;
+  width:30px;
   font-size:10px;
   line-height:25px;
+  text-align:left;
+}
+[name='animation'] .lists .rotate .input::after{
+  content : 'deg';
 }
 [name='animation'] .lists .posx .input::after,
 [name='animation'] .lists .posy .input::after{
   content : 'px';
-  font-size:10px;
-  line-height:25px;
 }
-[name='animation'] .rotate input[type='text'],
+[name='animation'] input[type='text'],
+[name='animation'] input[type='number']{
+  margin-left:5px;
+  margin-right:5px;
+  width:calc(100% - 30px);
+}
+/* [name='animation'] .rotate input[type='text'],
 [name='animation'] .posx input[type='text'],
 [name='animation'] .posy input[type='text']{
   margin-left:5px;
   margin-right:5px;
   width:calc(100% - 30px);
-}
-[name='animation'] .scalex input[type='text'],
+} */
+
+/*[name='animation'] .scalex input[type='text'],
 [name='animation'] .scaley input[type='text']{
   margin-left:5px;
   margin-right:5px;
@@ -213,6 +229,6 @@
   content : 'scale';
   font-size:10px;
   line-height:25px;
-}
+} */
 
 

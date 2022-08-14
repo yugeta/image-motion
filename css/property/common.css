@@ -1,0 +1,8 @@
+@import './view.css';
+@import './sound.css';
+
+.contents [name='shape'] .info,
+.contents [name='event'] .info,
+.contents [name='sound'] .info{
+  min-height:100px;
+}

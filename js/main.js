@@ -1,11 +1,13 @@
+import { Options }  from './options.js'
 import { Init    }  from './common/init.js'
 // import { SvgEmbed } from '../plugin/svgEmbed/src/svgEmbed.js'
-import { SvgEmbed } from '../plugin/svgEmbed/src/svgEmbed.js'
+import { SvgEmbed } from './svgEmbed/src/svgEmbed.js'
 
 export class Main{
   constructor(){
     this.init()
     this.set_svg()
+    this.options = Options
   }
 
   init(){
@@ -19,6 +21,12 @@ export class Main{
 }
 
 switch(document.readyState){
-  case 'complete': new Main(); break
-  default: window.addEventListener('load' , (function(){new Main()})); break
+  case 'complete': 
+    window.main = new Main(); 
+    break
+  default: 
+    window.addEventListener('load' , (function(){
+      window.main = new Main()
+    })); 
+    break
 }

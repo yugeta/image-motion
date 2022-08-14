@@ -1,9 +1,4 @@
-body[data-hash] .over [name='shape']{
-  display:none;
-}
-body[data-hash='action'] .over [name='shape']{
-  display:block;
-}
+
 
 /* Propertry */
 .over [name='shape'] .info{
@@ -14,14 +9,16 @@ body[data-hash='action'] .over [name='shape']{
 }
 
 /* Toggle */
-.over [name='shape'] .info .toggle input[type='checkbox']{
+
+
+.over [name='shape'] .info input[type='checkbox']{
   display:none;
 }
-.over [name='shape'] .info .toggle .switch{
+.over [name='shape'] .info .switch{
   display:block;
-  width:50px;
-  height:30px;
-  border-radius:15px;
+  width:40px;
+  height:25px;
+  border-radius:12.5px;
   background-color:black;
   border:2px solid var(--color-font);
   padding:2px;
@@ -30,18 +27,18 @@ body[data-hash='action'] .over [name='shape']{
   text-align:right;
   cursor:pointer;
 }
-.over [name='shape'] .info .toggle .switch::before{
+.over [name='shape'] .info .switch::before{
   content:'';
   display:inline-block;
   border-radius:50%;
-  width:22px;
-  height:22px;
+  width:17px;
+  height:17px;
   background-color:var(--color-font);
 }
-.over [name='shape'] .info .toggle .switch:hover::before{
+.over [name='shape'] .info .switch:hover::before{
   background-color:white;
 }
-.over [name='shape'] .info .toggle input[type='checkbox']:checked ~ .switch{
+.over [name='shape'] .info input[type='checkbox']:checked ~ .switch{
   background-color:var(--color-use);
   text-align:left;
 }
@@ -167,20 +164,30 @@ body[data-hash='action'] .over [name='shape']{
 
 
 /* Button */
-.over [name='shape'] .info .button [name='reset']{
+.over [name='shape'] .info > .button{
+  display:flex;
+  align-items:center;
+  height:40px;
+}
+
+.over [name='shape'] .info > .button label{
   display:block;
-  width:100px;
-  margin:20px auto;
+  width:50%;
+}
+
+.over [name='shape'] .info > .button [name='reset']{
+  display:block;
+  margin:0 auto;
   background-color:var(--color-font);
   color:black;
   border-radius:4px;
-  padding:5px;
+  padding:5px 10px;
   cursor:pointer;
 }
-.over [name='shape'] .info .button [name='reset']:hover{
+.over [name='shape'] .info > .button [name='reset']:hover{
   color:white;
 }
-.over [name='shape'] .info .button [name='reset']:active{
+.over [name='shape'] .info > .button [name='reset']:active{
   color:var(--color-font);
   background-color:var(--color-font-active);
 }

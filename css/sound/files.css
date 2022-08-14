@@ -1,0 +1,25 @@
+
+.contents-sound{
+  --size-control:50px;
+
+  height:calc(100% - var(--size-header-height));
+}
+.contents-sound [name='sound']{
+  background-color:var(--color-bg);
+  height:100%;
+}
+
+.contents-sound [name='sound'] .title{
+  background-color:var(--color-contents-header);
+  height:var(--size-images-header);
+  color:var(--color-font);
+  padding:5px;
+  font-size:14px;
+}
+.contents-sound [name='sound'] .control{
+  height : var(--size-control);
+  border-bottom:1px solid var(--color-font);
+}
+.contents-sound [name='sound'] .lists{
+  height:calc(100% - var(--size-images-header) -  var(--size-control));
+}
