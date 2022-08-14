@@ -1,4 +1,4 @@
 export const Options = {
-  sounds : {},
-  
+  sounds : [],
+  elms   : {},
 }

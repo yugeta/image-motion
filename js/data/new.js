@@ -15,8 +15,9 @@ export class New{
 
   data(){
     Options.animations = {}
-    Options.cache = {}
-
+    Options.cache      = {}
+    Options.sounds     = []
+    Options.images     = []
   }
 
   view(){

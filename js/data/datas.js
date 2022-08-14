@@ -60,11 +60,12 @@ export class Datas{
     }
     const animations = this.get_animations()
     const shapes     = this.get_shapes()
+    const sounds     = this.get_sounds()
     return {
       images     : images,
       animations : animations,
       shape      : shapes,
-      // sort   : this.get_image_sorts()
+      sounds     : sounds,
     }
   }
 
@@ -482,5 +483,12 @@ export class Datas{
   }
 
 
+  // ----------
+  // Sounds
+
+  get_sounds(){
+    Options.sounds = Options.sounds || []
+    return Options.sounds
+  }
 
 }

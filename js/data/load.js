@@ -54,6 +54,7 @@ export class Load{
     }
     
     Options.animations = datas.animations || {}
+    Options.sounds     = datas.sounds     || []
 
     this.loaded_change_hash()
   }

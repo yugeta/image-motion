@@ -11,10 +11,19 @@
         <div class='control'>
           <button name='add' type='button'>Sound file add</bottun>
         </div>
-        <ul class='lists'></ul>
+        <div class='lists'>
+          <ul></ul>
+        </div>
       </div>
     </div>
 
     <form class='hidden' name="upload" method="post" enctype="multipart/form-data"></form>
+
+    <div class='hidden template'>
+      <div data-name='sound-list'>
+        <div class='name'>{{name}}</div>
+        <div class='play'></div>
+      </div>
+    </div>
   </body>
 </html>

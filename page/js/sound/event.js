@@ -1,6 +1,8 @@
 import { Options } from './options.js'
 import { Files }   from './files.js'
 import { Lists }   from './lists.js'
+import { Uuid }    from './uuid.js'
+import { Play }    from './play.js'
 
 export class Event{
   constructor(){
@@ -9,6 +11,8 @@ export class Event{
   set_event(){
     const add_button = document.querySelector(`button[name='add']`)
     add_button.addEventListener('click' , this.click_add.bind(this))
+    const lists_area = document.querySelector(`.contents-sound .lists > ul`)
+    lists_area.addEventListener('click' , this.click_lists_area.bind(this))
   }
 
   click_add(e){
@@ -23,9 +27,17 @@ export class Event{
   upload_files(e){
     if(!e.target.files.length){return}
     for(let file of e.target.files){
-      const name = file.name
-      Options.sounds[name] = new Files({file:file})
-      new Lists(name)
+      const uuid = new Uuid().id
+      file.uuid = uuid
+      new Files(file)
+      new Lists(file)
     }
+  }
+  click_lists_area(e){
+    const play = Options.common.upper_selector(e.target , '.contents-sound .lists ul li[data-uuid] .play')
+    if(!play){return}
+    const item = Options.common.upper_selector(e.target , '.contents-sound .lists ul li[data-uuid]')
+    const uuid = item.getAttribute('data-uuid')
+    new Play(uuid)
   }
 }
