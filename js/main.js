@@ -1,7 +1,7 @@
 import { Options }  from './options.js'
 import { Init    }  from './common/init.js'
 // import { SvgEmbed } from '../plugin/svgEmbed/src/svgEmbed.js'
-import { SvgEmbed } from '../plugin/svgEmbed/src/svgEmbed.js'
+import { SvgEmbed } from './svgEmbed/src/svgEmbed.js'
 
 export class Main{
   constructor(){
