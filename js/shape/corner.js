@@ -87,6 +87,7 @@ export class Corner{
   }
 
   add(transforms , x , y){
+    // console.log(this.uuid , transforms,x,y)
     // top-left
     if(x === 0 && y === 0){
       this.points.push(transforms[0])
