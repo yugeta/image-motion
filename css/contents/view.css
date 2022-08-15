@@ -129,7 +129,11 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
 }
 .contents[data-status='active'] [name='view'] .pic[data-status='active']{
   z-index:10000!important;
-  transform:translateZ(-10000px)!important;
+  
+}
+.contents[data-status='active'] [name='view'] .pic[data-status='active'] > .shape{
+  transform-style: preserve-3d;
+  transform:translateZ(10000px)!important;
 }
 .contents[data-status='active'] [name='view'] .pic:not([data-status='active']){
   z-index:auto!important;
