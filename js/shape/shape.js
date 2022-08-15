@@ -13,22 +13,13 @@ export class Shape{
     if(!uuid){return}
     this.uuid  = uuid
 
-    const shape_use = Options.datas.get_shape_use(uuid)
-    if(!shape_use){return}
-
     this.pic = Options.elements.get_uuid_view(uuid)
     if(!this.pic){return}
 
-    // this.view_property()
-    // this.set_event()
-    // this.set_use()
-    
-    // this.set_data()
+    const shape_use = Options.datas.get_shape_use(uuid)
+    if(!shape_use){return}
+
     this.corner = new Corner(this.uuid)
-    // console.log(this.corner)
-    // this.corner.create()
-    // this.set_view()
-    // this.set_shape_points()
   }
 
   // ----------
@@ -409,12 +400,7 @@ export class Shape{
       x   : pos.x,
       y   : pos.y,
     }
-    // const uuid = ImageCommon.get_current_uuid()
-    // console.log(this.corner)
-    // console.log(this.uuid)
-    // console.log(this)
     const target_shape_image_datas = this.corner.get_adjacent_images(point_num)
-    // console.log(target_shape_image_datas)
     for(let target_shape_image_data of target_shape_image_datas){
       ShapeDeform.img(this.uuid , target_shape_image_data , point_data)
     }
@@ -447,7 +433,6 @@ export class Shape{
         num++
       }
     }
-    // this.set_shape_points()
   }
 
   set_element(shape , pic , x , y , w , h , data , num){
@@ -472,33 +457,36 @@ export class Shape{
 
   // shape-pointの設置
   set_shape_points(){
-    const shape_elm = Options.elements.get_view_shape(this.uuid)
-    if(!shape_elm){return}
-    const shape_use = Options.datas.get_shape_use(this.uuid)
-    if(!shape_use || !this.corner){return}
-
-    // this.corner = new Corner(this.uuid)
+    if(!this.check_shape_exist()){return}
+    this.get_shape_points()
+    this.corner.create()
+  }
+  // pointsデータの構築
+  get_shape_points(){
+    if(!this.check_shape_exist()){return}
     const data     = Options.datas.get_data(this.uuid)
     const table    = Options.datas.get_shape_table(this.uuid)
     const w        = Number((data.w / table.x).toFixed(2))
     const h        = Number((data.h / table.y).toFixed(2))
     let image_num  = 0
-    // this.corner.clear()
     for(let i=0; i<table.y; i++){
       const y = i * h
       for(let j=0; j<table.x; j++){
         const x = j * w
         const transforms = this.corner.set_transform(x , y , w , h)
         this.corner.add(transforms , i , j)
-        // this.corner.replace(pos , i , j)
         Options.datas.set_shape_corners(this.uuid , image_num , transforms)
         image_num++
       }
     }
-    // this.corner.set_calc()
-    // console.log(this.corner)
-    this.corner.create()
-    // console.log(this.corner.points)
+  }
+
+  check_shape_exist(){
+    const shape_elm = Options.elements.get_view_shape(this.uuid)
+    if(!shape_elm){return}
+    const shape_use = Options.datas.get_shape_use(this.uuid)
+    if(!shape_use || !this.corner){return}
+    return true
   }
   // pointsデータの構築
   get_shape_points(){
