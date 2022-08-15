@@ -72,6 +72,9 @@ export function img_select(uuid){
   new Active('active' , uuid)
   Options.shape = new Shape(uuid)
   Options.shape.view_property()
+  // Options.shape.set_shape_split()
+  Options.shape.get_shape_points()
+  // console.log('commonj',Options.shape)
 }
 
 // イメージ選択解除

@@ -1,6 +1,7 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
 import { Contextmenu }   from '../asset/contextmenu.js'
+import { SoundKey }      from '../action/sound_key.js'
 
 export function resize(e){
   set_cursor_num2pos()

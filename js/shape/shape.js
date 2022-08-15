@@ -13,11 +13,11 @@ export class Shape{
     if(!uuid){return}
     this.uuid  = uuid
 
-    this.pic = Options.elements.get_uuid_view(uuid)
-    if(!this.pic){return}
-
     const shape_use = Options.datas.get_shape_use(uuid)
     if(!shape_use){return}
+
+    this.pic = Options.elements.get_uuid_view(uuid)
+    if(!this.pic){return}
 
     // this.view_property()
     // this.set_event()
@@ -25,6 +25,7 @@ export class Shape{
     
     // this.set_data()
     this.corner = new Corner(this.uuid)
+    // console.log(this.corner)
     // this.corner.create()
     // this.set_view()
     // this.set_shape_points()
@@ -498,6 +499,28 @@ export class Shape{
     // console.log(this.corner)
     this.corner.create()
     // console.log(this.corner.points)
+  }
+  // pointsデータの構築
+  get_shape_points(){
+    const shape_elm = Options.elements.get_view_shape(this.uuid)
+    if(!shape_elm){return}
+    const shape_use = Options.datas.get_shape_use(this.uuid)
+    if(!shape_use || !this.corner){return}
+    const data     = Options.datas.get_data(this.uuid)
+    const table    = Options.datas.get_shape_table(this.uuid)
+    const w        = Number((data.w / table.x).toFixed(2))
+    const h        = Number((data.h / table.y).toFixed(2))
+    let image_num  = 0
+    for(let i=0; i<table.y; i++){
+      const y = i * h
+      for(let j=0; j<table.x; j++){
+        const x = j * w
+        const transforms = this.corner.set_transform(x , y , w , h)
+        this.corner.add(transforms , i , j)
+        Options.datas.set_shape_corners(this.uuid , image_num , transforms)
+        image_num++
+      }
+    }
   }
 
   // view-shapeの内容をクリアする
