@@ -123,6 +123,7 @@ export function animation_name_list_decide(){
   ImageCommon.reset_style()
 
   // view表示
+  Options.current_per = null
   Options.play.transform_img_all()
 
   // .contentsにフラグ設置
