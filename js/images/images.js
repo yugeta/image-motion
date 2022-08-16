@@ -188,6 +188,11 @@ export class Images{
     this.cache.pic.style.setProperty('transform' , `${transform_value}` , '')
   }
   
+  // アニメーションのリセット処理（表示系）
+  reset_style(){
+    this.reset_transform()
+    this.reset_opacity()
+  }
   reset_transform(){
     this.cache.pic.style.setProperty('transform' , `none` , '')
     const shape_splits = Options.elements.get_shape_images(this.uuid)
@@ -197,6 +202,10 @@ export class Images{
       }
     }
   }
+  reset_opacity(){
+    this.cache.pic.style.removeProperty('opacity')
+  }
+
 
   del(){
     const uuid = this.uuid

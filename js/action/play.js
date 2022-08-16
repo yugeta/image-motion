@@ -63,7 +63,7 @@ export class Play{
     }
   }
   transform_img_reset(){
-    // ImageCommon.reset_transform()
+    // ImageCommon.reset_style()
   }
 
   get_transform_types(datas){
