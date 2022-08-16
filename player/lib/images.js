@@ -2,10 +2,13 @@
 import { Scale } from './scale.js'
 
 export class Images{
-  constructor(options){
+  constructor(options){//console.log(options)
     this.options = options
+    this.image_count  = this.options.data.images.length
+    this.loaded_count = 0
+    // console.log(this.image_count)
     this.view_images()
-    new Scale(options.root , options.scale)
+    // new Scale(options.root , options.scale)
   }
 
   // 個別画像の表示設定
@@ -13,6 +16,7 @@ export class Images{
     const images = this.options.data.images
     let num = 0
     for(let data of images){
+      // console.log(num,data.uuid)
       this.pic = this.create_pic(data)
       this.set_pic_property(this.pic , data)
       data.num = num
@@ -67,7 +71,7 @@ export class Images{
   // 読み込み後の画像ファイルの扱い（現在なにもしない）
   loaded_image(e){
     const img = e.target
-  
+    this.check_count(img.parentNode.getAttribute('data-uuid'))
   }
 
   // ----------
@@ -76,8 +80,11 @@ export class Images{
     return data && data.shape_use === 1 ? true : false
   }
 
-  get_table(){
-    return this.image_data.shape_table
+  get_table(data){
+    return {
+      x : data.shape_table.x || 1,
+      y : data.shape_table.y || 1,
+    }
   }
 
   create_shape(data){
@@ -85,6 +92,8 @@ export class Images{
     shape.className = 'shape'
     const shapes = this.set_shapes(data)
     for(let shape_item of shapes){
+      // const shape_item = shapes[i]
+      // console.log(shape_item)
       shape.appendChild(shape_item)
     }
     this.pic.appendChild(shape)
@@ -93,15 +102,17 @@ export class Images{
   }
 
   set_shapes(data){
+    const table = this.get_table(data)
     const d ={
       num : 0,
-      w   : data.w / data.shape_table.x,
-      h   : data.h / data.shape_table.y,
+      w   : data.w / (table.x || 1),
+      h   : data.h / (table.y || 1),
     }
+    // console.log(data.uuid , d)
     const shapes = []
-    for(let i=0; i<data.shape_table.y; i++){
+    for(let i=0; i<table.y; i++){
       const y = i * d.h
-      for(let j=0; j<data.shape_table.x; j++){
+      for(let j=0; j<table.x; j++){
         const x = j * d.w
         const shape_item = this.get_shape_item(
           x, y, d.w, d.h,
@@ -129,7 +140,7 @@ export class Images{
     const div = document.createElement('div')
     div.className = 'shape-item'
     div.setAttribute('data-num' , num)
-
+    data.shape_num = num
     // セグメントラインが出ないための１ピクセル余分に表示（右と下のライン）
     const width  = w
     const height = h
@@ -152,6 +163,10 @@ export class Images{
   
   get_shape_item_img(x,y,w,h , data){
     const img = new Image()
+    // console.log(data,img.getAttribute('data-num'))
+    if(data.shape_num === 0){
+      img.onload = this.check_count.bind(this,data.uuid)
+    }
     img.src = data.src
 
     // const pos_arr = [
@@ -169,6 +184,16 @@ export class Images{
     img.style.setProperty('top'    , `-${y}px` , '')
     
     return img
+  }
+  check_count(uuid){
+    // this.loaded_count = this.loaded_count || 0
+    this.loaded_count++
+    // console.log(uuid,this.image_count +"<="+ this.loaded_count)
+    // すべての画像が表示完了したらscale処理をする
+    if(this.image_count <= this.loaded_count){
+      // console.log('callback:'+ this.image_count+"/"+this.loaded_count)
+      new Scale(this.options.root)
+    }
   }
 
 
