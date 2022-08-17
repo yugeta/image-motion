@@ -30,9 +30,6 @@ export class Transform{
 
   get_transform(type){
     const data = this.get_data()
-    if(type === 'posy'){
-      console.log(data)
-    }
     if(data[type] !== undefined){
       return data[type]
     }
