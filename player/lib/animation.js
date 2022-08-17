@@ -62,6 +62,7 @@ export class Animation{
     css.push('}')
 
     css.push(`@keyframes ${d.key_name}{`)
+    this.adjust_values(d.keyframes)
     css.push(this.get_keyframes(d.keyframes))
     css.push(`}`)
     return css.join('\n')
@@ -73,6 +74,7 @@ export class Animation{
     for(let i in keyframes){
       css.push(`  ${i}%{`)
       const transform = new Transform(keyframes , i)
+      // console.log(transform)
       if(transform.data){
         css.push(`    transform : ${transform.data};`)
       }
@@ -84,16 +86,59 @@ export class Animation{
       }
       css.push('  }')
     }
+    // console.log(css)
     return css.join('\n')
   }
 
   get_styles(data){
     const styles = []
-    if(typeof data.opacity !== 'undefined'){
+    if(data.opacity !== undefined){
       styles.push(`opacity:${data.opacity};`)
     }
     return styles
   }
+  /**
+   * opacityをキーフレームの0%と100%にセット（無い場合に追加）する処理
+   */
+  adjust_values(keyframes){
+    for(let type of Options.style_types){
+      this.adjust_value(keyframes, type)
+    }
+  }
+  adjust_value(keyframes , type){
+    if(!keyframes || !this.is_animation_type(keyframes , type)){return}
+    // 先頭値処理
+    if(keyframes[0] === undefined){
+      for(let i in keyframes){
+        if(keyframes[i][type] !== undefined){
+          keyframes[0] = keyframes[0] || {}
+          keyframes[0][type] = keyframes[i][type]
+          break
+        }
+      }
+    }
+    // 最終値処理
+    if(keyframes[100] === undefined){
+      let value = 1
+      for(let i in keyframes){
+        if(keyframes[i][type] !== undefined){
+          value = keyframes[i][type]
+        }
+      }
+      // console.log(keyframes)
+      keyframes[100] = keyframes[100] || {}
+      keyframes[100][type] = value
+      
+    }
+  }
+  is_animation_type(keyframes , type){
+    for(let i in keyframes){
+      if(keyframes[i][type] !== undefined){
+        return true
+      }
+    }
+  }
+
 
 
   // ----------

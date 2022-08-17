@@ -3,6 +3,7 @@ import { Matrix }  from './matrix.js'
 
 export class Event{
   constructor(options){
+    this.datas = {}
     this.options = options
     this.set_images()
   }
@@ -55,7 +56,7 @@ export class Event{
     const root = e[0].target
     const anim_name = root.getAttribute('data-action')
     const pic = root.querySelector(`.pic[data-uuid='${uuid}']`)
-    const anim_data = Options.shapes[uuid].animations[anim_name]
+    // const anim_data = Options.shapes[uuid].animations[anim_name]
     if(anim_name && this.is_animetion(uuid , anim_name)){
       this.shape_play_mutation(uuid , anim_name , pic)
     }
@@ -88,57 +89,61 @@ export class Event{
     || !anim_data.items[uuid].keyframes){return}
     if(this.is_shape(anim_data.items[uuid].keyframes) !== true){return}
     const start            = (+new Date())
-    this.cache             = anim_data
-    this.cache.count       = 0
-    this.cache.start       = start
-    this.cache.per         = null
-    this.cache.splits      = datas.splits
-    this.cache.keyframes   = anim_data.items[uuid].keyframes
-    this.cache.base_points = datas.base_points
-    this.cache.duration    = this.get_duration(uuid,anim_name)
-    this.cache.time        = this.cache.duration / 100
-    this.shape_view_mutation(start)
+    this.datas[uuid]             = anim_data
+    this.datas[uuid].count       = 0
+    this.datas[uuid].start       = start
+    this.datas[uuid].per         = null
+    this.datas[uuid].splits      = datas.splits
+    this.datas[uuid].keyframes   = anim_data.items[uuid].keyframes
+    this.datas[uuid].base_points = datas.base_points
+    this.datas[uuid].duration    = this.get_duration(uuid,anim_name)
+    this.datas[uuid].time        = this.datas[uuid].duration / 100
+    this.shape_view_mutation(start , uuid)
   }
   get_duration(uuid , anim_name){
     return Options.shapes[uuid].animations[anim_name].duration || 1
   }
 
-  shape_view_mutation(flg){
-    if(!this.cache){return}
-    
-    if(flg !== this.cache.start){return}
-    const progress = ((+new Date()) - this.cache.start) / 1000
-    const rate = progress / this.cache.duration
+  shape_view_mutation(flg , uuid){
+    const data = this.datas[uuid]
+    if(!data){return}
+    if(flg !== data.start){return}
+    const progress = ((+new Date()) - data.start) / 1000
+    const rate = progress / data.duration
     const per = Math.round(rate * 100)
-    if(per !== this.cache.per){
-      this.cache.per = per
-      for(let num=0; num<this.cache.splits.length; num++){
-        let matrix_data = ''
-        if(this.cache.keyframes[this.cache.per]){
-          if(!this.cache.keyframes[this.cache.per].shape){continue}
-          matrix_data = this.cache.keyframes[this.cache.per].shape.matrix[num]
-        }
-        else{
-          const next_positions = this.get_shape_next_points(num , this.cache.keyframes , this.cache.per)
-          if(!next_positions){continue}
-          matrix_data = new Matrix(this.cache.base_points[num] , next_positions)
-        }
+    if(per !== data.per){
+      data.per = per
+      for(let num=0; num<data.splits.length; num++){
+        const matrix_data = this.get_martix(num , uuid)
+        
         if(!matrix_data){continue}
-        this.cache.splits[num].style.setProperty('transform', matrix_data.transform, '')
+        data.splits[num].style.setProperty('transform', matrix_data.transform, '')
       }
     }
     if(per >= 100){
-      this.cache.start = (+new Date())
+      data.start = (+new Date())
     }
-    setTimeout(this.shape_view_mutation.bind(this , this.cache.start) , this.cache.time * 1000)
+    setTimeout(this.shape_view_mutation.bind(this , data.start , uuid) , data.time * 1000)
+  }
+  get_martix(num , uuid){
+    const data = this.datas[uuid]
+    if(data.keyframes[data.per]){
+      if(!data.keyframes[data.per].shape){return}
+      return data.keyframes[data.per].shape.matrix[num]
+    }
+    else{
+      const next_positions = this.get_shape_next_points(num , data.keyframes , data.per)
+      if(!next_positions){return}
+      return new Matrix(data.base_points[num] , next_positions)
+    }
   }
 
   shape_stop_mutation(uuid){
-    if(!this.cache){return}
-    for(let split of this.cache.splits){
+    if(!this.datas[uuid]){return}
+    for(let split of this.datas[uuid].splits){
       split.style.setProperty('transform','','')
     }
-    delete this.cache
+    delete this.datas[uuid]
   }
 
   // ----------
