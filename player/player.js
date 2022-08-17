@@ -10,7 +10,10 @@ export class Player{
     this.css     = this.get_css()
     this.options = new Init(options).options
     this.style   = new Style(this.css)
+    this.loaded_style()
+  }
 
+  loaded_style(){
     if(this.options.file){
       this.load_data(this.options.file)
     }
@@ -49,6 +52,8 @@ export class Player{
     const path = base.url.replace(/player.js$/ , 'main.css')
     return path
   }
+
+
 }
 
 

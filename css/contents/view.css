@@ -127,9 +127,12 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
   width:100%;
   height:100%;
 }
+.contents[data-status='active'] [name='view'] .pic{
+  z-index:-1!important;
+}
 .contents[data-status='active'] [name='view'] .pic[data-status='active']{
   z-index:10000!important;
-  transform:translateZ(10000px)!important;
+  /* transform:translateZ(10000px)!important; */
 }
 .contents[data-status='active'] [name='view'] .pic[data-status='active'] > .shape{
   transform-style: preserve-3d;
