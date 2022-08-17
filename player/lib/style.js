@@ -21,14 +21,13 @@ export class Style{
   }
   load_css(){
     new Ajax({
-      url : this.css,
-      method : 'get',
+      url      : this.css,
+      method   : 'get',
       callback : this.loaded_css.bind(this)
     })
   }
   loaded_css(e){
-    this.elm = this.create_style()
-    this.elm.textContent = e.target.response +'\n'
+    this.elm.textContent += e.target.response +'\n'
   }
 
   // styleタグの設置
@@ -44,7 +43,4 @@ export class Style{
     if(!val){return}
     this.elm.textContent += val+'\n'
   }
-  
-
-
 }

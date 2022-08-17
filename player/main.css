@@ -5,6 +5,7 @@
 [data-service='image-motion'] .pic{
   position:absolute;
   display:block;
+  transform-style:preserve-3d;
 }
 
 [data-service='image-motion'] .pic > img{

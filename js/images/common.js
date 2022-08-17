@@ -54,10 +54,10 @@ export function set_offset_pic(uuid , diff){
   Options.img_datas[uuid].set_image_pos()
 }
 
-export function reset_transform(){
+export function reset_style(){
   const datas  = Options.datas.get_all()
   for(let uuid in datas){
-    Options.img_datas[uuid].reset_transform()
+    Options.img_datas[uuid].reset_style()
   }
 }
 

@@ -63,7 +63,7 @@ export class Play{
     }
   }
   transform_img_reset(){
-    // ImageCommon.reset_transform()
+    // ImageCommon.reset_style()
   }
 
   get_transform_types(datas){
@@ -144,7 +144,7 @@ export class Play{
   set_timeline_per(per){
     const cursor = Options.elements.get_timeline_cursor()
     const rate   = ActionCommon.get_frame_rate()
-    if(per < 0){
+    if(!per || per < 0){
       per = 0
     }
     else if(per > 100){

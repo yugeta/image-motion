@@ -1,3 +1,4 @@
+import { Options }   from '../options.js'
 
 export class Transform{
   constructor(keyframes , per){
@@ -8,13 +9,13 @@ export class Transform{
 
   get data(){
     const data = []
-    data.push(`translate(${this.posx}px , ${this.posy}px)`)
+    data.push(`translateX(${this.posx}px)`)
+    data.push(`translateY(${this.posy}px)`)
+    data.push(`translateZ(${this.posz}px)`)
     data.push(`scale(${this.scale})`)
     data.push(`rotate(${this.rotate}deg)`)
     return data.join(' ')
   }
-
-  types = ['posx','posy','scale','rotate']
 
   get_data(){
     return this.keyframes[this.per]
@@ -22,7 +23,7 @@ export class Transform{
   set_data(){
     const data = this.get_data()
     if(!data){return}
-    for(let type of this.types){
+    for(let type of Options.transform_types){
       this[type] = this.get_transform(type)
     }
   }
@@ -48,6 +49,7 @@ export class Transform{
     switch(type){
       case 'posx':
       case 'posy':
+      case 'posz':
       case 'rotate':
         return 0
       case 'scale':

@@ -38,7 +38,7 @@ export class Header{
 
   set_contents_hash(hash){
     document.body.setAttribute('data-hash' , hash)
-    ImageCommon.reset_transform()
+    ImageCommon.reset_style()
   }
 
   // ----------

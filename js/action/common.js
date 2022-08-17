@@ -106,7 +106,6 @@ export function animation_name_list_decide(){
   // header情報の初期設定
   set_default_setting()
 
-
   const name = get_animation_name()
 
   // 既存データ
@@ -117,14 +116,14 @@ export function animation_name_list_decide(){
   }
   // 新規key作成
   else{
-    // const data = get_animation_data()
     Options.datas.add_animation(name)
   }
 
   // 切り替え後一度transformをクリアする
-  ImageCommon.reset_transform()
+  ImageCommon.reset_style()
 
   // view表示
+  Options.current_per = null
   Options.play.transform_img_all()
 
   // .contentsにフラグ設置

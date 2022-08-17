@@ -1,12 +1,8 @@
 
-/* body[data-hash=''] .contents,
-body[data-hash='help'] .contents{
-  display:none;
-} */
-
 body[data-hash=''] .contents-home,
 body[data-hash='help'] .contents-home,
-body[data-hash='sound'] .contents-home{
+body[data-hash='sound'] .contents-home,
+body[data-hash='play'] .contents-home{
   display:block;
   width:100%;
   height:calc(100% - var(--size-header-height));
