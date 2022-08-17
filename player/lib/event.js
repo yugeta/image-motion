@@ -87,7 +87,7 @@ export class Event{
     || !anim_data.items[uuid]
     || !anim_data.items[uuid].keyframes){return}
     if(this.is_shape(anim_data.items[uuid].keyframes) !== true){return}
-    const start            = (+new Date())
+    const start                  = (+new Date())
     this.datas[uuid]             = anim_data
     this.datas[uuid].max_count   = this.get_max_count(anim_data)
     this.datas[uuid].current_count = 0
