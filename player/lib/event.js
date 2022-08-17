@@ -56,7 +56,6 @@ export class Event{
     const root = e[0].target
     const anim_name = root.getAttribute('data-action')
     const pic = root.querySelector(`.pic[data-uuid='${uuid}']`)
-    // const anim_data = Options.shapes[uuid].animations[anim_name]
     if(anim_name && this.is_animetion(uuid , anim_name)){
       this.shape_play_mutation(uuid , anim_name , pic)
     }
@@ -88,9 +87,10 @@ export class Event{
     || !anim_data.items[uuid]
     || !anim_data.items[uuid].keyframes){return}
     if(this.is_shape(anim_data.items[uuid].keyframes) !== true){return}
-    const start            = (+new Date())
+    const start                  = (+new Date())
     this.datas[uuid]             = anim_data
-    this.datas[uuid].count       = 0
+    this.datas[uuid].max_count   = this.get_max_count(anim_data)
+    this.datas[uuid].current_count = 0
     this.datas[uuid].start       = start
     this.datas[uuid].per         = null
     this.datas[uuid].splits      = datas.splits
@@ -99,6 +99,12 @@ export class Event{
     this.datas[uuid].duration    = this.get_duration(uuid,anim_name)
     this.datas[uuid].time        = this.datas[uuid].duration / 100
     this.shape_view_mutation(start , uuid)
+  }
+  get_max_count(anim_data){
+    if(anim_data.count === undefined){return null}
+    const reg = /^\d+?$/.exec(anim_data.count)
+    if(!reg){return null}
+    return reg[0]
   }
   get_duration(uuid , anim_name){
     return Options.shapes[uuid].animations[anim_name].duration || 1
@@ -122,6 +128,10 @@ export class Event{
     }
     if(per >= 100){
       data.start = (+new Date())
+      // 回数指定がある場合は処理を停止する
+      this.datas[uuid].current_count++
+      if(this.datas[uuid].max_count !== null
+      && this.datas[uuid].max_count <= this.datas[uuid].current_count){return}
     }
     setTimeout(this.shape_view_mutation.bind(this , data.start , uuid) , data.time * 1000)
   }
@@ -151,7 +161,13 @@ export class Event{
   get_shape_next_points(num , keyframes , per){
     const res = this.get_shape_between_keyframes(per , keyframes)
     if(!res){return}
-    if(!keyframes[res.start].shape){return}
+    if(!keyframes[res.start].shape
+    || !keyframes[res.end].shape
+    || !keyframes[res.start].shape.points
+    || !keyframes[res.end].shape.points){
+      return
+    }
+    // 
     const start_points = keyframes[res.start].shape.points
     const end_points   = keyframes[res.end].shape.points
     const points = []
@@ -165,8 +181,8 @@ export class Event{
   }
 
   get_shape_between_keyframes(per , keyframes){
-    const frames = Object.keys(keyframes)
-    // keyがあるフレームの場合
+    const frames = this.get_shape_frames(keyframes)
+    // keyがあるフレームの処理
     if(keyframes[per]){
       return {
         start : per, 
@@ -174,7 +190,7 @@ export class Event{
         rate  : 1.0,
       }
     }
-    // keyが無いブレームの場合
+    // keyが無いブレームの処理
     for(let i=0; i<frames.length-1; i++){
       const current = Number(per)
       const before  = Number(frames[i])
@@ -187,6 +203,16 @@ export class Event{
         }
       }
     }
+  }
+
+  // shapeのみのkey-frameをピックアップする
+  get_shape_frames(keyframes){
+    const arr = []
+    for(let i in keyframes){
+      if(keyframes[i].shape === undefined){continue}
+      arr.push(i)
+    }
+    return arr
   }
 
 

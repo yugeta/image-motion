@@ -74,8 +74,8 @@ export class Animation{
     for(let i in keyframes){
       css.push(`  ${i}%{`)
       const transform = new Transform(keyframes , i)
-      // console.log(transform)
       if(transform.data){
+        // console.log(i,transform.data)
         css.push(`    transform : ${transform.data};`)
       }
       const styles = this.get_styles(keyframes[i])

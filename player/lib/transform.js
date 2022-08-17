@@ -24,12 +24,15 @@ export class Transform{
     const data = this.get_data()
     if(!data){return}
     for(let type of Options.transform_types){
-      this[type] = this.get_transform(type)
+      this[type] = this.get_transform(type) || 0
     }
   }
 
   get_transform(type){
     const data = this.get_data()
+    if(type === 'posy'){
+      console.log(data)
+    }
     if(data[type] !== undefined){
       return data[type]
     }
