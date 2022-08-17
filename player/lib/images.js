@@ -6,7 +6,6 @@ export class Images{
     this.options = options
     this.image_count  = this.options.data.images.length
     this.loaded_count = 0
-    // console.log(this.image_count)
     this.view_images()
     // new Scale(options.root , options.scale)
   }

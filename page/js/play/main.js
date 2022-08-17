@@ -44,7 +44,6 @@ class Main{
     new Player({
       data     : JSON.parse(JSON.stringify(this.datas)),
       selector : '#preview',     // キャラクター画像をloadする要素の指定
-      // name     : 'sample',            // キャラクター名(必須 : ユニーク値)
     })
   }
 

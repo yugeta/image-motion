@@ -86,6 +86,6 @@ export class Scale{
     elm.style.setProperty('width'           ,`${w}px`,'')
     elm.style.setProperty('height'          ,`${h}px`,'')
     elm.style.setProperty('transform-origin',`0 0`,'')
-    elm.style.setProperty('transform'       ,`scale(${scale}) translateX(${x}px) translateY(-${y}px)`,'')
+    elm.style.setProperty('transform'       ,`scale(${scale}) translateX(${x}px) translateY(${y}px)`,'')
   }
 }
