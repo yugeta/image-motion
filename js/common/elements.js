@@ -171,6 +171,9 @@ export class Elements{
   get_header_scale_value(){
     return document.querySelector(`input[type='range'][name='view-scale'] ~ .scale-value`)
   }
+  get_header_scale_value_input(){
+    return document.querySelector(`input[type='range'][name='view-scale'] ~ .scale-value > input`)
+  }
 
   // file
   get_header_menu_file(){

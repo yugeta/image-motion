@@ -9,11 +9,14 @@ export class Scale{
 
     this.scale  = Options.elements.get_elm_contents_scale()
     this.scale_range = Options.elements.get_elm_input_scale()
+    this.scale_input = Options.elements.get_header_scale_value_input()
+    this.scale_limit = this.scale_range.getAttribute('data-limit')
     this.rate = null
     const hash = Options.common.get_hash()
     this.rect_view = this.view.getBoundingClientRect()
-    this.set_scale()
     this.set_event()
+    this.set_scale_max()
+    this.set_scale()
     this.set_init_value()
   }
 
@@ -29,13 +32,30 @@ export class Scale{
   
   set_event(){
     // スケール切り替え
-    this.scale_range.addEventListener('input' , this.change_scale.bind(this))
+    this.scale_range.addEventListener('input' , this.change_scale_range.bind(this))
+    // 入力処理
+    this.scale_input.addEventListener('change' , this.change_input.bind(this))
+  }
+
+  // キャッシュされている情報でscaleのmax値が超えている場合にmax値を変更する
+  set_scale_max(){
+    if(Options.storage
+    && Options.storage.cache
+    && Options.storage.cache.scale){
+      // this.scale_input = Options.storage.cache.scale
+      this.set_scale_input(Options.storage.cache.scale)
+      this.change_input()
+    }
+    else{
+      this.set_scale()
+    }
   }
 
   
   set_scale(){
-    const scale_value = Options.elements.get_header_scale_value()
-    scale_value.textContent = this.get_scale_value()
+    const scale_value = Options.elements.get_header_scale_value_input()
+    this.set_scale_input(this.scale_range.value)
+    // scale_value.value = this.get_scale_value()
     const scale_elm = Options.elements.get_elm_contents_scale()
     const rate = this.get_scale_rate()
     scale_elm.style.setProperty(`transform`,`scale(${rate})`,'')
@@ -51,13 +71,32 @@ export class Scale{
   get_scale_value(){
     return Number(this.scale_range.value || 0)
   }
+  set_scale_input(num){
+    this.scale_input.value = num
+  }
 
-  change_scale(){
+  change_scale_range(){
     this.change_flg = true
+    this.change_scale()
+  }
+  change_scale(){
     this.set_scale()
     const scale = this.get_scale_value()
     Options.storage.set_data('scale' , scale)
     this.set_center_scale_value(scale)
+  }
+  change_input(){
+    const num = Number(this.scale_input.value || 0)
+    const min = Number(this.scale_range.min || 0)
+    const max = Number(this.scale_range.max || 0)
+    if(this.scale_limit !== 'min' && num < min){
+      this.scale_range.min = num
+    }
+    if(this.scale_limit !== 'max' && max < num){
+      this.scale_range.max = num
+    }
+    this.scale_range.value = num
+    this.change_scale()
   }
 
   // centerやshape-pointのためのscale値を計算してcss-property値に反映
