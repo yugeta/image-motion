@@ -112,7 +112,6 @@ export class Transform{
     const before_val = this.get_value(type , pers[0])
     const after_val  = this.get_value(type , pers[1])
     const val        = (after_val - before_val) * per_rate
-    // console.log(after_val +"-"+ before_val +"*"+ per_rate)
     return before_val + Number(val.toFixed(2))
   }
 

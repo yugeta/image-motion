@@ -262,13 +262,14 @@ export class Elements{
   get_animation_lists_input_array(){
     return document.querySelectorAll(`.contents [name='animation'] .lists .input input`)
   }
+  get_animation_lists_range_array(){
+    return document.querySelectorAll(`.contents [name='animation'] input[type='range']`)
+  }
   get_animation_lists_input_type(type){
     return document.querySelector(`.contents [name='animation'] .lists .input input[name='${type}']`)
   }
 
-
   get_animation_name_list_input(){
-    // return document.querySelector(`.contents [name='animation'] .header .input input`)
     return document.querySelector(`.contents input[name='animation-name']`)
   }
   get_animation_header(){
@@ -295,9 +296,10 @@ export class Elements{
     return document.querySelector(`.contents .animation-name-control .copy`)
   }
   get_animation_header_trash(){
-    // return document.querySelector(`.contents [name='animation'] .header .trash`)
     return document.querySelector(`.contents .animation-name-control .trash`)
   }
+
+  
 
   // ----------
   // Shape
