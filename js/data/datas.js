@@ -159,6 +159,12 @@ export class Datas{
         return 0
     }
   }
+  get_keyframes(name , uuid){
+    if(!name || !uuid){return}
+    const data = this.get_animation_name_datas(name)
+    if(!data.items || !data.items[uuid]){return}
+    return data.items[uuid].keyframes
+  }
   get_animation_name_datas(name){
     const datas = this.get_animations()
     if(!datas

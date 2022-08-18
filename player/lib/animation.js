@@ -75,7 +75,6 @@ export class Animation{
       css.push(`  ${i}%{`)
       const transform = new Transform(keyframes , i)
       if(transform.data){
-        // console.log(i,transform.data)
         css.push(`    transform : ${transform.data};`)
       }
       const styles = this.get_styles(keyframes[i])
@@ -86,7 +85,6 @@ export class Animation{
       }
       css.push('  }')
     }
-    // console.log(css)
     return css.join('\n')
   }
 
@@ -125,7 +123,6 @@ export class Animation{
           value = keyframes[i][type]
         }
       }
-      // console.log(keyframes)
       keyframes[100] = keyframes[100] || {}
       keyframes[100][type] = value
       

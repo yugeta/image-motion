@@ -96,6 +96,7 @@ export class View{
   move(pos){
     this.scale.style.setProperty('left' , `${pos.x}px`,'')
     this.scale.style.setProperty('top'  , `${pos.y}px`,'')
+    this.save_storage(pos)
   }
   save_storage(pos){
     Options.storage.set_data('posx' , pos.x)

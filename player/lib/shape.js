@@ -5,28 +5,12 @@ export class Shape{
     
   }
 
-
-
-  // constructor(pic , image_data , full_data){
-  //   if(!this.is_shape_use(image_data)){return}
-  //   this.uuid = image_data.uuid
-  //   this.pic = pic
-  //   this.image_data = image_data
-  //   this.full_data  = full_data
-  //   this.create_shape(image_data)
-    
-  //   // this.init()
-  // }
-
   is_shape_use(image_data){
     return image_data && image_data.shape_use === 1 ? true : false
   }
 
-  // init(){
-  //   this.create_shape(this.image_data)
-  // }
 
-  create_shape(data){console.log(1)
+  create_shape(data){
     const shape = document.createElement('div')
     shape.className = 'shape'
     this.pic.appendChild(shape)
@@ -42,20 +26,6 @@ export class Shape{
         image_num++
       }
     }
-    // shapeアニメーション用イベントセット
-    // this.pic.addEventListener('animationstart' , ((e)=>{
-    //   console.log('anim-start',e)
-    // }).bind(this))
-    // this.pic.addEventListener('animationiteration' , ((e)=>{
-    //   console.log('anim-end',e)
-    // }).bind(this))
-
-    // this.animation = new ShapeAnimation(this.pic , this.full_data)
-
-    // this.pic.addEventListener('animationstart'     , this.animation.play.bind(this.animation))
-    // this.pic.addEventListener('animationiteration' , this.animation.play.bind(this.animation))
-    // this.pic.addEventListener('animationcancel'    , this.animation.stop.bind(this.animation))
-    // this.animation.animation_init()
   }
 
   get_table(){
@@ -84,18 +54,5 @@ export class Shape{
     shape_elm.appendChild(div)
     div.setAttribute('data-num' , num)
   }
-
-
-  // animation_init(){
-  //   console.log(this.full_data)
-  //   // this.anim_time = 
-  // }
-  // animation_play(e){
-  //   console.log(this.uuid)
-  // }
-
-  // animation_stop(e){
-
-  // }
 
 }
