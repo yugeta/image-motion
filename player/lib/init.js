@@ -3,7 +3,7 @@ import { Uuid }     from './uuid.js'
 
 export class Init{
   constructor(options){
-    this.options = Options
+    this.options = JSON.parse(JSON.stringify(Options))
     this.set_options(options)
     this.options.root  = this.get_root(this.options.selector)
     this.options.scale = this.set_scale(this.options.root)

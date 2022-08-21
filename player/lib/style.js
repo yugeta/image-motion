@@ -1,14 +1,14 @@
-import { Options } from '../options.js'
 import { Ajax }    from './ajax.js'
 
 export class Style{
-  constructor(css_path){
+  constructor(options , css_path){
+    this.options = options
     this.css = css_path
     this.set_style()
   }
 
   set_style(){
-    const elm = document.querySelector(`style[data-service='${Options.service_name}']`)
+    const elm = document.querySelector(`style[data-service='${this.options.service_name}']`)
     if(elm){
       this.elm = elm
     }
@@ -34,7 +34,7 @@ export class Style{
   create_style(){
     const style = document.createElement('style')
     style.setAttribute('type' , 'text/css')
-    style.setAttribute('data-service' , Options.service_name)
+    style.setAttribute('data-service' , this.options.service_name)
     document.querySelector('head').appendChild(style)
     return style
   }

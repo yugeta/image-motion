@@ -1,4 +1,3 @@
-// import { ShapeAnimation } from './shape_animation.js'
 
 export class Shape{
   constructor(options){
