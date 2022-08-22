@@ -4,6 +4,7 @@ export class Scale{
     const fit  = this.fit_images(root)
     const rate = this.get_rate_contain(root , fit)
     this.set_scale_contain(root , rate , fit)
+    this.finish(root)
   }
   get_scale_element(root){
     return root.querySelector(':scope > .scale')
@@ -87,5 +88,10 @@ export class Scale{
     elm.style.setProperty('height'          ,`${h}px`,'')
     elm.style.setProperty('transform-origin',`0 0`,'')
     elm.style.setProperty('transform'       ,`scale(${scale}) translateX(${x}px) translateY(${y}px)`,'')
+  }
+
+  // 処理完了
+  finish(root){
+    root.style.removeProperty('visibility')
   }
 }

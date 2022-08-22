@@ -37,4 +37,9 @@
   /* overflow:hidden; */
 }
 
-
+/* [data-service='image-motion']{
+  visibility:hidden;
+}
+[data-service='image-motion'][data-status='viewed']{
+  visibility:visible;
+} */

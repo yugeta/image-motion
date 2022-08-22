@@ -24,7 +24,9 @@ export class Init{
   // 表示rootの取得
   get_root(selector){
     if(!selector){return}
-    return document.querySelector(selector)
+    const elm = document.querySelector(selector)
+    elm.style.setProperty('visibility','hidden','')
+    return elm
   }
 
   // 一式の親要素の設置
