@@ -9,7 +9,7 @@ export class Player{
   constructor(options){
     this.css     = this.get_css()
     this.options = new Init(options).options
-    this.style   = new Style(this.css)
+    this.style   = new Style(this.options , this.css)
     this.loaded_style()
   }
 

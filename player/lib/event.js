@@ -1,4 +1,4 @@
-import { Options } from '../options.js'
+// import { Options } from '../options.js'
 import { Matrix }  from './matrix.js'
 
 export class Event{
@@ -31,7 +31,7 @@ export class Event{
     const pic = this.options.root.querySelector(`[data-uuid='${data.uuid}']`)
     if(!pic){return}
     if(!pic.querySelector(':scope > .shape')){return}
-    Options.shapes[data.uuid] = {
+    this.options.shapes[data.uuid] = {
       root        : this.options.root,
       uuid        : data.uuid,
       image_num   : data.num,
@@ -65,7 +65,7 @@ export class Event{
   }
 
   is_animetion(uuid , anim_name){
-    const anim_data = Options.shapes[uuid].animations[anim_name]
+    const anim_data = this.options.shapes[uuid].animations[anim_name]
     if(anim_data
     && anim_data.items
     && anim_data.items[uuid]
@@ -80,7 +80,7 @@ export class Event{
   shape_play_mutation(uuid , anim_name , pic){
     if(!pic.querySelector(':scope > .shape')){return}
     if(!uuid){return}
-    const datas     = Options.shapes[uuid]
+    const datas     = this.options.shapes[uuid]
     const anim_data = datas.animations[anim_name]
     if(!anim_data
     || !anim_data.items
@@ -107,7 +107,7 @@ export class Event{
     return reg[0]
   }
   get_duration(uuid , anim_name){
-    return Options.shapes[uuid].animations[anim_name].duration || 1
+    return this.options.shapes[uuid].animations[anim_name].duration || 1
   }
 
   shape_view_mutation(flg , uuid){

@@ -1,4 +1,4 @@
-import { Options }   from '../options.js'
+// import { Options }   from '../options.js'
 import { Matrix }    from './matrix.js'
 import { Transform } from './transform.js'
 
@@ -53,7 +53,7 @@ export class Animation{
   }
   get_normal(d){
     const css = []
-    css.push(`[data-service='${Options.service_name}'][data-uuid='${d.name}'][data-action='${d.key}'] .pic[data-uuid='${d.uuid}']{`)
+    css.push(`[data-service='${this.options.service_name}'][data-uuid='${d.name}'][data-action='${d.key}'] .pic[data-uuid='${d.uuid}']{`)
     css.push(`  animation-name : ${d.key_name};`)
     css.push(`  animation-timing-function: ${d.timing};`)
     css.push(`  animation-duration : ${d.duration}s;`)
@@ -99,7 +99,7 @@ export class Animation{
    * opacityをキーフレームの0%と100%にセット（無い場合に追加）する処理
    */
   adjust_values(keyframes){
-    for(let type of Options.style_types){
+    for(let type of this.options.style_types){
       this.adjust_value(keyframes, type)
     }
   }
@@ -165,7 +165,6 @@ export class Animation{
   get_shape_uuid_arr(){
     const arr = []
     for(let image_data of this.options.data.images){
-      // const image_data = options.data.images[i]
       if(image_data.shape_use !== 1){continue}
       arr.push(image_data.uuid)
     }

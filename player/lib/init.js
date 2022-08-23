@@ -3,7 +3,7 @@ import { Uuid }     from './uuid.js'
 
 export class Init{
   constructor(options){
-    this.options = Options
+    this.options = JSON.parse(JSON.stringify(Options))
     this.set_options(options)
     this.options.root  = this.get_root(this.options.selector)
     this.options.scale = this.set_scale(this.options.root)
@@ -24,7 +24,9 @@ export class Init{
   // 表示rootの取得
   get_root(selector){
     if(!selector){return}
-    return document.querySelector(selector)
+    const elm = document.querySelector(selector)
+    elm.style.setProperty('visibility','hidden','')
+    return elm
   }
 
   // 一式の親要素の設置

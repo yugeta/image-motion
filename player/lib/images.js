@@ -1,13 +1,11 @@
-// import { Shape }     from './shape.js'
 import { Scale } from './scale.js'
 
 export class Images{
-  constructor(options){//console.log(options)
+  constructor(options){
     this.options = options
     this.image_count  = this.options.data.images.length
     this.loaded_count = 0
     this.view_images()
-    // new Scale(options.root , options.scale)
   }
 
   // 個別画像の表示設定
@@ -15,7 +13,6 @@ export class Images{
     const images = this.options.data.images
     let num = 0
     for(let data of images){
-      // console.log(num,data.uuid)
       this.pic = this.create_pic(data)
       this.set_pic_property(this.pic , data)
       data.num = num
@@ -91,8 +88,6 @@ export class Images{
     shape.className = 'shape'
     const shapes = this.set_shapes(data)
     for(let shape_item of shapes){
-      // const shape_item = shapes[i]
-      // console.log(shape_item)
       shape.appendChild(shape_item)
     }
     this.pic.appendChild(shape)
@@ -107,7 +102,6 @@ export class Images{
       w   : data.w / (table.x || 1),
       h   : data.h / (table.y || 1),
     }
-    // console.log(data.uuid , d)
     const shapes = []
     for(let i=0; i<table.y; i++){
       const y = i * d.h
@@ -123,16 +117,6 @@ export class Images{
       }
     }
     return shapes
-
-    // shapeアニメーション用イベントセット
-    // this.pic.addEventListener('animationstart' , ((e)=>{
-    //   console.log('anim-start',e)
-    // }).bind(this))
-    // this.pic.addEventListener('animationiteration' , ((e)=>{
-    //   console.log('anim-end',e)
-    // }).bind(this))
-    
-    // this.animation.animation_init()
   }
 
   get_shape_item(x,y,w,h,data,num){
@@ -162,56 +146,22 @@ export class Images{
   
   get_shape_item_img(x,y,w,h , data){
     const img = new Image()
-    // console.log(data,img.getAttribute('data-num'))
     if(data.shape_num === 0){
       img.onload = this.check_count.bind(this,data.uuid)
     }
     img.src = data.src
-
-    // const pos_arr = [
-    //   `${x}px ${y}px`,
-    //   `${x + w + 1}px ${y}px`,
-    //   `${x + w + 1}px ${y + h + 1}px`,
-    //   `${x}px ${y + h + 1}px`,
-    // ]
-    // const clip = pos_arr.join(',')
-    // img.style.setProperty('clip-path' , `polygon(${clip})` , '')
-
-    // img.style.setProperty('width'  , `${w}px` , '')
-    // img.style.setProperty('height' , `${h}px` , '')
     img.style.setProperty('left'   , `-${x}px` , '')
     img.style.setProperty('top'    , `-${y}px` , '')
     
     return img
   }
   check_count(uuid){
-    // this.loaded_count = this.loaded_count || 0
     this.loaded_count++
-    // console.log(uuid,this.image_count +"<="+ this.loaded_count)
     // すべての画像が表示完了したらscale処理をする
     if(this.image_count <= this.loaded_count){
-      // console.log('callback:'+ this.image_count+"/"+this.loaded_count)
       new Scale(this.options.root)
     }
   }
-
-
-  // // ----------
-  // // Shape animation
-
-  // set_shape_event(pic){
-  //   pic.addEventListener('animationstart'     , this.animation.play.bind(this.animation))
-  //   pic.addEventListener('animationiteration' , this.animation.play.bind(this.animation))
-  //   pic.addEventListener('animationcancel'    , this.animation.stop.bind(this.animation))
-  // }
-
-  // set_shape_animation(){
-  //   const names = this.get_animation_names()
-  //   if(!names.length){return}
-  //   for(let name of names){
-  //     this.anims[name] = this.get_property(name)
-  //   }
-  // }
   
   get_shape_points(uuid){
     const shape_datas = this.options.data.shape[uuid]
@@ -229,6 +179,4 @@ export class Images{
     }
     return res
   }
-
-
 }
