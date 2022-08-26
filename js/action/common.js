@@ -493,7 +493,7 @@ export function click_animation_name_list_copy(){
     speed : "0.3s",
     
     // [上段] タイトル表示文字列
-    title   : "Animation edit",
+    title   : "Animation copy",
     // [中断] メッセージ表示スタイル
     message : {
       html    : Options.common.get_template('animation_name_modal'),
