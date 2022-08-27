@@ -9,8 +9,6 @@ export class Init{
   set_current_sounds_lists(){
     if(!Options.sounds.length){return}
     for(let file of Options.sounds){
-      const uuid = file.uuid
-      if(!uuid){continue}
       new Files(file)
       new Lists(file)
     }
