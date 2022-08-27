@@ -27,10 +27,9 @@ export class Event{
   upload_files(e){
     if(!e.target.files.length){return}
     for(let file of e.target.files){
-      const uuid = new Uuid().id
-      file.uuid = uuid
+      file.uuid = new Uuid().id
       new Files(file)
-      new Lists(file)
+      // new Lists(file)
     }
   }
   click_lists_area(e){

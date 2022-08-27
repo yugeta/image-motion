@@ -20,8 +20,8 @@ export class Play{
         elm.pause()
         break
     }
-    
   }
+  
   set_status(flg){
     const item = document.querySelector(`.contents-sound .lists ul li[data-uuid='${this.uuid}']`)
     if(!item){return}
