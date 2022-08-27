@@ -1,4 +1,4 @@
-body[data-hash] > div{
+body[data-hash] > .contents{
   display:none;
 }
 
@@ -10,10 +10,6 @@ body[data-hash='help'] > .contents-home{
 body[data-hash='upload'] > .contents{
   display:block;
 }
-/* body[data-hash='sound'] .contents-sound{
-  display:block;
-} */
-
 
 
 

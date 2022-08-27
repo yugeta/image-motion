@@ -57,6 +57,7 @@ export class Load{
     Options.sounds     = datas.sounds     || []
 
     this.loaded_change_hash()
+    Options.datas.set_sounds_time()
   }
 
   get_image_sort_lists(datas){

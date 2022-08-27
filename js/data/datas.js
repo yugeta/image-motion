@@ -503,4 +503,21 @@ export class Datas{
     return datas.find(e => e.uuid === uuid)
   }
 
+  set_sounds_time(){
+    const sound_datas =this.get_sounds()
+    if(!sound_datas || !sound_datas.length){return}
+    for(let sound_data of sound_datas){
+      if(sound_data.time !== undefined){continue}
+      if(!sound_data.data){continue}
+      const audio = document.createElement('audio')
+      audio.onloadedmetadata = this.set_sound_time.bind(this , sound_data.uuid , audio)
+      audio.src = sound_data.data
+    }
+  }
+
+  set_sound_time(uuid , audio){
+    const data = this.get_sound(uuid)
+    data.time = audio.duration
+  }
+
 }

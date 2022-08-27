@@ -19,8 +19,8 @@ export class Files{
   }
   loaded(){
     this.options.data = this.fileReader.result
-    this.set_elms()
-    const data = {
+    this.set_elms(true)
+    this.data = {
       uuid : this.options.uuid,
       data : this.options.data,
       name : this.options.name,
@@ -28,13 +28,21 @@ export class Files{
       type : this.options.type,
       lastModified : this.options.lastModified,
     }
-    Options.sounds.push(data)
-    new Lists(data)
+    Options.sounds.push(this.data)
+    new Lists(this.data)
   }
 
-  set_elms(){
+  set_elms(event_flg){
     const audio = document.createElement('audio')
+    if(event_flg){
+      audio.onloadedmetadata = this.set_time.bind(this , audio)
+    }
     audio.src = this.options.data
     Options.elms[this.options.uuid] = audio
+  }
+
+  set_time(audio){
+    const sec = audio.duration
+    this.data.time = sec
   }
 }
