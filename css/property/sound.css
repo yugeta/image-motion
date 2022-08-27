@@ -19,7 +19,8 @@
   background-color:var(--color-contents-header);
   border:1px solid var(--color-font);
   border-radius:4px;
-  overflow:hidden;
+  overflow-x:hidden;
+  overflow-y:auto;
 }
 .contents [name='sound'] .info .select-lists .item{
   width:100%;

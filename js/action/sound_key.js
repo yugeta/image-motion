@@ -59,18 +59,24 @@ export class SoundKey{
 
   open_lists(target){
     const lists  = this.get_sound_lists()
-    const target_pos = {
+    const target_rect = target.getBoundingClientRect()
+    const target_data = {
       x : target.offsetLeft,
       y : target.offsetTop,
       w : target.offsetWidth,
       h : target.offsetHeight,
     }
-    const lists_pos = {
-      x : target_pos.x,
-      y : target_pos.y + target_pos.h + 5,
+    const lists_data = {
+      x : target_data.x,
+      y : target_data.y + target_data.h + 5,
+      w : lists.offsetWidth,
+      h : lists.offsetHeight,
     }
-    lists.style.setProperty('left' , `${lists_pos.x}px` , '')
-    lists.style.setProperty('top'  , `${lists_pos.y}px` , '')
+    const lists_max_h = window.innerHeight - target_rect.top - lists_data.y
+    console.log(window.offsetHeight , lists_data.y)
+    lists.style.setProperty('left'   , `${lists_data.x}px` , '')
+    lists.style.setProperty('top'    , `${lists_data.y}px` , '')
+    lists.style.setProperty('height' , `${lists_max_h}px` , '')
     target.parentNode.appendChild(lists)
     this.status = 'list_view'
   }

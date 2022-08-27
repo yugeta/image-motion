@@ -1,4 +1,6 @@
 import { Options } from '../options.js'
+import * as ActionCommon from '../action/common.js'
+import { SoundKey }      from '../action/sound_key.js'
 
 export class Property{
   
@@ -12,11 +14,27 @@ export class Property{
     const area     = Options.elements.get_info_area()
     area.innerHTML = template
     this.set_event()
+    this.view_sound(uuid)
+  }
+  view_sound(uuid){
+    // const options = Options.datas.get_sound(uuid)
+    // console.log(options)
+    const name = ActionCommon.get_animation_name()
+    const per  = ActionCommon.get_timeline_per()
+    new SoundKey({
+      name : name , 
+      uuid : uuid , 
+      per  : per , 
+    })
   }
 
   hidden(){
+    // info
     const area = Options.elements.get_info_area()
     area.textContent = ''
+    // sound
+    const sound = Options.elements.get_sound_info()
+    sound.textContent = ''
   }
 
   get_filename(cache){
