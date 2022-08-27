@@ -33,3 +33,12 @@
   background-color:var(--color-font);
   color:white;
 }
+.contents [name='sound'] .info .comment{
+  padding:5px;
+  white-space:pre-wrap;
+  word-break:break-all;
+}
+.contents [name='sound'] .info .comment .time::after{
+  content : ' sec';
+}
+

@@ -11,6 +11,7 @@ export class SoundKey{
     this.data  = Options.datas.get_sound(this.options.data) || {}
     this.uuid  = this.data.uuid
     this.name  = this.data.name
+    this.audio = this.audio || this.make_audio()
     this.property_view()
     // playボタンが押された状態であれば、音声を再生する
     this.play()
@@ -29,12 +30,17 @@ export class SoundKey{
   
   property_view(){
     const temaplte = Options.common.get_template('property_sound')
-    // const data = Options.datas.get_sound(this.data.uuid)
     this.elm_info.innerHTML = Options.common.doubleBlancketConvert(temaplte , this.data)
     this.elm_name = Options.elements.get_sound_name()
     this.elm_name.textContent = this.data ? this.data.name : ''
     this.elm_uuid = Options.elements.get_sound_uuid()
     this.set_event()
+  }
+  property_time_view(audio){
+    const elm = this.elm_info.querySelector('.time')
+    if(!elm){return}
+    const sec = audio.duration || 0
+    elm.textContent = sec.toFixed(2)
   }
 
   set_event(){
@@ -128,7 +134,7 @@ export class SoundKey{
   }
   play(){
     if(!this.is_play()){return}
-    const audio = this.make_audio()
+    const audio = this.audio || this.make_audio()
     Options.sound_elms.push(audio)
     audio.play()
     // if(!Options.sound_elms[this.uuid]){
@@ -136,8 +142,12 @@ export class SoundKey{
     // }
     // Options.sound_elms[this.uuid].play()
   }
+
   make_audio(){
     const audio = new Audio()
+    if(this.data.time === undefined){
+      audio.addEventListener('loadedmetadata' , this.property_time_view.bind(this , audio))
+    }
     audio.src = this.data.data
     this.audio = audio
     return audio
