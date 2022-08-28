@@ -27,6 +27,9 @@ export function contextmenu(e , type){
   // カーソル移動
   if(Options.contextmenu.status){
     move_timeline_cursor(e)
+    // property表示
+    const uuid = Options.timeline.uuid
+    Options.property.view(uuid)
   }
 }
 export function mousedown(e){
