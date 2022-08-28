@@ -100,13 +100,9 @@ export class Event{
     this.datas[uuid].splits      = datas.splits
     this.datas[uuid].keyframes   = anim_data.items[uuid].keyframes
     this.datas[uuid].base_points = datas.base_points
-    this.datas[uuid].duration    = this.get_duration(uuid,anim_name)
+    this.datas[uuid].duration    = this.get_duration(anim_name)
     this.datas[uuid].time        = this.datas[uuid].duration / 100
     this.shape_view_mutation(start , uuid)
-  }
-
-  get_duration(uuid , anim_name){
-    return this.options.shapes[uuid].animations[anim_name].duration || 1
   }
 
   shape_view_mutation(flg , uuid){
@@ -253,6 +249,7 @@ export class Event{
       subtree    : false,
     })
   }
+
   update_sound_mutation(e){
     if(!e || !e.length){return}
     const anim_name = e[0].target.getAttribute('data-action')
@@ -279,7 +276,7 @@ export class Event{
       max_count : this.get_max_count(anim_name),
       current_count : 0,
     }
-
+// console.log(this.sound_options.max_count)
     this.sound_play()
   }
   sound_play(){
@@ -295,11 +292,11 @@ export class Event{
     }
     if(per >= 100){
       data.start = (+new Date())
-      this.sound_stop_all()
+      this.animation.sounds.stop_all()
       // 回数指定がある場合は処理を停止する
-      datas.current_count++
-      if(datas.max_count !== null
-      && datas.max_count <= datas.current_count){return}
+      data.current_count++
+      if(data.max_count !== null
+      && data.max_count <= data.current_count){return}
     }
     setTimeout(this.sound_play.bind(this) , data.per_time * 1000)
   }
