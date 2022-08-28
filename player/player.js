@@ -44,7 +44,7 @@ export class Player{
     this.images    = new Images(this.options)
     this.animation = new Animation(this.options)
     this.style.add(this.animation.css)
-    this.event     = new Event(this.options)
+    this.event     = new Event(this.options , this.animation)
   }
 
   get_css(){

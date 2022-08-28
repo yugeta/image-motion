@@ -2,16 +2,18 @@
 import { Matrix }  from './matrix.js'
 
 export class Event{
-  constructor(options){
+  constructor(options , animation){
     this.datas = {}
     this.options = options
+    this.animation = animation
     this.set_images()
+    this.set_sound_mutation()
   }
 
   set_images(){
     for(let data of this.options.data.images){
       if(data.shape_use === 1){
-        this.set_mutation(data)
+        this.set_shape_mutation(data)
       }
     }
   }
@@ -27,7 +29,7 @@ export class Event{
 
   // ----------
   // mutation
-  set_mutation(data){
+  set_shape_mutation(data){
     const pic = this.options.root.querySelector(`[data-uuid='${data.uuid}']`)
     if(!pic){return}
     if(!pic.querySelector(':scope > .shape')){return}
@@ -42,7 +44,7 @@ export class Event{
     }
     const anim_name = this.options.root.getAttribute('data-action')
     new MutationObserver(((uuid , e)=>{
-      this.update_mutation(uuid , e)
+      this.update_shape_mutation(uuid , e)
     }).bind(this , data.uuid))
     .observe(this.options.root , {
       attributes : true, 
@@ -52,11 +54,13 @@ export class Event{
     this.shape_play_mutation(data.uuid , anim_name , pic)
   }
 
-  update_mutation(uuid , e){
+  update_shape_mutation(uuid , e){
     const root = e[0].target
     const anim_name = root.getAttribute('data-action')
     const pic = root.querySelector(`.pic[data-uuid='${uuid}']`)
-    if(anim_name && this.is_animetion(uuid , anim_name)){
+
+    // shape
+    if(anim_name && this.is_shape_animetion(uuid , anim_name)){
       this.shape_play_mutation(uuid , anim_name , pic)
     }
     else{
@@ -64,7 +68,7 @@ export class Event{
     }
   }
 
-  is_animetion(uuid , anim_name){
+  is_shape_animetion(uuid , anim_name){
     const anim_data = this.options.shapes[uuid].animations[anim_name]
     if(anim_data
     && anim_data.items
@@ -89,7 +93,7 @@ export class Event{
     if(this.is_shape(anim_data.items[uuid].keyframes) !== true){return}
     const start                  = (+new Date())
     this.datas[uuid]             = anim_data
-    this.datas[uuid].max_count   = this.get_max_count(anim_data)
+    this.datas[uuid].max_count   = this.get_max_count(anim_name)
     this.datas[uuid].current_count = 0
     this.datas[uuid].start       = start
     this.datas[uuid].per         = null
@@ -100,12 +104,7 @@ export class Event{
     this.datas[uuid].time        = this.datas[uuid].duration / 100
     this.shape_view_mutation(start , uuid)
   }
-  get_max_count(anim_data){
-    if(anim_data.count === undefined){return null}
-    const reg = /^\d+?$/.exec(anim_data.count)
-    if(!reg){return null}
-    return reg[0]
-  }
+
   get_duration(uuid , anim_name){
     return this.options.shapes[uuid].animations[anim_name].duration || 1
   }
@@ -159,7 +158,7 @@ export class Event{
   // ----------
   // shape animation play
   get_shape_next_points(num , keyframes , per){
-    const res = this.get_shape_between_keyframes(per , keyframes)
+    const res = this.get_between_keyframes(per , keyframes)
     if(!res){return}
     if(!keyframes[res.start].shape
     || !keyframes[res.end].shape
@@ -180,7 +179,7 @@ export class Event{
     return points
   }
 
-  get_shape_between_keyframes(per , keyframes){
+  get_between_keyframes(per , keyframes){
     const frames = this.get_shape_frames(keyframes)
     // keyがあるフレームの処理
     if(keyframes[per]){
@@ -215,5 +214,100 @@ export class Event{
     return arr
   }
 
+
+  // ----------
+  // Library
+  get_anim_data(anim_name){
+    return this.options.data.animations[anim_name]
+  }
+
+  get_duration(anim_name){
+    let duration = null
+    const data = this.get_anim_data(anim_name)
+    if(data){
+      duration = data.duration
+    }
+    return duration || 1
+  }
+  get_max_count(anim_name){
+    let count = null
+    const data = this.get_anim_data(anim_name)
+    if(data.count !== undefined){
+      const reg = /^\d+?$/.exec(data.count)
+      if(reg){
+        count = reg[0]
+      }
+    }
+    return count || null
+  }
+
+  // ----------
+  // Sound
+  set_sound_mutation(){
+    new MutationObserver(((e)=>{
+      this.update_sound_mutation(e)
+    }).bind(this))
+    .observe(this.options.root , {
+      attributes : true, 
+      childList  : false,
+      subtree    : false,
+    })
+  }
+  update_sound_mutation(e){
+    if(!e || !e.length){return}
+    const anim_name = e[0].target.getAttribute('data-action')
+    if(anim_name && this.is_sound(anim_name)){
+      this.sound_play_mutation(anim_name)
+    }
+    else{
+      this.sound_stop_all()
+    }
+  }
+
+  is_sound(anim_name){
+    return this.animation.sounds.is_data(anim_name)
+  }
+  sound_play_mutation(anim_name){
+    this.sound_stop_all()
+    const duration = this.get_duration(anim_name)
+    this.sound_options = {
+      anim_name : anim_name,
+      start     : (+new Date()),
+      duration  : duration,
+      per_time  : duration / 100,
+      per       : null,
+      max_count : this.get_max_count(anim_name),
+      current_count : 0,
+    }
+
+    this.sound_play()
+  }
+  sound_play(){
+    const data = this.sound_options
+    if(!data){return}
+    const progress = ((+new Date()) - data.start) / 1000
+    const rate = progress / data.duration
+    const per = Math.round(rate * 100)
+    // タイミングが早くて同じper(key-number)の場合は処理しない
+    if(per !== data.per){
+      data.per = per
+      this.animation.sounds.play(data.anim_name , per)
+    }
+    if(per >= 100){
+      data.start = (+new Date())
+      this.sound_stop_all()
+      // 回数指定がある場合は処理を停止する
+      datas.current_count++
+      if(datas.max_count !== null
+      && datas.max_count <= datas.current_count){return}
+    }
+    setTimeout(this.sound_play.bind(this) , data.per_time * 1000)
+  }
+  sound_stop_all(){
+    if(this.sound_options){
+      delete this.sound_options
+    }
+    this.animation.sounds.stop_all()
+  }
 
 }
