@@ -17,6 +17,7 @@ import { Undo      }  from '../event/undo.js'
 import { View      }  from '../asset/view.js'
 import { Footer    }  from '../asset/footer.js'
 import { TimelineScroll } from '../action/timeline_scroll.js'
+import { SoundPlay } from '../action/sound_play.js'
 
 export class Init{
   constructor(){
@@ -48,7 +49,7 @@ export class Init{
     Options.footer    = new Footer()
     Options.version   = new Version()
     Options.timeline_scroll = new TimelineScroll()
-    
+    Options.sound_play = new SoundPlay()
     new Home()
   }
 }

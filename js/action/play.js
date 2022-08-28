@@ -1,6 +1,6 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
-import * as ImageCommon  from '../images/common.js'
+// import * as ImageCommon  from '../images/common.js'
 import * as ShapeCommon  from '../shape/common.js'
 import { SoundKey }      from '../action/sound_key.js'
 
@@ -19,8 +19,8 @@ export class Play{
     if(this.flg_duration){
       delete this.flg_duration
     }
-    if(Options.sound_key){
-      Options.sound_key.all_stop()
+    if(Options.sound_play){
+      Options.sound_play.all_stop()
     }
   }
 
@@ -172,6 +172,7 @@ export class Play{
       }
     }
   }
+  // 音声処理(play中のみ演奏される)
   set_sound(name , uuid , per , keyframes){
     if(keyframes[per]
     && keyframes[per].sound !== undefined){
