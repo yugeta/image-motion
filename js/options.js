@@ -5,6 +5,8 @@ export const Options = {
     revision : 0, // gitの任意branch(git_target)の最終コミットhash値
     git_target : 'master',
   },
+
+  center_size : 20,
   
   // datas       : {}, // images , animations
   cache        : {}, // key:uuid
