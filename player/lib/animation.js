@@ -1,6 +1,7 @@
 // import { Options }   from '../options.js'
 import { Matrix }    from './matrix.js'
 import { Transform } from './transform.js'
+import { Sound }     from './sound.js'
 
 export class Animation{
   constructor(options){
@@ -9,6 +10,7 @@ export class Animation{
     this.animation_names = this.get_animation_names()
     this.css = this.get_css()
     this.set_shape_datas()
+    this.set_sounds()
   }
 
   // animation-nameの一覧を取得
@@ -135,7 +137,6 @@ export class Animation{
       }
     }
   }
-
 
 
   // ----------
@@ -323,4 +324,7 @@ export class Animation{
     }
   }
 
+  set_sounds(){
+    this.sounds = new Sound(this.options.data.animations,this.options.data.sounds)
+  }
 }

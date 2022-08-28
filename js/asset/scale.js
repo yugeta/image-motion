@@ -5,15 +5,14 @@ export class Scale{
     this.init()
   }
   init(){
-    this.view   = Options.elements.get_elm_contents_view()
-
-    this.scale  = Options.elements.get_elm_contents_scale()
+    this.view        = Options.elements.get_elm_contents_view()
+    this.scale       = Options.elements.get_elm_contents_scale()
     this.scale_range = Options.elements.get_elm_input_scale()
     this.scale_input = Options.elements.get_header_scale_value_input()
     this.scale_limit = this.scale_range.getAttribute('data-limit')
-    this.rate = null
-    const hash = Options.common.get_hash()
-    this.rect_view = this.view.getBoundingClientRect()
+    this.rate        = null
+    const hash       = Options.common.get_hash()
+    this.rect_view   = this.view.getBoundingClientRect()
     this.set_event()
     this.set_scale_max()
     this.set_scale()
@@ -103,12 +102,7 @@ export class Scale{
   set_center_scale_value(scale){
     scale             = scale || this.get_scale_value()
     const view_area   = Options.elements.get_area_view()
-    const max         = Number(this.scale_range.getAttribute('max') || 100)
-    let center_scale  = ~~(max - scale) / 100 / 4
-    if(center_scale < 0.5){
-      center_scale = 0.5
-    }
-    view_area.style.setProperty('--scale' , center_scale)
+    view_area.style.setProperty('--scale' , 100 / scale)
   }
 
   set_scale_center(after_rate){

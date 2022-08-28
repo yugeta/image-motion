@@ -115,6 +115,8 @@ export class Images{
     this.cache.nh      = this.cache.nh      || this.cache.img.naturalHeight
     this.cache.cx      = this.cache.cx      || center_pos.x
     this.cache.cy      = this.cache.cy      || center_pos.y
+    this.cache.cw      = this.cache.cw      || center_pos.w
+    this.cache.ch      = this.cache.ch      || center_pos.h
     this.cache.order   = this.cache.order   || 0
     this.cache.posz    = this.cache.posz    || 0
     this.cache.scale   = this.cache.scale   || 1
@@ -123,9 +125,12 @@ export class Images{
 
   get_center_pos(){
     const center = this.cache.pic.querySelector('.center')
+    const size   = Options.center_size
     return {
-      x : center.offsetLeft,
-      y : center.offsetTop,
+      x : center.offsetLeft - size / 2,
+      y : center.offsetTop  - size / 2,
+      w : size,
+      h : size,
     }
   }
 
@@ -158,17 +163,19 @@ export class Images{
     const center = this.cache.pic.querySelector('.center')
     const cx = this.cache.cx
     const cy = this.cache.cy
+    const cw = this.cache.cw
+    const ch = this.cache.ch
     if(center){
-      center.style.setProperty('top'  , `${cy}px` , '')
-      center.style.setProperty('left' , `${cx}px` , '')
+      center.style.setProperty('top'    , `${cy}px` , '')
+      center.style.setProperty('left'   , `${cx}px` , '')
+      center.style.setProperty('width'  , `${cw}px` , '')
+      center.style.setProperty('height' , `${ch}px` , '')
     }
     if(this.cache.pic){
       this.cache.pic.style.setProperty('transform-origin',`${cx}px ${cy}px`,'')
     }
   }
   set_transform(datas){
-    // const datas = this.get_transform()
-    // if(!datas){return}
     datas = datas || {}
     let transforms = []
     if(typeof datas.rotate === 'number'){
@@ -215,11 +222,6 @@ export class Images{
   }
 
   renew(data){
-    
-    // console.log(uuid,data)
-    // console.log(this.cache)
-    // this.cache = Options.datas.set_cache(data.uuid , data)
-
     // データ取得
     const fileReader  = new FileReader()
     fileReader.onload = this.set_renew_img.bind(this, fileReader)
@@ -239,9 +241,6 @@ export class Images{
     if(img){
       img.src = data.result
     }
-    
-    // this.set_renew_images(this.uuid , data.result)
-
     // データ処理
     this.cache.src = data.result
   }

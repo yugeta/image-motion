@@ -13,6 +13,8 @@
 }
 
 .contents [name='view'] .scale{
+  --center-scale : 1.0;
+
   transform-origin : left top;
   position:relative;
   width:100%;
@@ -61,11 +63,10 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
 /* center */
 .contents [name='view'] .pic > .center{
   position:absolute;
-  transform:translate(-50%,-50%);
+  transform:translate(-50%,-50%) scale(var(--scale));
   top:0;
   left:0;
-  width:20px;
-  height:20px;
+  /* サイズは、Options.center_sizeで指定する */
   z-index:10
 }
 .contents [name='view'] .pic > .center .center-scale{
@@ -76,7 +77,7 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
   border-radius:50%;
   box-shadow:2px 2px 10px rgba(0,0,0,0.5);
   z-index:90;
-  transform:scale(var(--scale));
+  /* transform:scale(var(--scale)); */
 }
 .contents [name='view'] .pic > .center .center-scale::before,
 .contents [name='view'] .pic > .center .center-scale::after{

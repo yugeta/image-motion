@@ -1,8 +1,19 @@
 import { Options } from '../options.js'
+import * as ActionCommon from '../action/common.js'
+
+/**
+ * Sound-keyframeに関する情報（property含む）
+ */
 
 export class SoundKey{
   constructor(options){
     if(!options){return}
+    const name = ActionCommon.get_animation_name()
+    if(!name){return}
+    const current_select_image = Options.elements.get_active_view()
+    if(!current_select_image){return}
+    console.log(name , current_select_image)
+
     this.options = options
     this.options.data = options.data !== undefined ? options.data : this.get_keyframe()
     if(this.options.data === undefined){return}
@@ -11,10 +22,12 @@ export class SoundKey{
     this.data  = Options.datas.get_sound(this.options.data) || {}
     this.uuid  = this.data.uuid
     this.name  = this.data.name
-    this.audio = this.audio || this.make_audio()
+    // this.make_audio(this.uuid)
+
     this.property_view()
     // playボタンが押された状態であれば、音声を再生する
-    this.play()
+    // Options.sound_play.play()
+    // this.play()
   }
   get_keyframe(){
     const datas = Options.datas.get_animation_name_datas(this.options.name)
@@ -129,57 +142,80 @@ export class SoundKey{
   }
 
   property_hidden(){
+    if(!this.elm_info){return}
     this.elm_info.innerHTML = ''
   }
 
-  all_play(){
-    if(!Options.sound_elms.length){return}
-    for(let audio of Options.sound_elms){
-      audio.play()
-    }
-  }
-  play(){
-    if(!this.is_play()){return}
-    const audio = this.audio || this.make_audio()
-    Options.sound_elms.push(audio)
-    audio.play()
-    // if(!Options.sound_elms[this.uuid]){
-    //   Options.sound_elms[this.uuid] = this.make_audio()
-    // }
-    // Options.sound_elms[this.uuid].play()
-  }
+  // all_play(){
+  //   if(!Options.sound_elms.length){return}
+  //   for(let audio of Options.sound_elms){
+  //     audio.play()
+  //   }
+  // }
+  // play(){
+  //   if(!this.is_play()){return}
+  //   const audio = Options.sound_elms.find(e => e.uuid === this.uuid)
+  //   Options.sound_elms.push(audio)
+  //   audio.play()
+  // }
+  // pause(audio){
+  //   if(!audio){return}
+  //   audio.pause()
+  // }
+  // stop(audio){
+  //   if(!audio){return}
+  //   audio.pause()
+  //   audio.currentTime = 0
+  // }
 
-  make_audio(){
-    const audio = new Audio()
-    if(this.data.time === undefined){
-      audio.addEventListener('loadedmetadata' , this.property_time_view.bind(this , audio))
-    }
-    audio.src = this.data.data
-    this.audio = audio
-    return audio
-  }
-  is_play(){
-    const play = Options.elements.get_animation_tools_play()
-    return play.getAttribute('data-status') ? true : false
-  }
-  all_pause(){
-    if(!Options.sound_elms.length){return}
-    for(let audio of Options.sound_elms){
-      this.stop(audio)
-    }
-  }
-  pause(audio){
-    audio.pause()
-  }
-  all_stop(){
-    if(!Options.sound_elms.length){return}
-    for(let audio of Options.sound_elms){
-      this.stop(audio)
-    }
-    Options.sound_elms = []
-  }
-  stop(audio){
-    audio.pause()
-    audio.currentTime = 0
-  }
+  // get_audio(uuid){
+  //   return Options.sound_elms.find(e => e.uuid === uuid)
+  // }
+  // set_audio(audio){
+  //   if(this.get_audio(audio.uuid)){return}
+  //   Options.sound_elms.push(audio)
+  // }
+
+  // make_audio(uuid){
+  //   let audio = this.get_audio(uuid)
+  //   if(!audio){
+  //     audio = new Audio()
+  //     audio.uuid = uuid
+  //     if(this.data.time === undefined){
+  //       audio.addEventListener('loadedmetadata' , this.property_time_view.bind(this , audio))
+  //     }
+  //     audio.src = this.data.data
+  //     audio.onended = this.end_audio.bind(this,audio)
+  //     this.set_audio(audio)
+  //   }
+  //   return audio
+  // }
+
+  // end_audio(audio){
+  //   for(let i=0; i<Options.sound_elms.length; i++){
+  //     if(Options.sound_elms[i].uuid !== audio.uuid){continue}
+  //     delete Options.sound_elms[i]
+  //     break
+  //   }
+  // }
+
+  // is_play(){
+  //   const play = Options.elements.get_animation_tools_play()
+  //   return play.getAttribute('data-status') ? true : false
+  // }
+  // all_pause(){
+  //   if(!Options.sound_elms.length){return}
+  //   for(let audio of Options.sound_elms){
+  //     this.pause(audio)
+  //   }
+  // }
+  
+  // all_stop(){
+  //   if(!Options.sound_elms.length){return}
+  //   for(let audio of Options.sound_elms){
+  //     this.stop(audio)
+  //   }
+  //   Options.sound_elms = []
+  // }
+  
 }

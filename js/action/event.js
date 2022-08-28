@@ -1,7 +1,7 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
 import { Contextmenu }   from '../asset/contextmenu.js'
-import { SoundKey }      from '../action/sound_key.js'
+// import { SoundKey }      from '../action/sound_key.js'
 
 export function resize(e){
   set_cursor_num2pos()
@@ -27,6 +27,9 @@ export function contextmenu(e , type){
   // カーソル移動
   if(Options.contextmenu.status){
     move_timeline_cursor(e)
+    // property表示
+    const uuid = Options.timeline.uuid
+    Options.property.view(uuid)
   }
 }
 export function mousedown(e){
@@ -48,7 +51,8 @@ export function mousemove(e){
     move_timeline_cursor(e)
     Options.play.transform_img_all()
     change_timeline()
-    new SoundKey().all_stop()
+    // new SoundKey().all_stop()
+    Options.sound_play.all_stop()
   }
   drag_move_key_point(e)
 }

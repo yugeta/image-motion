@@ -5,13 +5,13 @@ export class Init{
   constructor(options){
     this.options = JSON.parse(JSON.stringify(Options))
     this.set_options(options)
-    this.options.root  = this.get_root(this.options.selector)
-    this.options.scale = this.set_scale(this.options.root)
+    this.options.root   = this.get_root()
+    this.options.scale  = this.set_scale()
     this.set_uuid()
   }
 
-   // 初期設定
-   set_options(options){
+  // 初期設定
+  set_options(options){
     if(!options){return}
     if(!options.file && !options.data){return}
     if(!options.selector){return}
@@ -22,7 +22,8 @@ export class Init{
   }
 
   // 表示rootの取得
-  get_root(selector){
+  get_root(){
+    const selector = this.options.selector
     if(!selector){return}
     const elm = document.querySelector(selector)
     elm.style.setProperty('visibility','hidden','')
@@ -30,11 +31,12 @@ export class Init{
   }
 
   // 一式の親要素の設置
-  set_scale(elm){
+  set_scale(){
+    const root = this.options.root
     const scale = document.createElement('div')
     scale.className = 'scale'
-    elm.appendChild(scale)
-    elm.setAttribute('data-service' , this.options.service_name)
+    root.appendChild(scale)
+    root.setAttribute('data-service' , this.options.service_name)
     return scale
   }
 
