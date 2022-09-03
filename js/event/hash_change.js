@@ -8,6 +8,7 @@ export class HashChange{
     this.change()
   }
   change(){
+    const dt = (+new Date())
     const iframe = this.get_iframe()
     switch(this.hash){
       case 'upload':
@@ -16,11 +17,11 @@ export class HashChange{
         break
 
       case '':
-        iframe.src = 'page/index.html'
+        iframe.src = `page/index.html?dt=${dt}`
         break
       case 'help':
       default:
-        iframe.src = `page/${this.hash}.html`
+        iframe.src = `page/${this.hash}.html?dt=${dt}`
         break
     }
     
