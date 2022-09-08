@@ -243,6 +243,8 @@ export class Mutation{
   // Sound
 
   get_sound_datas(){
+    if(!this.options.sound_data
+    || !this.options.sound_data.datas){return}
     return this.options.sound_data.datas[this.animation_name]
   }
 
