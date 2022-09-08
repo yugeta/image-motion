@@ -1,8 +1,9 @@
-import * as sylvester from './sylvester/sylvester.mod.js'
+import * as sylvester from '../sylvester/sylvester.mod.js'
 
 // 参考 : https://qiita.com/as_kuya/items/45bc930b11123e3f072b
 export class Matrix{
   constructor(prev_position , next_position){
+    if(!prev_position || !next_position){return}
     const prev = this.convert_positions(prev_position)
     const next = this.convert_positions(next_position)
 
@@ -48,6 +49,7 @@ export class Matrix{
   }
 
   get_center_position(pos){
+    if(!pos){return}
     const P1 = pos.top_left
     const P2 = pos.top_right
     const P3 = pos.bottom_right
@@ -63,6 +65,7 @@ export class Matrix{
   }
 
   convert_array(pos){
+    if(!pos){return}
     return [
       [
         pos.top_left.x,
@@ -84,6 +87,7 @@ export class Matrix{
   }
 
   convert_positions(pos){
+    if(!pos){return}
     return [
       [
         pos[0].x,

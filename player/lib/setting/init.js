@@ -1,7 +1,7 @@
-import { Options }  from '../options.js'
+import { Options }  from '../../options.js'
 import { Uuid }     from './uuid.js'
 
-export class Init{
+export class SettingInit{
   constructor(options){
     this.options = JSON.parse(JSON.stringify(Options))
     this.set_options(options)
