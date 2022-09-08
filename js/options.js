@@ -1,7 +1,7 @@
 export const Options = {
   versions     : {
     main : 1, // メインバージョン
-    sub  : 1, // gitコミット数
+    sub  : 2, // サブバージョン
     revision : 0, // gitの任意branch(git_target)の最終コミットhash値
     git_target : 'master',
   },
