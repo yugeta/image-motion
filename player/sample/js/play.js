@@ -1,9 +1,13 @@
 import { Player } from '../../player.js'
+import { Urlinfo } from './urlinfo.js'
+
+const file = get_file('pepa-front.20220904a.json')
 
 // データからアニメーション設定の初期化
 const chara_sample = new Player({
   // file     : './data/pepa-front.20220904a.json', // データファイルのパス（読み込み元ファイル[*html]からの相対パス）
-  file     : './data/sound.json', // データファイルのパス（読み込み元ファイル[*html]からの相対パス）
+  // file     : './data/sound.json', // データファイルのパス（読み込み元ファイル[*html]からの相対パス）
+  file     : './data/'+ file,
   selector : '#chara_sample',     // キャラクター画像をloadする要素の指定
   callback : (e)=>{ // データ設定完了後のcallback処理
     set_animations(e)
@@ -24,3 +28,17 @@ function change_animation(e){
   const target_chara = document.getElementById('chara_sample')
   chara_sample.action(animation_name)
 }
+
+function get_file(default_file){
+  const urlinfo = new Urlinfo()
+  if(urlinfo.query && urlinfo.query.file){
+    return urlinfo.query.file
+  }
+  else{
+    return default_file
+  }
+}
+
+
+
+
