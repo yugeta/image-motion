@@ -22,6 +22,7 @@ export class Property{
     const name = ActionCommon.get_animation_name()
     const per  = ActionCommon.get_timeline_per()
     new SoundKey({
+      test : 'property/property.js',
       name : name , 
       uuid : uuid , 
       per  : per , 

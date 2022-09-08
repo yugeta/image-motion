@@ -177,6 +177,7 @@ export class Play{
     if(keyframes[per]
     && keyframes[per].sound !== undefined){
       Options.sound_key = new SoundKey({
+        test : 'action/play.js',
         name : name , 
         uuid : uuid , 
         per  : per , 

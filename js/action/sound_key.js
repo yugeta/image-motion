@@ -12,7 +12,8 @@ export class SoundKey{
     if(!name){return}
     const current_select_image = Options.elements.get_active_view()
     if(!current_select_image){return}
-    console.log(name , current_select_image)
+    // console.log(name , current_select_image)
+    // console.log(options)
 
     this.options = options
     this.options.data = options.data !== undefined ? options.data : this.get_keyframe()
@@ -26,9 +27,17 @@ export class SoundKey{
 
     this.property_view()
     // playボタンが押された状態であれば、音声を再生する
-    // Options.sound_play.play()
-    // this.play()
+    if(this.is_play()){
+      this.play()
+    }
   }
+
+  is_play(){
+    const elm = Options.elements.get_animation_tools_play()
+    if(!elm){return}
+    return elm.getAttribute('data-status') === 'on' ? true : false
+  }
+
   get_keyframe(){
     const datas = Options.datas.get_animation_name_datas(this.options.name)
     if(datas
@@ -146,12 +155,25 @@ export class SoundKey{
     this.elm_info.innerHTML = ''
   }
 
-  // all_play(){
-  //   if(!Options.sound_elms.length){return}
-  //   for(let audio of Options.sound_elms){
-  //     audio.play()
-  //   }
-  // }
+  get_sound_data(animation_name , image_uuid , keyframe){
+    const animation_data = Options.animations[animation_name]
+    if(!animation_data
+    || !animation_data.items
+    || !animation_data.items[image_uuid]
+    || !animation_data.items[image_uuid].keyframes
+    || !animation_data.items[image_uuid].keyframes[keyframe]
+    || !animation_data.items[image_uuid].keyframes[keyframe].sound){return}
+    const sound_uuid = animation_data.items[image_uuid].keyframes[keyframe].sound
+    return Options.sounds.find(e => e.uuid === sound_uuid)
+  }
+
+  play(){
+    const sound_data = this.get_sound_data(this.options.name , this.options.uuid , this.options.per)
+    if(!sound_data){return}
+    const audio = new Audio()
+    audio.src = sound_data.data
+    audio.play()
+  }
   // play(){
   //   if(!this.is_play()){return}
   //   const audio = Options.sound_elms.find(e => e.uuid === this.uuid)

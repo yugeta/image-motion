@@ -1,6 +1,7 @@
 import { Options }      from '../options.js'
 import { Images  }      from '../images/images.js'
 import { New  }         from '../data/new.js'
+import { SoundPlay }    from '../action/sound_play.js'
 
 export class Load{
   constructor(){

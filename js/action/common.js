@@ -290,6 +290,7 @@ export function set_type_value_of_view(name , uuid , type , per , data){
     case 'sound':
       Options.datas.set_animation_data_value(name , uuid , per , type , null)
       Options.sound_key = new SoundKey({
+        test : 'action/common',
         name : name , 
         uuid : uuid , 
         per  : per ,
