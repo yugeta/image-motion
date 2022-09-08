@@ -1,6 +1,6 @@
-import { Transform } from './_transform.js'
-import { Shape } from './_shape.js'
-import { Sound } from './_sound.js'
+import { Transform } from './transform.js'
+import { Shape } from './shape.js'
+import { Sound } from './sound.js'
 
 
 export class Animation{
