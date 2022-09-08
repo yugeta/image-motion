@@ -1,3 +1,7 @@
+[data-service='image-motion']{
+  --setting-duration : 0.01s;
+}
+
 [data-service='image-motion'] .scale{
   position:relative;
 }
@@ -6,6 +10,9 @@
   position:absolute;
   display:block;
   transform-style:preserve-3d;
+
+  /* transition-property : transform;
+  transition-duration : var(--setting-duration); */
 }
 
 [data-service='image-motion'] .pic > img{

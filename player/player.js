@@ -1,15 +1,16 @@
-import { Init }      from './lib/init.js'
-import { Ajax }      from './lib/ajax.js'
-import { Images }    from './lib/images.js'
-import { Animation } from './lib/animation.js'
-import { Style }     from './lib/style.js'
-import { Event }     from './lib/event.js'
+import { SettingInit as Init }      from './lib/setting/init.js'
+import { Ajax }      from './lib/setting/ajax.js'
+import { Images }    from './lib/image/images.js'
+import { Animation } from './lib/animation/animation.js'
+import { Style }     from './lib/setting/style.js'
+import { Event }     from './lib/event/event.js'
 
 export class Player{
   constructor(options){
-    this.css     = this.get_css()
-    this.options = new Init(options).options
-    this.style   = new Style(this.options , this.css)
+    this.css      = this.get_css()
+    this.options  = new Init(options).options
+    this.callback = this.options.callback || null
+    this.style    = new Style(this.options , this.css)
     this.loaded_style()
   }
 
@@ -45,6 +46,7 @@ export class Player{
     this.animation = new Animation(this.options)
     this.style.add(this.animation.css)
     this.event     = new Event(this.options , this.animation)
+    this.finish()
   }
 
   get_css(){
@@ -53,7 +55,11 @@ export class Player{
     return path
   }
 
-
+  finish(){
+    console.log(this.animation)
+    if(!this.callback){return}
+    this.callback(this)
+  }
 }
 
 
