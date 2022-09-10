@@ -56,7 +56,7 @@ export class Player{
   }
 
   finish(){
-    console.log(this.animation)
+    // console.log(this.animation)
     if(!this.callback){return}
     this.callback(this)
   }

@@ -6,13 +6,12 @@ import { SoundKey }      from '../action/sound_key.js'
 
 export class Play{
 
-  play(){
+  play(per){
     if(!this.flg_duration){return}
-    let per = ActionCommon.get_timeline_per()
-    per++
+    per = per || ActionCommon.get_timeline_per()
     per = per > 100 ? 0 : per
     this.set_timeline_per(per)
-    setTimeout(this.play.bind(this) , this.flg_duration)
+    setTimeout(this.play.bind(this , ++per) , this.flg_duration)
   }
 
   stop(){
