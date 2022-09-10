@@ -236,6 +236,7 @@ export function click_play(e){
     // off -> on
     default:
       target.setAttribute(key , 'on')
+      Options.current_per = null
       const duration = get_duration()
       Options.play.flg_duration = duration / 100 * 1000
       Options.play.play()
