@@ -8,12 +8,15 @@ import * as ActionCommon from '../action/common.js'
 export class SoundKey{
   constructor(options){
     if(!options){return}
-    const name = ActionCommon.get_animation_name()
-    if(!name){return}
-    const current_select_image = Options.elements.get_active_view()
-    if(!current_select_image){return}
-    // console.log(name , current_select_image)
-    // console.log(options)
+
+    // 対象のアニメーションが指定されていない場合は再生しない
+    this.animation_name = ActionCommon.get_animation_name()
+    if(!this.animation_name){return}
+
+    // 画像が選択されていない場合は再生しない
+    // const current_select_image = Options.elements.get_active_view()
+    // const img_uuid = current_select_image.getAttribute('data-uuid')
+    // if(!current_select_image){return}
 
     this.options = options
     this.options.data = options.data !== undefined ? options.data : this.get_keyframe()
@@ -25,7 +28,17 @@ export class SoundKey{
     this.name  = this.data.name
     // this.make_audio(this.uuid)
 
-    this.property_view()
+    // 同じanimation-nameの場合はpropertyを表示する
+    
+    // if(options.name === name
+    // && options.uuid === img_uuid){
+      // console.log(options.name)
+      this.property_view()
+    // }
+    // console.log('name',options.name,name)
+    // console.log('uuid',options.uuid,img_uuid)
+    // console.log(options , this.uuid)
+
     // playボタンが押された状態であれば、音声を再生する
     if(this.is_play()){
       this.play()
@@ -49,14 +62,33 @@ export class SoundKey{
       return datas.items[this.options.uuid].keyframes[this.options.per].sound
     }
   }
+
+  chck_property(){
+    if(this.animation_name !== this.options.name){
+      return true
+    }
+    
+    const current_select_image = Options.elements.get_active_view()
+    if(!current_select_image){
+      return true
+    }
+
+    const img_uuid = current_select_image.getAttribute('data-uuid')
+    if(img_uuid !== this.options.uuid){
+      return true
+    }
+  }
   
   property_view(){
+    if(this.chck_property()){return}
+    
     const temaplte = Options.common.get_template('property_sound')
     this.elm_info.innerHTML = Options.common.doubleBlancketConvert(temaplte , this.data)
+    // console.log(this.elm_info.innerHTML)
     this.elm_name = Options.elements.get_sound_name()
     this.elm_name.textContent = this.data ? this.data.name : ''
     this.elm_uuid = Options.elements.get_sound_uuid()
-    this.set_event()
+    this.set_event(this.elm_uuid)
   }
   property_time_view(audio){
     const elm = this.elm_info.querySelector('.time')

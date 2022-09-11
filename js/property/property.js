@@ -33,6 +33,7 @@ export class Property{
     // info
     const area = Options.elements.get_info_area()
     area.textContent = ''
+    
     // sound
     const sound = Options.elements.get_sound_info()
     sound.textContent = ''

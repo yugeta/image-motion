@@ -226,7 +226,6 @@ function set_move_key_point(per){
   // console.log(Options.animations)
 
   // viewアニメーション更新
-  // console.log('--5')
   Options.play.transform_img_all()
 
   // animation値の更新
