@@ -42,7 +42,11 @@ export class Play{
       this.transform_img_reset()
       return
     }
+
+
+
     // image別アニメーション処理
+    this.del_sound()
     for(let uuid in datas.items){
       if(!datas.items[uuid].keyframes){continue}
       const types     = this.get_transform_types(datas.items[uuid].keyframes)
@@ -173,19 +177,22 @@ export class Play{
   }
   // 音声処理(play中のみ演奏される)
   set_sound(name , uuid , per , keyframes){
+    if(Options.sound_key){return}
+
+    // 対象のキーフレームでsoundデータがある場合
     if(keyframes[per]
     && keyframes[per].sound !== undefined){
       Options.sound_key = new SoundKey({
-        test : 'action/play.js',
         name : name , 
         uuid : uuid , 
         per  : per , 
       })
     }
-    else if(Options.sound_key){
-      Options.sound_key.property_hidden()
-      delete Options.sound_key
-    }
+  }
+  del_sound(){
+    if(!Options.sound_key){return}
+    Options.sound_key.property_hidden()
+    delete Options.sound_key
   }
 
 }
