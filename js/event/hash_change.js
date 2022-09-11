@@ -5,6 +5,10 @@ export class HashChange{
   constructor(){
     this.hash = Options.common.get_hash()
     this.animation_name_clear()
+    this.animation_setting_list_clear()
+    this.timeline_list_clear()
+    this.property_sound_clear()
+    this.property_shape_clear()
     this.change()
   }
   change(){
@@ -33,5 +37,29 @@ export class HashChange{
   // animation-nameがセットされている場合は、クリアする
   animation_name_clear(){
     ActionCommon.animation_name_clear()
+    const root = Options.elements.get_root()
+    root.setAttribute('data-animation-name' , '')
   }
+  // animation設定値のリストをクリアする
+  animation_setting_list_clear(){
+    if(!Options.animation){return}
+    Options.animation.hidden()
+  }
+  // 上記と合わせてタイムラインもクリアする
+  timeline_list_clear(){
+    if(!Options.timeline){return}
+    Options.timeline.hidden()
+  }
+  // ヘッダ切替時にproperty(sound)表示をクリアする。
+  property_sound_clear(){
+    if(!Options.property){return}
+    Options.property.hidden()
+  }
+  // ヘッダ切替時にproperty(設定）表示をクリアする。
+  property_shape_clear(){
+    if(!Options.shape){return}
+    Options.shape.clear_property()
+  }
+
+
 }
