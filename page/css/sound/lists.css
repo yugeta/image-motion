@@ -86,7 +86,7 @@
   text-align:right;
 }
 .lists > ul > li .player{
-  width:300px;
+  width:250px;
   height:100%;
   padding:10px;
 }
@@ -95,5 +95,18 @@
   height:100%;
 }
 
-
+.lists > ul > li .trash{
+  width:50px;
+  padding:12px;
+}
+.lists > ul > li .trash svg{
+  fill:var(--color-font);
+  cursor:pointer;
+}
+.lists > ul > li .trash svg:hover{
+  fill:white;
+}
+.lists > ul > li[data-use='true'] .trash > *{
+  display:none;
+}
 

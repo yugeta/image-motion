@@ -127,7 +127,6 @@ export class SoundKey{
       h : lists.offsetHeight,
     }
     const lists_max_h = window.innerHeight - target_rect.top - lists_data.y
-    console.log(window.offsetHeight , lists_data.y)
     lists.style.setProperty('left'   , `${lists_data.x}px` , '')
     lists.style.setProperty('top'    , `${lists_data.y}px` , '')
     lists.style.setProperty('height' , `${lists_max_h}px` , '')
