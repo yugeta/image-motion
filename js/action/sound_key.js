@@ -8,12 +8,14 @@ import * as ActionCommon from '../action/common.js'
 export class SoundKey{
   constructor(options){
     if(!options){return}
+
+    // 対象のアニメーションが指定されていない場合は再生しない
     const name = ActionCommon.get_animation_name()
     if(!name){return}
-    const current_select_image = Options.elements.get_active_view()
-    if(!current_select_image){return}
-    // console.log(name , current_select_image)
-    // console.log(options)
+
+    // 画像が選択されていない場合は再生しない
+    // const current_select_image = Options.elements.get_active_view()
+    // if(!current_select_image){return}
 
     this.options = options
     this.options.data = options.data !== undefined ? options.data : this.get_keyframe()

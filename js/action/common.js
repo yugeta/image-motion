@@ -230,7 +230,6 @@ export function click_play(e){
     case 'on':
       target.setAttribute(key , '')
       Options.play.stop()
-      // new SoundKey().all_pause()
       Options.sound_play.all_pause()
       break
     // off -> on
@@ -240,7 +239,6 @@ export function click_play(e){
       const duration = get_duration()
       Options.play.flg_duration = duration / 100 * 1000
       Options.play.play()
-      // new SoundKey().all_play()
       Options.sound_play.all_play()
       break
   }
