@@ -46,12 +46,15 @@
 /* Property */
 .over [name='shape'] .info .preview{
   width:90%;
-  display:grid;
+  display:none;
   grid-template-rows:30px 30px 1fr 30px;
   grid-template-columns:30px 30px 1fr 30px;
   margin:5px 5%;
   justify-content:center;
   align-items:center;
+}
+.over [name='shape'] .info .preview[data-status='active']{
+  display:grid;
 }
 
 .over [name='shape'] .info .preview .button:nth-of-type(1){
@@ -136,6 +139,7 @@
 .over [name='shape'] .info .preview .button[data-mode='+']::after{
   transform:translate(-50%,-50%) rotate(90deg);
 }
+
 
 /* Active */
 .over [name='shape'] .info .preview[data-status='active'] .matrix,
