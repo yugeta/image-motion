@@ -1,19 +1,21 @@
 export class Scale{
   constructor(root){
     if(!root){return}
-    const fit  = this.fit_images(root)
-    const rate = this.get_rate_contain(root , fit)
-    this.set_scale_contain(root , rate , fit)
+    this.datas = {}
+    this.root  = root
+    this.fit   = this.fit_images()
+    this.scale = this.get_rate_contain()
+    this.set_scale_contain()
     this.finish(root)
   }
-  get_scale_element(root){
-    return root.querySelector(':scope > .scale')
+  get_scale_element(){
+    return this.root.querySelector(':scope > .scale')
   }
 
-  fit_images(root){
-    const scale = this.get_scale_element(root)
+  fit_images(){
+    const scale = this.get_scale_element()
     if(!scale){return}
-    const root_rect = root.getBoundingClientRect()
+    const root_rect = this.root.getBoundingClientRect()
     const pics = scale.querySelectorAll('.pic')
     const image_corner = {
       left   : null,
@@ -21,12 +23,18 @@ export class Scale{
       top    : null,
       bottom : null,
     }
+    this.datas.pics = {}
     for(let pic of pics){
+      const id = pic.getAttribute('data-uuid')
+      this.datas.pics[id] = {}
+      const img = pic.querySelector('img')
       const pic_rect = pic.getBoundingClientRect()
       const x = pic_rect.left - root_rect.left
       const y = pic_rect.top  - root_rect.top
-      const w = pic_rect.width
-      const h = pic_rect.height
+      const w = pic.offsetWidth
+      const h = pic.offsetHeight
+      // const w = img.NaturalWidth
+      // const h = img.naturalHeight
       
       // 左
       if(image_corner.left === null
@@ -50,20 +58,28 @@ export class Scale{
       || y + h > image_corner.bottom){
         image_corner.bottom = y + h
       }
+
+      this.datas.pics[id] = pic_rect
+      this.datas.pics[id].elm = pic
+      
+      this.datas.pics[id].naturalWidth  = img.naturalWidth
+      this.datas.pics[id].naturalHeight = img.naturalHeight
     }
     image_corner.width  = image_corner.right  - image_corner.left
     image_corner.height = image_corner.bottom - image_corner.top
+
+    this.datas.image_corner = image_corner
     return image_corner
   }
 
-  get_rate_contain(root , fit){
+  get_rate_contain(){
     const root_size = {
-      w : root.clientWidth,
-      h : root.clientHeight,
+      w : this.root.clientWidth,
+      h : this.root.clientHeight,
     }
     const rate = {
-      w : root_size.w / fit.width,
-      h : root_size.h / fit.height,
+      w : root_size.w / this.fit.width,
+      h : root_size.h / this.fit.height,
     }
     // 横合わせ
     if(rate.w < rate.h || !root_size.h){
@@ -76,18 +92,34 @@ export class Scale{
   }
 
   // scale値の自動設定（rootに合わせる） object-contain
-  set_scale_contain(root , scale , fit){
-    const elm = this.get_scale_element(root)
-    scale = Number(scale.toFixed(2))
-    if(!scale){return}
-    const w = fit.width * scale
-    const h = fit.height * scale
-    const x = fit.left * -1
-    const y = fit.top * -1
+  set_scale_contain(){
+    const elm = this.get_scale_element(this.root)
+    this.scale = Number(this.scale.toFixed(2))
+    if(!this.scale){return}
+    const w = this.fit.width  * this.scale
+    const h = this.fit.height * this.scale
+    const x = this.fit.left * -1
+    const y = this.fit.top * -1
     elm.style.setProperty('width'           ,`${w}px`,'')
     elm.style.setProperty('height'          ,`${h}px`,'')
     elm.style.setProperty('transform-origin',`0 0`,'')
-    elm.style.setProperty('transform'       ,`scale(${scale}) translateX(${x}px) translateY(${y}px)`,'')
+    // elm.style.setProperty('transform'       ,`scale(${this.scale}) translateX(${x}px) translateY(${y}px)`,'')
+    const transforms = []
+    transforms.push(`scale(${this.scale})`)
+    // transforms.push(`translateX(${x}px)`)
+    // transforms.push(`translateY(${y}px)`)
+    elm.style.setProperty('transform'       , transforms.join(' ') ,'')
+    console.log({
+      root  : this.root,
+      elm   : elm,
+      scale : this.scale,
+      x     : x,
+      y     : y,
+      w     : w,
+      h     : h,
+      fit   : this.fit,
+      datas : this.datas,
+    })
   }
 
   // 処理完了
