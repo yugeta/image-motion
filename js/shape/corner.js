@@ -45,6 +45,7 @@ export class Corner{
         num++
       }
     }
+    this.xy_sort()
   }
 
   set_calc(){
@@ -124,17 +125,18 @@ export class Corner{
         return 0
       }
     })
+    // console.log(this.points)
   }
 
   create(){
     // 順番に並び替える
     this.xy_sort()
     // 作成
-    this.create_points()
+    this.view_points()
     // this.set_point_datas()
   }
 
-  create_points(){
+  view_points(){
     for(let i=0; i<this.points.length; i++){
       const div  = document.createElement('div')
       this.shape_elm.appendChild(div)
@@ -268,6 +270,21 @@ export class Corner{
     return {
       num  : point_num - (x + y) + this.table.x + 1,
       type : 'top-left',
+    }
+  }
+
+  reset(){
+    const elms = Options.elements.get_shape_points(this.uuid)
+    this.xy_sort()
+    const points = this.points
+    for(let i=0; i<elms.length; i++){
+      const elm = elms[i]
+      const pos = {
+        x: points[i].x,
+        y: points[i].y,
+      }
+      elm.style.setProperty('left' , `${pos.x}px` , '')
+      elm.style.setProperty('top'  , `${pos.y}px` , '')
     }
   }
 

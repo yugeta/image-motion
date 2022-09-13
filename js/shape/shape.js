@@ -275,25 +275,7 @@ export class Shape{
 
   // pointを定位置に戻す
   click_reset(){
-    this.reset_points()
-    this.reset_images()
-  }
-
-  reset_points(){
-    const elms = Options.elements.get_shape_points(this.uuid)
-    const points = this.corner.points
-    for(let i=0; i<elms.length; i++){
-      const elm = elms[i]
-      const pos = {
-        x: points[i].x,
-        y: points[i].y,
-      }
-      elm.style.setProperty('left' , `${pos.x}px` , '')
-      elm.style.setProperty('top'  , `${pos.y}px` , '')
-    }
-  }
-
-  reset_images(){
+    this.corner.reset()
     const images = Options.elements.get_shape_images(this.uuid)
     for(let img of images){
       img.style.setProperty('transform' , '' , '')
