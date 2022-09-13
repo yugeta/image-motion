@@ -39,3 +39,38 @@ Author : Yugeta.Koji
 - $ mkdir plugin | cd plugin
 - $ git clone http://git.ideacompo.com/2/svgEmbed.git
 - 
+
+
+# hint
+- story : キャラクターhideモード :背景にも適用(styleセット）
+- モーションを部分的にループにする。
+- 多重モーション
+- mode = wait（1000ms）: motion-end
+- フォーカスモード : キャラクターにフォーカス  mode=focus character-id（ユーザー操作優先）：座標指定で背景のみでもできるように
+- キャラ移動（速度）
+- style機能
+
+- フレーム全体で F.I. F.O. 円のワイプ（ワイプモード） cssで、
+
+- キャラクターがいなくて静止画をタッチするシーン
+
+- 窓のヒモを引っ張る。
+- 何回かタップしてきのみを潰す
+
+- データセーブ : ストーリー終了時に
+- クリアしたステージをキャッシュしておく。
+- セーブポイントによって、スタートポイント（設定）を変更できるようにする。
+
+- サウンド設定機能
+- 設定モード
+
+- storyでse再生
+- 
+
+
+- image-motionのサウンド入れ替え機能
+- image-motionのサウンド音量変更
+
+
+
+

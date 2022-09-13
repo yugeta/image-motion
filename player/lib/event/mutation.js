@@ -1,9 +1,10 @@
 import { Options } from '../../options.js'
 
 export class Mutation{
-  constructor(animations){
+  constructor(animations , on){
     this.animations = animations || {}
     this.options    = this.animations.options || {}
+    this.on         = on
     this.set_event()
   }
 
@@ -60,6 +61,7 @@ export class Mutation{
     }
     return duration || 1
   }
+
   get_max_count(){
     let count = null
     const data = this.get_anim_data()
@@ -69,7 +71,8 @@ export class Mutation{
         count = reg[0]
       }
     }
-    return count || null
+    // return count || null
+    return Number(count || 0)
   }
 
   get_pic(uuid){
@@ -90,6 +93,7 @@ export class Mutation{
 
   play(){
     const duration = this.get_duration()
+    // const count    = this.get_count()
     this.cache = {
       animation_name : this.animation_name,
       current_count  : 0,
@@ -98,8 +102,10 @@ export class Mutation{
       prev_keyframe  : null,
       max_count      : this.get_max_count(),
       duration       : duration,
+      count          : 0,
       animation_sec  : duration / 100,
     }
+    this.on.start(this.options , this.cache)
     this.view()
   }
 
@@ -110,6 +116,8 @@ export class Mutation{
     }
 
     const keyframe = this.get_keyframe_number()
+    
+    if(this.check_keyframe(keyframe)){return}
     // タイミングが早いkeyframe表示は1回のみの表示に限定する。
     if(this.cache.keyframe !== keyframe){
       this.cache.prev_keyframe = this.cache.keyframe
@@ -122,6 +130,13 @@ export class Mutation{
     requestAnimationFrame(this.view.bind(this))
   }
 
+  check_keyframe(keyframe){
+    switch(keyframe){
+      case 'end':
+        return true
+    }
+  }
+
   // keyframe_number
   get_keyframe_number(){
     if(!this.cache){return}
@@ -131,8 +146,18 @@ export class Mutation{
     const rate       = progress / duration
     const num        = Math.round(rate * 100)
     if(num > 100){
-      this.cache.start_time = (+new Date())
-      return 0
+      this.cache.count++
+      
+      // count-max 終了処理
+      if(this.cache.max_count && this.cache.count >= this.cache.max_count){
+        this.on.end(this.options , this.cache)
+        return 'end'
+      }
+      else{
+        this.on.loop(this.options , this.cache)
+        this.cache.start_time = (+new Date())
+        return 0
+      }
     }
     else{
       return num
@@ -153,11 +178,6 @@ export class Mutation{
       if(data.shape_use && shapes.length){
         this.play_shape(shapes , data.uuid)
       }
-
-      // // // sound
-      // // const sound_data = 
-      // // this.sound_init(keyframe)
-      // this.play_sound(keyframe)
     }
   }
 
@@ -263,9 +283,9 @@ export class Mutation{
     if(!sound_datas){return}
     const prev = Number(this.cache.prev_keyframe || 0)
     const current = Number(this.cache.keyframe || 0)
-    if(current - prev + 1 < 0){return}
+    if(current - prev < 0){return}
     const datas = []
-    for(let keyframe=prev + 1; keyframe<=current; keyframe++){
+    for(let keyframe=prev; keyframe<=current; keyframe++){
       if(!sound_datas[keyframe]){continue}
       for(let sound_uuid in sound_datas[keyframe]){
         datas.push({
