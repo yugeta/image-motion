@@ -39,6 +39,7 @@ export class Header{
   set_contents_hash(hash){
     document.body.setAttribute('data-hash' , hash)
     ImageCommon.reset_style()
+    this.iframe_reset()
   }
 
   // ----------
@@ -70,5 +71,10 @@ export class Header{
   close_file_menu(){
     const menu_check = Options.elements.get_header_menu_file_check()
     menu_check.checked = false
+  }
+  iframe_reset(){
+    const iframe = Options.elements.get_iframe()
+    if(!iframe){return}
+    iframe.src = ''
   }
 }
