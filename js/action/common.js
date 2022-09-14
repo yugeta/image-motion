@@ -5,6 +5,7 @@ import * as ShapeCommon from '../shape/common.js'
 import { Play }         from '../action/play.js'
 import { Modal }        from '../modal/src/modal.js'
 import { SoundKey }     from '../action/sound_key.js'
+import { Shape }        from '../shape/shape.js'
 
 // ----------
 // animation-name
@@ -100,6 +101,7 @@ export function get_animation_name() {
   return input.value
 }
 
+// animation-nameの切り替え処理
 export function animation_name_list_decide(){
   animation_name_list_hidden()
 
@@ -141,6 +143,11 @@ export function animation_name_list_decide(){
   if(Options.animation){
     Options.animation.change_timeline()
   }
+
+  // // 全imageのshapeリセット処理
+  // for(){
+  //   new Shape(uuid)
+  // }
 }
 
 // export function get_animation_data(){

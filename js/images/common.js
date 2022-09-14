@@ -58,8 +58,24 @@ export function reset_style(){
   const datas  = Options.datas.get_all()
   for(let uuid in datas){
     Options.img_datas[uuid].reset_style()
+    // const shape = new Shape(uuid)
+    // if(shape.corner && shape.corner){
+    //   shape.corner.reset()
+    // }
+    // console.log(shape)
+    // reset_shape(uuid)
   }
 }
+// export function reset_shape(uuid){
+//   if(!uuid){return}
+//   if(!Options.datas.get_shape_use(uuid)){return}
+//   console.log(uuid)
+//   const shape = new Shape(uuid)
+//   if(new Shape(uuid).corner
+//   && new Shape(uuid).corner.points){
+//     shape.corner.reset()
+//   }
+// }
 
 export function get_current_uuid(){
   const elm = Options.elements.get_active_view()
