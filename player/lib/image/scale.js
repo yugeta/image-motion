@@ -1,12 +1,14 @@
 export class Scale{
-  constructor(root){
-    if(!root){return}
+  constructor(options){
+    if(!options){return}
     this.datas = {}
-    this.root  = root
+    this.root  = options.root
+    this.images = options.data.images
+    // console.log(this.images)
     this.fit   = this.fit_images()
     this.scale = this.get_rate_contain()
     this.set_scale_contain()
-    this.finish(root)
+    this.finish(this.root)
   }
   get_scale_element(){
     return this.root.querySelector(':scope > .scale')
@@ -16,7 +18,7 @@ export class Scale{
     const scale = this.get_scale_element()
     if(!scale){return}
     const root_rect = this.root.getBoundingClientRect()
-    const pics = scale.querySelectorAll('.pic')
+    // const pics = scale.querySelectorAll('.pic')
     const image_corner = {
       left   : null,
       right  : null,
@@ -24,46 +26,46 @@ export class Scale{
       bottom : null,
     }
     this.datas.pics = {}
-    for(let pic of pics){
-      const id = pic.getAttribute('data-uuid')
+    for(let image of this.images){
+      const id = image.uuid
       this.datas.pics[id] = {}
-      const img = pic.querySelector('img')
-      const pic_rect = pic.getBoundingClientRect()
-      const x = pic_rect.left - root_rect.left
-      const y = pic_rect.top  - root_rect.top
-      const w = pic.offsetWidth
-      const h = pic.offsetHeight
+      // const img = pic.querySelector('img')
+      // const pic_rect = pic.getBoundingClientRect()
+      // const x = pic_rect.left - root_rect.left
+      // const y = pic_rect.top  - root_rect.top
+      // const w = pic.offsetWidth
+      // const h = pic.offsetHeight
       // const w = img.NaturalWidth
       // const h = img.naturalHeight
       
       // 左
       if(image_corner.left === null
-      || x < image_corner.left){
-        image_corner.left = x
+      || image.x < image_corner.left){
+        image_corner.left = image.x
       }
       // 右
       if(image_corner.right === null
-        || x + w > image_corner.right){
-          image_corner.right = x + w
+      || image.x + image.w > image_corner.right){
+          image_corner.right = image.x + image.w
         }
 
       // 上
       if(image_corner.top === null
-      || y < image_corner.top){
-        image_corner.top = y
+      || image.y < image_corner.top){
+        image_corner.top = image.y
       }
 
       // 下
       if(image_corner.bottom === null
-      || y + h > image_corner.bottom){
-        image_corner.bottom = y + h
+      || image.y + image.h > image_corner.bottom){
+        image_corner.bottom = image.y + image.h
       }
 
-      this.datas.pics[id] = pic_rect
-      this.datas.pics[id].elm = pic
+      // this.datas.pics[id] = pic_rect
+      // this.datas.pics[id].elm = pic
       
-      this.datas.pics[id].naturalWidth  = img.naturalWidth
-      this.datas.pics[id].naturalHeight = img.naturalHeight
+      // this.datas.pics[id].naturalWidth  = img.naturalWidth
+      // this.datas.pics[id].naturalHeight = img.naturalHeight
     }
     image_corner.width  = image_corner.right  - image_corner.left
     image_corner.height = image_corner.bottom - image_corner.top
@@ -71,6 +73,66 @@ export class Scale{
     this.datas.image_corner = image_corner
     return image_corner
   }
+
+  // fit_images(){
+  //   const scale = this.get_scale_element()
+  //   if(!scale){return}
+  //   const root_rect = this.root.getBoundingClientRect()
+  //   const pics = scale.querySelectorAll('.pic')
+  //   const image_corner = {
+  //     left   : null,
+  //     right  : null,
+  //     top    : null,
+  //     bottom : null,
+  //   }
+  //   this.datas.pics = {}
+  //   for(let pic of pics){
+  //     const id = pic.getAttribute('data-uuid')
+  //     this.datas.pics[id] = {}
+  //     const img = pic.querySelector('img')
+  //     const pic_rect = pic.getBoundingClientRect()
+  //     const x = pic_rect.left - root_rect.left
+  //     const y = pic_rect.top  - root_rect.top
+  //     const w = pic.offsetWidth
+  //     const h = pic.offsetHeight
+  //     // const w = img.NaturalWidth
+  //     // const h = img.naturalHeight
+      
+  //     // 左
+  //     if(image_corner.left === null
+  //     || x < image_corner.left){
+  //       image_corner.left = x
+  //     }
+  //     // 右
+  //     if(image_corner.right === null
+  //       || x + w > image_corner.right){
+  //         image_corner.right = x + w
+  //       }
+
+  //     // 上
+  //     if(image_corner.top === null
+  //     || y < image_corner.top){
+  //       image_corner.top = y
+  //     }
+
+  //     // 下
+  //     if(image_corner.bottom === null
+  //     || y + h > image_corner.bottom){
+  //       image_corner.bottom = y + h
+  //     }
+
+  //     this.datas.pics[id] = pic_rect
+  //     this.datas.pics[id].elm = pic
+      
+  //     this.datas.pics[id].naturalWidth  = img.naturalWidth
+  //     this.datas.pics[id].naturalHeight = img.naturalHeight
+  //   }
+  //   image_corner.width  = image_corner.right  - image_corner.left
+  //   image_corner.height = image_corner.bottom - image_corner.top
+
+  //   this.datas.image_corner = image_corner
+  //   return image_corner
+  // }
 
   get_rate_contain(){
     const root_size = {
@@ -81,7 +143,7 @@ export class Scale{
       w : root_size.w / this.fit.width,
       h : root_size.h / this.fit.height,
     }
-    console.log('size',root_size,rate)
+    // console.log('size',root_size,rate)
     // 横合わせ
     if(rate.w < rate.h || !root_size.h){
       return rate.w
