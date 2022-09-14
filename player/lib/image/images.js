@@ -159,7 +159,8 @@ export class Images{
     this.loaded_count++
     // すべての画像が表示完了したらscale処理をする
     if(this.image_count <= this.loaded_count){
-      new Scale(this.options.root)
+      // new Scale(this.options.root , this.options.data.images)
+      new Scale(this.options)
     }
   }
   
