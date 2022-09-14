@@ -81,6 +81,7 @@ export class Scale{
       w : root_size.w / this.fit.width,
       h : root_size.h / this.fit.height,
     }
+    console.log('size',root_size,rate)
     // 横合わせ
     if(rate.w < rate.h || !root_size.h){
       return rate.w
