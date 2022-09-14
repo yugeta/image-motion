@@ -23,29 +23,8 @@ export class Corner{
 
   init(){
     // this.points = Options.datas.get_shape_data(this.uuid) || []
-
     // console.log(this.uuid,this.points)
     this.set_calc()
-  }
-
-  set_points(){
-    const data     = Options.datas.get_data(this.uuid)
-    const table    = Options.datas.get_shape_table(this.uuid)
-    const w        = Number((data.w / table.x).toFixed(2))
-    const h        = Number((data.h / table.y).toFixed(2))
-    this.init()
-    for(let i=0; i<table.y; i++){
-      const y = i * h
-      let num = 0
-      for(let j=0; j<table.x; j++){
-        const x = j * w
-        const pos = this.set_transform(x , y , w , h)
-        this.add(pos , i , j)
-        Options.datas.set_shape_corners(this.uuid , num , pos)
-        num++
-      }
-    }
-    this.xy_sort()
   }
 
   set_calc(){

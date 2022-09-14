@@ -3,6 +3,8 @@ import * as ActionCommon from '../action/common.js'
 // import * as ImageCommon  from '../images/common.js'
 import * as ShapeCommon  from '../shape/common.js'
 import { SoundKey }      from '../action/sound_key.js'
+import { Shape }         from '../shape/shape.js'
+import { ShapePointsReset }    from '../shape/points_reset.js'
 
 export class Play{
 
@@ -48,7 +50,10 @@ export class Play{
     // image別アニメーション処理
     this.del_sound()
     for(let uuid in datas.items){
-      if(!datas.items[uuid].keyframes){continue}
+      if(!datas.items[uuid].keyframes){
+        // this.shape_reset(uuid)
+        continue
+      }
       const types     = this.get_transform_types(datas.items[uuid].keyframes)
       const transform = this.get_transform_css(animation_name , uuid , per , types)
       const styles    = this.get_style_css(animation_name , uuid , per , types)
@@ -67,6 +72,7 @@ export class Play{
   }
   transform_img_reset(){
     // ImageCommon.reset_style()
+    new ShapePointsReset()
   }
 
   get_transform_types(datas){

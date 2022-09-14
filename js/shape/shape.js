@@ -456,6 +456,7 @@ export class Shape{
       for(let j=0; j<table.x; j++){
         const x = j * w
         const transforms = this.corner.set_transform(x , y , w , h)
+        // console.log(transforms,x,y,w,h)
         this.corner.add(transforms , i , j)
         Options.datas.set_shape_corners(this.uuid , image_num , transforms)
         image_num++
