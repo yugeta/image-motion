@@ -178,9 +178,7 @@ export class Images{
   set_transform(datas){
     datas = datas || {}
     let transforms = []
-    if(typeof datas.rotate === 'number'){
-      transforms.push(`rotate(${datas.rotate}deg)`)
-    }
+    
     if(typeof datas.posx === 'number'){
       transforms.push(`translateX(${datas.posx}px)`)
     }
@@ -189,6 +187,12 @@ export class Images{
     }
     if(typeof datas.posz === 'number'){
       transforms.push(`translateZ(${datas.posz}px)`)
+    }
+    if(typeof datas.scale === 'number'){
+      transforms.push(`scale(${datas.scale})`)
+    }
+    if(typeof datas.rotate === 'number'){
+      transforms.push(`rotate(${datas.rotate}deg)`)
     }
     if(!transforms || !transforms.length){return}
     const transform_value = transforms.join(' ')

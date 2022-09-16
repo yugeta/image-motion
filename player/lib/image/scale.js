@@ -1,12 +1,10 @@
 export class Scale{
   constructor(options){
     if(!options){return}
-    console.log(options)
     this.datas  = {}
     this.root   = options.root
     this.images = options.data.images
     this.fit    = this.fit_images()
-    console.log(this.fit)
     this.scale  = this.get_rate_contain()
     this.set_scale_contain()
     this.finish(this.root)
@@ -31,7 +29,7 @@ export class Scale{
       const x2  = pos.x + image.w
       const y1  = pos.y
       const y2  = pos.y + image.h
-      console.log(image.uuid,x1,x2,y1,y2)
+      // console.log(image.uuid,x1,x2,y1,y2)
       // 左
       if(image_corner.left === null
       || x1 < image_corner.left){
@@ -100,8 +98,8 @@ export class Scale{
     const elm = this.get_scale_element(this.root)
     this.scale = Number(this.scale.toFixed(2))
     if(!this.scale){return}
-    const w = this.fit.width  * this.scale
-    const h = this.fit.height * this.scale
+    const w = this.fit.width
+    const h = this.fit.height
     const x = this.fit.left * -1
     const y = this.fit.top * -1
     elm.style.setProperty('width'  ,`${w}px`,'')
@@ -110,17 +108,6 @@ export class Scale{
     const transforms = []
     transforms.push(`scale(${this.scale})`)
     elm.style.setProperty('transform'       , transforms.join(' ') ,'')
-    console.log({
-      root  : this.root,
-      elm   : elm,
-      scale : this.scale,
-      x     : x,
-      y     : y,
-      w     : w,
-      h     : h,
-      fit   : this.fit,
-      datas : this.datas,
-    })
   }
 
   // 処理完了
