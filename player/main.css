@@ -9,6 +9,7 @@
 [data-service='image-motion'] .pic{
   position:absolute;
   display:block;
+  perspective: none;
   transform-style:preserve-3d;
 
   /* transition-property : transform;

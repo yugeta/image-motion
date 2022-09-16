@@ -3,6 +3,7 @@ export class Transform{
     this.options = options || {}
     this.anims   = this.options.data.animations
     this.set()
+    console.log(this.options.data.animations)
   }
 
   set(){
@@ -131,7 +132,6 @@ export class Transform{
   }
 
   get_default_value(type , value){
-    // if(typeof Number(value) === 'number'){return value}
     if(value !== undefined){return value}
     switch(type){
       case 'opacity':

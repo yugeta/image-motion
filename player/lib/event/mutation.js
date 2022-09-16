@@ -193,21 +193,29 @@ export class Mutation{
   get_transform(uuid , keyframe){
     const keyframe_data = this.get_keyframe_data(uuid , keyframe)
     if(keyframe_data === undefined){return}
+    // console.log(keyframe_data)
     const transform_datas = []
     if(keyframe_data.posx !== undefined){
-      transform_datas.push(`translateX(${keyframe_data.posx || 0}px)`)
+      const posx = keyframe_data.posx || 0
+      transform_datas.push(`translateX(${posx}px)`)
     }
     if(keyframe_data.posy !== undefined){
-      transform_datas.push(`translateY(${keyframe_data.posy || 0}px)`)
+      const posy = keyframe_data.posy || 0
+      transform_datas.push(`translateY(${posy}px)`)
     }
+
     if(keyframe_data.posz !== undefined){
-      transform_datas.push(`translateZ(${keyframe_data.posz || 0}px)`)
+      const posz = keyframe_data.posz || 0
+      transform_datas.push(`translateZ(${posz}px)`)
     }
+    
     if(keyframe_data.scale !== undefined){
-      transform_datas.push(`scale(${keyframe_data.scale || 0})`)
+      const scale = keyframe_data.scale || 0
+      transform_datas.push(`scale(${scale})`)
     }
     if(keyframe_data.rotate !== undefined){
-      transform_datas.push(`rotate(${keyframe_data.rotate || 0}deg)`)
+      const rotate = keyframe_data.rotate || 0
+      transform_datas.push(`rotate(${rotate}deg)`)
     }
     return transform_datas.join(' ')
   }

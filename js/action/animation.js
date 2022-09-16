@@ -1,5 +1,6 @@
 import { Options }         from '../options.js'
 import * as ActionCommon   from '../action/common.js'
+import { ModelsElementsTransform } from '../models/elements/transform.js'
 
 export class Animation{
   constructor(name , uuid){
@@ -178,6 +179,7 @@ export class Animation{
     const pic = Options.elements.get_uuid_view(this.uuid)
     const transforms = this.get_transform_css()
     const styles     = this.get_style_css()
+    // console.log(transforms)
     pic.style.setProperty('transform',transforms,'')
     if(styles.length){
       for(let style of styles){
@@ -188,33 +190,13 @@ export class Animation{
   get_transform_css(){
     const area   = Options.elements.get_animation_lists()
     const inputs = area.querySelectorAll(`input[data-mode='input']`)
-    const transforms = []
+    const datas = {}
     for(let input of inputs){
-      const value  = input.value || 0
-      switch(this.get_type(input)){
-        case 'rotate':
-          transforms.push(`rotate(${value}deg)`)
-          break
-
-        case 'posx':
-          transforms.unshift(`translateX(${value}px)`)
-          break
-
-        case 'posy':
-          transforms.unshift(`translateY(${value}px)`)
-          break
-
-        case 'posz':
-          transforms.unshift(`translateZ(${value}px)`)
-          break
-
-        case 'scale':
-          transforms.unshift(`scale(${value})`)
-          break
-
-      }
+      const key = this.get_type(input)
+      const value =  input.value || 0
+      datas[key] = value
     }
-    return transforms.join(' ')
+    return new ModelsElementsTransform(datas).value
   }
 
   get_style_css(){

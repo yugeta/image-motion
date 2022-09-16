@@ -5,6 +5,7 @@ import * as ShapeCommon  from '../shape/common.js'
 import { SoundKey }      from '../action/sound_key.js'
 import { Shape }         from '../shape/shape.js'
 import { ShapePointsReset }    from '../shape/points_reset.js'
+import { ModelsElementsTransform } from '../models/elements/transform.js'
 
 export class Play{
 
@@ -59,6 +60,7 @@ export class Play{
       const styles    = this.get_style_css(animation_name , uuid , per , types)
       const pic       = Options.elements.get_uuid_view(uuid)
       if(transform){
+        // console.log(transform)
         pic.style.setProperty('transform' , transform , '')
       }
       if(styles.length){
@@ -88,32 +90,11 @@ export class Play{
   }
   
   get_transform_css(name , uuid , per , types){
-    const transforms = []
+    const datas = {}
     for(let type of types){
-      const value = Options.datas.get_animation_name_data_between(name , uuid , per , type)
-      switch(type){
-        case 'rotate':
-          transforms.push(`rotate(${value}deg)`)
-          break
-
-        case 'posx':
-          transforms.unshift(`translateX(${value}px)`)
-          break
-
-        case 'posy':
-          transforms.unshift(`translateY(${value}px)`)
-          break
-
-        case 'posz':
-          transforms.unshift(`translateZ(${value}px)`)
-          break
-
-        case 'scale':
-          transforms.unshift(`scale(${value})`)
-          break
-      }
+      datas[type] = Options.datas.get_animation_name_data_between(name , uuid , per , type)
     }
-    return transforms.join(' ')
+    return new ModelsElementsTransform(datas).value
   }
   get_style_css(name , uuid , per , types){
     const styles = []
