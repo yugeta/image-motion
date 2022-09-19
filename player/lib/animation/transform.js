@@ -3,7 +3,7 @@ export class Transform{
     this.options = options || {}
     this.anims   = this.options.data.animations
     this.set()
-    console.log(this.options.data.animations)
+    // console.log(this.options.data.animations)
   }
 
   set(){
