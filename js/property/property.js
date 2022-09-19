@@ -111,6 +111,16 @@ export class Property{
       this.chenge_num.bind(this , 'h')
     )
     Options.event.set(
+      area.querySelector(`input[name='cx']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'cx')
+    )
+    Options.event.set(
+      area.querySelector(`input[name='cy']`) , 
+      'input' , 
+      this.chenge_num.bind(this , 'cy')
+    )
+    Options.event.set(
       area.querySelector(`input[name='order']`) , 
       'input' , 
       this.chenge_num.bind(this , 'order')
@@ -160,6 +170,12 @@ export class Property{
       Options.img_datas[uuid].cache.w = data.w
       Options.img_datas[uuid].cache.h = data.h
       Options.img_datas[uuid].set_image_size()
+    }
+    else if(key === 'cx' || key === 'cy'){
+      const data = Options.datas.get_data(uuid)
+      Options.img_datas[uuid].cache.cx = data.cx
+      Options.img_datas[uuid].cache.cy = data.cy
+      Options.img_datas[uuid].set_center_pos()
     }
   }
 }
