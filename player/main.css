@@ -45,6 +45,11 @@
   /* overflow:hidden; */
 }
 
+[data-service='image-motion'] .pic > .shape img{
+  min-width:100%;
+  min-height:100%;
+}
+
 /* [data-service='image-motion']{
   visibility:hidden;
 }
