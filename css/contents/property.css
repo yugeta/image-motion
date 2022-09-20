@@ -82,9 +82,23 @@
   fill:var(--color-font);
   cursor:pointer;
 }
-.contents [name='property'] .info .trash:hover{
+.contents [name='property'] .info .trash:hover,
+.contents [name='property'] .info .reset:hover{
   fill:white;
 }
+
+.contents [name='property'] .info .reset{
+  position:absolute;
+  top:4px;
+  right:calc(8px + var(--size-trash));
+  display:inline-block;
+  width:var(--size-trash);
+  fill:var(--color-font);
+  cursor:pointer;
+}
+
+
+
 /* .contents [name='property'] .info .buttons{
   text-align:right;
 }

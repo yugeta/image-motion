@@ -76,6 +76,7 @@ export class Lists{
   add_parent(data , template){
     if(data.parent){
       const parent = Options.elements.get_list_item(data.parent)
+      if(!parent){return}
       // console.log(data.uuid,parent)
       parent.querySelector(':scope > .sub-lists').insertAdjacentHTML('beforeend' , template)
     }
