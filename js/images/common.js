@@ -90,8 +90,9 @@ export function img_unselect(){
   }
 }
 
-function get_current_image_uuid(){
+export function get_current_image_uuid(){
   const active_list = document.querySelector(`.over-left .lists [data-status='active']`)
+  if(!active_list){return}
   return active_list.getAttribute('data-uuid')
 }
 
