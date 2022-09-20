@@ -151,13 +151,13 @@ export class Images{
     // Options.view.set_margin(this.cache.pic)
   }
 
-  set_image_center(){
-    const center = this.cache.pic
-    const cx = this.cache.cx || 0
-    const cy = this.cache.cy || 0
-    center.style.setProperty('top'  , `${cy}px` , '')
-    center.style.setProperty('left' , `${cx}px` , '')
-  }
+  // set_image_center(){
+  //   const center = this.cache.pic
+  //   const cx = this.cache.cx || 0
+  //   const cy = this.cache.cy || 0
+  //   center.style.setProperty('top'  , `${cy}px` , '')
+  //   center.style.setProperty('left' , `${cx}px` , '')
+  // }
 
   set_image_order(){
     const order = Number(this.cache.order) || 0
