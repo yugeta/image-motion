@@ -95,7 +95,7 @@ export class Images{
     this.options.data.images[data.num].shape_points = this.get_shape_points(data.uuid)
   }
 
-  set_shapes(data){
+  set_shapes(data){console.log(data)
     const table = this.get_table(data)
     const d ={
       num : 0,
