@@ -151,13 +151,13 @@ export class Images{
     // Options.view.set_margin(this.cache.pic)
   }
 
-  set_image_center(){
-    const center = this.cache.pic
-    const cx = this.cache.cx || 0
-    const cy = this.cache.cy || 0
-    center.style.setProperty('top'  , `${cy}px` , '')
-    center.style.setProperty('left' , `${cx}px` , '')
-  }
+  // set_image_center(){
+  //   const center = this.cache.pic
+  //   const cx = this.cache.cx || 0
+  //   const cy = this.cache.cy || 0
+  //   center.style.setProperty('top'  , `${cy}px` , '')
+  //   center.style.setProperty('left' , `${cx}px` , '')
+  // }
 
   set_image_order(){
     const order = Number(this.cache.order) || 0
@@ -303,10 +303,12 @@ export class Images{
       naturalHeight : img.naturalHeight,
     }
   }
-  // 古い画像との比較をする
+  
   set_renew_img_onload(uuid , before_data , e){
     const img = e.target
     const src = img.getAttribute('src')
+
+    // 古い画像との比較をする
     const current_data = this.get_image_data(img)
     if(current_data.naturalWidth  === before_data.naturalWidth
     && current_data.naturalHeight === before_data.naturalHeight){
@@ -315,6 +317,15 @@ export class Images{
     else{
       this.set_renew_img_resize(img , uuid)
     }
+
+    // サムネイル更新
+    this.set_renew_thumbnail(img , uuid)
+  }
+
+  set_renew_thumbnail(img , uuid){
+    const target = Options.elements.get_list_image(uuid)
+    if(!target){return}
+    target.src = img.src
   }
 
 }

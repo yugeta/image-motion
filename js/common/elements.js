@@ -149,6 +149,11 @@ export class Elements{
     return area.querySelectorAll(`[data-uuid]`)
   }
 
+  get_list_image(uuid){
+    const item = this.get_list_item(uuid)
+    return item.querySelector(`.img img`)
+  }
+
 
   // ----------
   // Header

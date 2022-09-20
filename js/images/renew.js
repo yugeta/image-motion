@@ -29,4 +29,8 @@ export class Renew{
     const elm = Options.elements.get_active_view()
     return elm ? elm.getAttribute('data-uuid') : null
   }
+
+  upload_thumbnail(){
+
+  }
 }
