@@ -1,6 +1,7 @@
 import { Options } from '../options.js'
 import { Active  } from './active.js'
 import { Shape   } from '../shape/shape.js'
+import { ShapePointsReset } from '../shape/points_reset.js'
 
 export function set_level(elm){
   
@@ -58,24 +59,10 @@ export function reset_style(){
   const datas  = Options.datas.get_all()
   for(let uuid in datas){
     Options.img_datas[uuid].reset_style()
-    // const shape = new Shape(uuid)
-    // if(shape.corner && shape.corner){
-    //   shape.corner.reset()
-    // }
-    // console.log(shape)
-    // reset_shape(uuid)
   }
+  // shapeリセット
+  new ShapePointsReset()
 }
-// export function reset_shape(uuid){
-//   if(!uuid){return}
-//   if(!Options.datas.get_shape_use(uuid)){return}
-//   console.log(uuid)
-//   const shape = new Shape(uuid)
-//   if(new Shape(uuid).corner
-//   && new Shape(uuid).corner.points){
-//     shape.corner.reset()
-//   }
-// }
 
 export function get_current_uuid(){
   const elm = Options.elements.get_active_view()
