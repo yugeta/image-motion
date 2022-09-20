@@ -254,7 +254,8 @@ export class Images{
     if(img){
       img.src = data.result
     }
-    // データ処理
+
+    // データ更新処理
     this.cache.src = data.result
   }
 
@@ -272,26 +273,37 @@ export class Images{
   }
 
   // shapeクリア , サイズクリア , cache(data)クリア
-  set_renew_img_resize(img , uuid){
-    this.cache.w = img.naturalWidth
-    this.cache.h = img.naturalHeight
+  set_renew_img_resize(){
+    const img = Options.elements.get_view_img(this.uuid)
+    this.cache.w  = img.naturalWidth
+    this.cache.h  = img.naturalHeight
+    this.cache.x  = 0
+    this.cache.y  = 0
+    this.cache.cx = 0
+    this.cache.cy = 0
     this.set_image_size()
-    this.set_cache()
+    // this.set_cache()
     this.set_center_pos()
     this.set_transform()
+
+    // property反映
+    Options.property.update(this.cache)
+
+    // shapeリセット
     if(Options.shape){
       // Options.shape.clear_shape()
       Options.shape.clear_shape_split()
       Options.shape.clear_shape_animation()
       Options.shape.clear_shape_use()
     }
+
     // timelineに表示されている場合は、表示削除する
     // ActionCommon.timeline_remake()
     const animation_name = ActionCommon.get_animation_name()
     if(Options.timeline
     && Options.timeline.name === animation_name
-    && Options.timeline.uuid === uuid){
-      Options.timeline = new Timeline(animation_name , uuid)
+    && Options.timeline.uuid === this.uuid){
+      Options.timeline = new Timeline(animation_name , this.uuid)
     }
   }
 
@@ -304,28 +316,44 @@ export class Images{
     }
   }
   
+  // 画像差し替えを元画像のサイズを継続して行う。（サイズが変わる場合はサイズのリセットを手動で行ってもらう※その差異shapeもリセットされる。）
   set_renew_img_onload(uuid , before_data , e){
     const img = e.target
     const src = img.getAttribute('src')
 
     // 古い画像との比較をする
-    const current_data = this.get_image_data(img)
-    if(current_data.naturalWidth  === before_data.naturalWidth
-    && current_data.naturalHeight === before_data.naturalHeight){
+    // const current_data = this.get_image_data(img)
+    // if(current_data.naturalWidth  === before_data.naturalWidth
+    // && current_data.naturalHeight === before_data.naturalHeight){
       this.set_renew_img_same(uuid , src)
-    }
-    else{
-      this.set_renew_img_resize(img , uuid)
-    }
+    // }
+    // else{
+    //   this.set_renew_img_resize()
+    // }
 
-    // サムネイル更新
+    this.set_data_natural_size(img , uuid)
     this.set_renew_thumbnail(img , uuid)
   }
 
+  // サムネイル更新
   set_renew_thumbnail(img , uuid){
     const target = Options.elements.get_list_image(uuid)
     if(!target){return}
     target.src = img.src
+  }
+
+  // naturalサイズの更新
+  set_data_natural_size(img , uuid){
+    // console.log(img.naturalWidth,img.naturalHeight)
+    Options.img_datas[uuid].cache.nw = img.naturalWidth
+    Options.img_datas[uuid].cache.nh = img.naturalHeight
+    // console.log(Options.img_datas[uuid].cache)
+  }
+
+  set_size_reset(uuid , width , height){
+    const pic = Options.elements.get_view_elms(current_uuid)
+    Options.img_datas[uuid].cache.w = img.width
+    Options.img_datas[uuid].cache.h = img.height
   }
 
 }

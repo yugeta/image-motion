@@ -1,4 +1,5 @@
 import { Options } from '../options.js'
+import * as ImageCommon from '../images/common.js'
 
 export function mousedown(e){
   const area = Options.elements.upper_selector(e.target , `[name='property']`)
@@ -9,6 +10,11 @@ export function mousedown(e){
   if(trash){
     const uuid = Options.elements.get_info_uuid()
     Options.property_trash = uuid
+  }
+
+  const reset = Options.elements.upper_selector(e.target , `[name='property'] .reset`)
+  if(reset){
+    ImageCommon.image_reset()
   }
 }
 
@@ -30,3 +36,4 @@ function del_item(){
   }
   delete Options.property_trash
 }
+

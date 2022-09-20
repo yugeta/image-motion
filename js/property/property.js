@@ -63,6 +63,7 @@ export class Property{
 
   update_value(key , data){
     const input = Options.elements.get_info_form(key)
+    if(!input){return}
     switch(typeof data[key]){
       case 'number':
         input.value = this.number_format(data[key])

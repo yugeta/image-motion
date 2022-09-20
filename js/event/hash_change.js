@@ -1,5 +1,6 @@
 import { Options }       from '../options.js'
 import * as ActionCommon from '../action/common.js'
+import * as ImagesCommon  from '../images/common.js'
 
 export class HashChange{
   constructor(){
@@ -16,6 +17,9 @@ export class HashChange{
     const iframe = this.get_iframe()
     switch(this.hash){
       case 'upload':
+        this.property_view()
+        break
+
       case 'action':
       // case 'sound':
         break
@@ -59,6 +63,12 @@ export class HashChange{
   property_shape_clear(){
     if(!Options.shape){return}
     Options.shape.clear_property()
+  }
+
+  property_view(){
+    const uuid = ImagesCommon.get_current_image_uuid()
+    if(!uuid){return}
+    Options.property.view(uuid)
   }
 
 

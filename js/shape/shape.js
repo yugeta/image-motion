@@ -275,6 +275,7 @@ export class Shape{
 
   // pointを定位置に戻す
   click_reset(){
+    if(!this.corner){return}
     this.corner.reset()
     const images = Options.elements.get_shape_images(this.uuid)
     for(let img of images){

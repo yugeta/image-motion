@@ -2,6 +2,7 @@ import { Options } from '../options.js'
 import { Active  } from './active.js'
 import { Shape   } from '../shape/shape.js'
 import { ShapePointsReset } from '../shape/points_reset.js'
+import { Property } from '../property/property.js'
 
 export function set_level(elm){
   
@@ -88,3 +89,41 @@ export function img_unselect(){
     delete Options.shape
   }
 }
+
+export function get_current_image_uuid(){
+  const active_list = document.querySelector(`.over-left .lists [data-status='active']`)
+  if(!active_list){return}
+  return active_list.getAttribute('data-uuid')
+}
+
+
+export function image_reset(){
+  if(!confirm('画像情報をリセットしてもよろしいですか？（shapeデータが失われます。）')){return}
+  const current_uuid = get_current_image_uuid()
+  Options.img_datas[current_uuid].set_renew_img_resize()
+
+  // // size reset
+  // 
+  // const target_image = Options.elements.get_view_img(current_uuid)
+  // Options.img_datas[current_uuid].cache.x = 0
+  // Options.img_datas[current_uuid].cache.y = 0
+  // Options.img_datas[current_uuid].cache.w = target_image.naturalWidth
+  // Options.img_datas[current_uuid].cache.h = target_image.naturalHeight
+  // Options.img_datas[current_uuid].set_image_size()
+  // Options.img_datas[current_uuid].cache.cx = 0
+  // Options.img_datas[current_uuid].cache.cy = 0
+  // Options.img_datas[current_uuid].set_center_pos()
+  
+  // // property反映
+  // Options.property.update(Options.img_datas[current_uuid].cache)
+
+  // // shape reset
+  // if(Options.shape){
+  //   Options.shape.click_reset()
+  // }
+  // new ShapePointsReset()
+
+  // // shape data delete
+
+}
+

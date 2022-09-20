@@ -25,7 +25,7 @@ export class Common{
     const hash = location.hash
     return hash.replace(/^#/ , '')
   }
-  set_hash(hash){console.log(hash)
+  set_hash(hash){
     const url = location.href.split('#')[0]
     document.body.setAttribute('data-hash' , hash)
     location.href = url +'#'+ hash
