@@ -121,7 +121,7 @@ export function animation_name_list_decide(){
     Options.datas.add_animation(name)
   }
 
-  // 切り替え後一度transformをクリアする
+  // 切り替え後一度transformをクリアする(shapeもクリアする)
   ImageCommon.reset_style()
 
   // view表示
@@ -143,11 +143,6 @@ export function animation_name_list_decide(){
   if(Options.animation){
     Options.animation.change_timeline()
   }
-
-  // // 全imageのshapeリセット処理
-  // for(){
-  //   new Shape(uuid)
-  // }
 }
 
 // export function get_animation_data(){

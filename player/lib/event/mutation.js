@@ -170,8 +170,12 @@ export class Mutation{
       if(!pic){continue}
 
       const styles = this.get_styles(data.uuid)
-      pic.style.setProperty('transform' , styles.transform || '' , '')
-      pic.style.setProperty('opacity'   , styles.opacity , '')
+      if(styles.transform !== null){
+        pic.style.setProperty('transform' , styles.transform || '' , '')
+      }
+      if(styles.opacity !== null){
+        pic.style.setProperty('opacity'   , styles.opacity , '')
+      }
 
       // shape
       const shapes = this.get_shape_elements(pic)
@@ -186,14 +190,13 @@ export class Mutation{
   get_styles(uuid){
     return {
       transform : this.get_transform(uuid , this.cache.keyframe),
-      opacity   : this.get_opacity(  uuid , this.cache.keyframe),
+      opacity   : this.get_opacity(uuid , this.cache.keyframe),
     }
   }
 
   get_transform(uuid , keyframe){
     const keyframe_data = this.get_keyframe_data(uuid , keyframe)
-    if(keyframe_data === undefined){return}
-    // console.log(keyframe_data)
+    if(keyframe_data === undefined){return null}
     const transform_datas = []
     if(keyframe_data.posx !== undefined){
       const posx = keyframe_data.posx || 0
@@ -222,8 +225,8 @@ export class Mutation{
 
   get_opacity(uuid , keyframe){
     const keyframe_data = this.get_keyframe_data(uuid , keyframe)
-    if(keyframe_data === undefined){return 1}
-    if(keyframe_data.opacity === undefined){return 1}
+    if(keyframe_data === undefined
+    || keyframe_data.opacity === undefined){return null}
     return keyframe_data.opacity || 0
   }
 

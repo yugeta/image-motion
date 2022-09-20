@@ -1,8 +1,9 @@
 export class Transform{
   constructor(options){
     this.options = options || {}
-    this.anims   = this.options.data.animations
+    // this.anims   = this.options.data.animations
     this.set()
+    // this.delete_same_keyframes()
     // console.log(this.options.data.animations)
   }
 
@@ -39,6 +40,7 @@ export class Transform{
     for(let keyframe in keyframes){
       keyframe = Number(keyframe)
       if(keyframes[keyframe][type] === undefined){continue}
+
       datas.push({
         keyframe : keyframe,
         type     : type,
@@ -138,6 +140,31 @@ export class Transform{
         return 1
       default:
         return 0
+    }
+  }
+
+  // 同じ値のkeyframeの羅列を削除する。（データ容量軽減処理）
+  delete_same_keyframes(){
+    const animations = this.options.data.animations
+    for(let animation_name in animations){
+      for(let image_uuid in animations[animation_name].items){
+        const keyframes = animations[animation_name].items[image_uuid].keyframes
+        if(!keyframes){continue}
+        let prev_value = null
+        for(let keyframe in keyframes){
+          const value = JSON.stringify(keyframes[keyframe])
+          if(prev_value === null){
+            prev_value = value
+            continue
+          }
+          if(value === prev_value){
+            delete keyframes[keyframe]
+          }
+          else{
+            prev_value = value
+          }
+        }
+      }
     }
   }
 
