@@ -26,7 +26,7 @@ export class SettingInit{
     const selector = this.options.selector
     if(!selector){return}
     const elm = document.querySelector(selector)
-    elm.style.setProperty('visibility','hidden','')
+    // elm.style.setProperty('visibility','hidden','')
     return elm
   }
 

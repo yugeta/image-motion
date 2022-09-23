@@ -11,9 +11,9 @@ export class Mutation{
   set_event(){
     new MutationObserver(this.change.bind(this))
     .observe(this.options.root , {
-    attributes : true, 
-    childList  : false,
-    subtree    : false,
+      attributes : true, 
+      childList  : false,
+      subtree    : false,
     })
   }
 
