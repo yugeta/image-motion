@@ -110,7 +110,8 @@
           "keyframes": {
             "0": {
               "rotate": 10,
-              "opacity": 0.5
+              "opacity": 0.5,
+              "scale": 0.5
             },
             "50": {
               "rotate": 30
