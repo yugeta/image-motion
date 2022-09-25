@@ -1,4 +1,5 @@
 import { Matrix }    from './matrix.js'
+import { MatrixCanvas }    from './matrix_canvas.js'
 
 export class Shape{
   constructor(options){
@@ -74,11 +75,13 @@ export class Shape{
         value  = this.get_keyframe_value(datas , start , end , rate)
       }
       else{
-        status = 'exist'
+        status = 'no-exist'
         start  = keyframe
         end    = keyframe
-        value  = data.value
-        rate   = null
+        // value  = data.value
+        // rate   = null
+        // rate   = this.get_keyframe_rate(start , end , keyframe)
+        value  = this.get_keyframe_value(datas , start , end , rate)
       }
       new_datas[keyframe] = {
         status : status,
@@ -123,13 +126,18 @@ export class Shape{
     const end_data   = datas.find(e => e.keyframe === end  ) || {}
     const start_val  = start_data.value
     const end_val    = end_data.value
-    if(start === null){
-      return end_val
-    }
-    else if(end === undefined){
-      return start_val
-    }
-    else if(!rate){
+    // if(start === null){
+    //   // console.log('end',end_val)
+    //   return end_val
+    // }
+    // else if(end === undefined){
+    //   // console.log('start',start_val)
+    //   return start_val
+    // }
+    // else if(!rate){
+    //   return start
+    // }
+    if(!rate){
       return start
     }
     else{
@@ -141,6 +149,7 @@ export class Shape{
 
   get_martix_datas(start_points , end_points , rate , uuid){
     const matrix_datas = []
+    const canvas_datas = []
     const point_datas = []
     for(let num=0; num<start_points.length; num++){
       const next_positions = this.get_shape_next_points(start_points[num] , end_points[num] , rate)
@@ -149,10 +158,13 @@ export class Shape{
       const matrix = new Matrix(base_points , next_positions)
       matrix_datas.push(matrix)
       point_datas.push(next_positions)
+      const canvas = new MatrixCanvas(base_points , next_positions)
+      canvas_datas.push(canvas)
     }
     return {
       matrix : matrix_datas,
       points : point_datas,
+      canvas : canvas_datas,
     }
   }
 

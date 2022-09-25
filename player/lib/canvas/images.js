@@ -209,7 +209,6 @@ export class Images{
       const transform = this.get_transform(image_data.uuid , animation_name , keyframe)
       if(this.is_shape_use(image_data)){
         this.view_shape(transform)
-        // this.view_image(transform)
       }
       else{
         this.view_image(transform)
@@ -234,6 +233,7 @@ export class Images{
       r    : anim.rotate || 0,
       opacity : anim.opacity !== undefined ? anim.opacity : data.opacity,
       scale   : anim.scale   !== undefined ?  anim.scale  : data.scale,
+      matrix  : this.get_matrix_data(uuid , animation_name , keyframe),
     }
     if(data.parent){
       const parent_data = this.get_transform(data.parent , animation_name , keyframe)
@@ -262,6 +262,14 @@ export class Images{
     return res
   }
 
+  get_matrix_data(uuid , animation_name , keyframe){
+    if(!animation_name || keyframe === undefined){return}
+    const anim = this.get_animation_data(uuid , animation_name , keyframe)
+    if(anim && anim.shape){
+      return anim.shape.canvas
+    }
+  }
+
   // 画面を描き替えるためのflash処理
   canvas_clear(){
     this.ctx.clearRect(0, 0, this.elm.width, this.elm.height);
@@ -288,13 +296,28 @@ export class Images{
     this.ctx.translate(data.x || 0 , data.y || 0)
     this.ctx.rotate(r);
     this.ctx.scale(data.scale , data.scale)
-    this.ctx.drawImage(
-      data.elm,
-      data.ox,
-      data.oy,
-      data.w,
-      data.h,
-    )
+    if(data.clip){
+      this.ctx.drawImage(
+        data.elm,
+        data.clip.x,
+        data.clip.y,
+        data.clip.w,
+        data.clip.h,
+        data.ox,
+        data.oy,
+        data.w,
+        data.h,
+      )
+    }
+    else{
+      this.ctx.drawImage(
+        data.elm,
+        data.ox,
+        data.oy,
+        data.w,
+        data.h,
+      )
+    }
     if(data.scale !== 1){
       this.ctx.scale(1 / data.scale , 1 / data.scale)
     }
@@ -340,10 +363,16 @@ export class Images{
     const shapes = this.get_shape_points(data.data.uuid)
     // console.log(shapes)
     // 画像分割(clip)
+    // console.log(data.data.nw , data.elm.naturalWidth)
     const split = {
       w : data.w / data.data.shape_table.x,
       h : data.h / data.data.shape_table.y,
+      nw : data.elm.naturalWidth  / data.data.shape_table.x,
+      nh : data.elm.naturalHeight / data.data.shape_table.y,
+      // nw : data.nw  / data.data.shape_table.x,
+      // nh : data.nh/ data.data.shape_table.y,
     }
+    let num = 0
     for(let y=0; y<data.data.shape_table.y; y++){
       for(let x=0; x<data.data.shape_table.x; x++){
         const pos = this.rotate_pos(
@@ -351,8 +380,9 @@ export class Images{
           (split.h * y),
           data.r
         )
+        const new_img = this.create_matrix_image(data.elm , data.matrix , num)
         const temp = {
-          elm     : data.elm,
+          elm     : new_img,
           x       : data.x + pos.x,
           y       : data.y + pos.y,
           w       : split.w + (x === data.data.shape_table.x-1 ? 0 : 1),
@@ -363,10 +393,22 @@ export class Images{
           scale   : data.scale,
           opacity : data.opacity,
           matrix  : null,
+          clip    : {
+            w : split.nw,
+            h : split.nh,
+            x : split.nw * x,
+            y : split.nh * y,
+          },
         }
         this.view_image(temp)
+        num++
       }
     }
+  }
+
+  create_matrix_image(base_image , matrix , num){
+    if(!matrix || matrix[num] === undefined){return base_image}
+    return base_image
   }
 
   play(animation_name){
