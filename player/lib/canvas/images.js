@@ -273,44 +273,26 @@ export class Images{
     if(data.parent){
       const parent_data = this.get_transform(data.parent , animation_name , keyframe)
       if(parent_data.r){
+        const diff = {
+          x : res.x + parent_data.ox,
+          y : res.y + parent_data.oy,
+        }
         const rotate_pos = this.rotate_pos(
-          res.x,
-          res.y,
+          diff.x,
+          diff.y,
           parent_data.r,
         )
-        // console.log(res.x - parent_data.x , res.y - parent_data.y)
-        // console.log(rotate_pos)
-        // console.log(parent_data,rotate_pos)
         res.x = parent_data.x + rotate_pos.x
         res.y = parent_data.y + rotate_pos.y
       }
       else{
-        res.x += parent_data.x
-        res.y += parent_data.y
+        res.x += parent_data.x + parent_data.ox
+        res.y += parent_data.y + parent_data.oy
       }
       res.r += parent_data.r
     }
     return res
   }
-  // get_animation_parent_transform(uuid , animation_name , keyframe){
-  //   const data = this.get_uuid2images(uuid)
-  //   if(!data || !data.parent || !animation_name || keyframe === undefined){return}
-  //   const my_anim = this.get_animation_data(uuid   , animation_name , keyframe)
-  //   if(!my_anim){return}
-  //   const my_rotate = my_anim.rotate || 0
-  //   const diff = this.get_parent_diff_pos(uuid)
-  //   const parent_rotate = this.get_parent_rotate(data.parent , animation_name , keyframe)
-  //   const trigonometric_function = this.rotatePoint2D(parent_rotate , diff.x , diff.y) // 三角関数
-  //   const res_data = {
-  //     uuid : uuid,
-  //     cx   : -data.cx,
-  //     cy   : -data.cy,
-  //     x    : trigonometric_function.x,
-  //     y    : trigonometric_function.y,
-  //     r    : my_rotate + parent_rotate,
-  //   }
-  //   return res_data
-  // }
 
   // 画面を描き替えるためのflash処理
   canvas_clear(){
