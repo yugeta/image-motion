@@ -182,22 +182,22 @@ export class Images{
   // }
   
   
-  // get_shape_points(uuid){
-  //   const shape_datas = this.options.data.shape[uuid]
-  //   const res = []
-  //   for(let num in shape_datas){
-  //     const shape_data = shape_datas[num]
-  //     const pos_datas = []
-  //     for(let i=0; i<shape_data.corners.length; i++){
-  //       pos_datas.push({
-  //         x : shape_data.corners[i].x,
-  //         y : shape_data.corners[i].y,
-  //       })
-  //     }
-  //     res.push(pos_datas)
-  //   }
-  //   return res
-  // }
+  get_shape_points(uuid){
+    const shape_datas = this.options.data.shape[uuid]
+    const res = []
+    for(let num in shape_datas){
+      const shape_data = shape_datas[num]
+      const pos_datas = []
+      for(let i=0; i<shape_data.corners.length; i++){
+        pos_datas.push({
+          x : shape_data.corners[i].x,
+          y : shape_data.corners[i].y,
+        })
+      }
+      res.push(pos_datas)
+    }
+    return res
+  }
 
   // ----------
   // View
@@ -207,13 +207,13 @@ export class Images{
     const images = this.get_sort_images(this.options.data.images)
     for(let image_data of images){
       const transform = this.get_transform(image_data.uuid , animation_name , keyframe)
-      this.view_image(transform)
-      // if(this.is_shape_use(data)){
-      //   this.view_image(data.element , transform)
-      // }
-      // else{
-      //   this.view_image(data.element , transform)
-      // }
+      if(this.is_shape_use(image_data)){
+        // this.view_shape(transform)
+        this.view_image(transform)
+      }
+      else{
+        this.view_image(transform)
+      }
     }
   }
   get_transform(uuid , animation_name , keyframe){
@@ -232,8 +232,8 @@ export class Images{
       w    : data.w,
       h    : data.h,
       r    : anim.rotate || 0,
-      opacity : anim.opacity || data.opacity,
-      scale   : anim.scale   || data.scale,
+      opacity : anim.opacity !== undefined ? anim.opacity : data.opacity,
+      scale   : anim.scale   !== undefined ?  anim.scale  : data.scale,
     }
     if(data.parent){
       const parent_data = this.get_transform(data.parent , animation_name , keyframe)
@@ -255,6 +255,7 @@ export class Images{
         res.y += parent_data.y + parent_data.oy
       }
       res.opacity = res.opacity * parent_data.opacity
+      res.scale   = res.scale   * parent_data.scale
       res.r += parent_data.r
     }
     return res
@@ -293,6 +294,9 @@ export class Images{
       data.w,
       data.h,
     )
+    if(data.scale !== 1){
+      this.ctx.scale(1 / data.scale , 1 / data.scale)
+    }
     this.ctx.rotate(-r || 0);
     this.ctx.translate(-data.x || 0 , -data.y || 0);
   }
@@ -331,7 +335,32 @@ export class Images{
   }
 
   view_shape(data){
-    console.log(data)
+    // console.log(data)
+    const shapes = this.get_shape_points(data.data.uuid)
+    // console.log(shapes)
+    // 画像分割(clip)
+    const split = {
+      w : data.w / data.data.shape_table.x,
+      h : data.h / data.data.shape_table.y,
+    }
+    for(let y=0; y<data.data.shape_table.y; y++){
+      for(let x=0; x<data.data.shape_table.x; x++){
+        const temp = {
+          elm : data.elm,
+          x : data.x + (split.w * x),
+          y : data.y + (split.h * y),
+          w : split.w,
+          h : split.h,
+          r : data.r,
+          ox : data.ox,
+          oy : data.oy,
+          scale : data.scale,
+          opacity : data.opacity,
+          matrix : null,
+        }
+        this.view_image(temp)
+      }
+    }
   }
 
   play(animation_name){
