@@ -109,7 +109,8 @@
         "9E4CD1E4-23D1-4732-AE24-D9D8E4E3A5AE": {
           "keyframes": {
             "0": {
-              "rotate": 10
+              "rotate": 10,
+              "opacity": 0.5
             },
             "50": {
               "rotate": 30

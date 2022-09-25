@@ -269,6 +269,7 @@ export class Images{
       w    : data.w,
       h    : data.h,
       r    : anim.rotate || 0,
+      opacity : anim.opacity || data.opacity,
     }
     if(data.parent){
       const parent_data = this.get_transform(data.parent , animation_name , keyframe)
@@ -289,9 +290,14 @@ export class Images{
         res.x += parent_data.x + parent_data.ox
         res.y += parent_data.y + parent_data.oy
       }
+      res.opacity = this.get_opacity(res.opacity , parent_data.opacity)
       res.r += parent_data.r
     }
     return res
+  }
+
+  get_opacity(my_opacity , parent_opacity){
+    return my_opacity * parent_opacity
   }
 
   // 画面を描き替えるためのflash処理
@@ -317,6 +323,7 @@ export class Images{
     // const transform = this.get_animation_transform(data.uuid , animation_name , keyframe)
     console.log(data)
     const r = this.deg(data.r || 0)
+    this.ctx.globalAlpha = data.opacity;
     this.ctx.translate(data.x || 0 , data.y || 0)
     this.ctx.rotate(r);
     this.ctx.drawImage(
