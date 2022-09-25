@@ -30,12 +30,12 @@ export class Images{
     for(let data of images){
       data.num = num++
       data.element = this.create_image(data)
-      data.transform = this.get_hierarchy_pos(data)
+      data.transform = this.get_transform(data)
     }
   }
 
   // 初期座標、サイズの設定
-  get_hierarchy_pos(data){
+  get_transform(data){
     data.r = data.rotate
     const pos = this.get_pos(data)
     return {
@@ -242,75 +242,15 @@ export class Images{
     animation_name = typeof animation_name === 'string' ? animation_name : ''
     this.canvas_clear()
     const images = this.get_sort_images(this.options.data.images)
-    for(let image_data of images){
-      const transform = this.get_transform(image_data.uuid , animation_name , keyframe)
-      this.view_image(transform)
-      // if(this.is_shape_use(data)){
-      //   this.view_image(data.element , transform)
-      // }
-      // else{
-      //   this.view_image(data.element , transform)
-      // }
-    }
-  }
-  get_transform(uuid , animation_name , keyframe){
-    const data = this.get_uuid2images(uuid)
-    const anim = this.get_animation_data(uuid , animation_name , keyframe) || {}
-    const res = {
-      data : data,
-      anim : anim,
-      elm  : data.element,
-      ox   : -data.cx,
-      oy   : -data.cy,
-      cx   : data.cx,
-      cy   : data.cy,
-      x    : data.x + data.cx + (anim.posx || 0),
-      y    : data.y + data.cy + (anim.posy || 0),
-      w    : data.w,
-      h    : data.h,
-      r    : anim.rotate || 0,
-    }
-    if(data.parent){
-      const parent_data = this.get_transform(data.parent , animation_name , keyframe)
-      if(parent_data.r){
-        const rotate_pos = this.rotate_pos(
-          res.x,
-          res.y,
-          parent_data.r,
-        )
-        // console.log(res.x - parent_data.x , res.y - parent_data.y)
-        // console.log(rotate_pos)
-        // console.log(parent_data,rotate_pos)
-        res.x = parent_data.x + rotate_pos.x
-        res.y = parent_data.y + rotate_pos.y
+    for(let data of images){
+      if(this.is_shape_use(data)){
+        this.view_image(data , animation_name , keyframe)
       }
       else{
-        res.x += parent_data.x
-        res.y += parent_data.y
+        this.view_image(data , animation_name , keyframe)
       }
-      res.r += parent_data.r
     }
-    return res
   }
-  // get_animation_parent_transform(uuid , animation_name , keyframe){
-  //   const data = this.get_uuid2images(uuid)
-  //   if(!data || !data.parent || !animation_name || keyframe === undefined){return}
-  //   const my_anim = this.get_animation_data(uuid   , animation_name , keyframe)
-  //   if(!my_anim){return}
-  //   const my_rotate = my_anim.rotate || 0
-  //   const diff = this.get_parent_diff_pos(uuid)
-  //   const parent_rotate = this.get_parent_rotate(data.parent , animation_name , keyframe)
-  //   const trigonometric_function = this.rotatePoint2D(parent_rotate , diff.x , diff.y) // 三角関数
-  //   const res_data = {
-  //     uuid : uuid,
-  //     cx   : -data.cx,
-  //     cy   : -data.cy,
-  //     x    : trigonometric_function.x,
-  //     y    : trigonometric_function.y,
-  //     r    : my_rotate + parent_rotate,
-  //   }
-  //   return res_data
-  // }
 
   // 画面を描き替えるためのflash処理
   canvas_clear(){
@@ -330,46 +270,48 @@ export class Images{
       }
     })
   }
+  get_uuid2images(uuid){
+    if(!uuid){return}
+    return this.options.data.images.find(e => e.uuid === uuid)
+  }
 
-  view_image(data){
-    // const transform = this.get_animation_transform(data.uuid , animation_name , keyframe)
-    console.log(data)
-    const r = this.deg(data.r || 0)
-    this.ctx.translate(data.x || 0 , data.y || 0)
-    this.ctx.rotate(r);
+  view_image(data , animation_name , keyframe){
+    if(!data.element){return}
+    const trans = this.get_animation_transform(data.uuid , animation_name , keyframe)
+    this.ctx.translate(trans.x , trans.y);
+    this.ctx.rotate(trans.r);
     this.ctx.drawImage(
-      data.elm,
-      data.ox,
-      data.oy,
-      data.w  || 0,
-      data.h  || 0,
+      data.element,
+      trans.cx,
+      trans.cy,
+      trans.w,
+      trans.h,
     )
-    this.ctx.rotate(-r || 0);
-    this.ctx.translate(-data.x || 0 , -data.y || 0);
+    this.ctx.rotate(-trans.r);
+    this.ctx.translate(-trans.x , -trans.y);
   }
 
-  get_animation_transform(uuid , animation_name , keyframe){
-    const data = this.get_uuid2images(uuid)
-    let res_data = {
-      cx : -data.cx,
-      cy : -data.cy,
-      x : data.transform.x + data.cx,
-      y : data.transform.y + data.cy,
-      w : data.w,
-      h : data.h,
-      r : 0
-    }
+  // get_animation_transform(data , animation_name , keyframe){
+  //   let res_data = {
+  //     cx : -data.cx,
+  //     cy : -data.cy,
+  //     x : data.transform.x + data.cx,
+  //     y : data.transform.y + data.cy,
+  //     w : data.w,
+  //     h : data.h,
+  //     r : 0
+  //   }
 
-    const transform = this.get_animation_parent_transform(data.uuid , animation_name , keyframe)
-    if(transform){
-      // console.log(transform)
-      res_data.x = transform.x
-      res_data.y = transform.y
-      res_data.r = transform.r
-    }
+  //   const anim = this.get_animation_rotate(data , animation_name , keyframe)
+  //   if(anim){
+  //     console.log(anim)
+  //     res_data.x = anim.x
+  //     res_data.y = anim.y
+  //     res_data.r = anim.r
+  //   }
 
-    return res_data
-  }
+  //   return res_data
+  // }
 
   get_animation_data(uuid , animation_name , keyframe){
     if(!uuid || !animation_name || !keyframe === undefined){return}
@@ -386,36 +328,26 @@ export class Images{
     }
   }
 
-  get_uuid2images(uuid){
-    if(!uuid){return}
-    // console.log(this.options.data.images)
-    return this.options.data.images.find(e => e.uuid === uuid)
-  }
-
-  get_animation_parent_transform(uuid , animation_name , keyframe){
+  get_animation_transform(uuid , animation_name , keyframe){
     const data = this.get_uuid2images(uuid)
-    if(!data || !data.parent || !animation_name || keyframe === undefined){return}
-    const my_anim = this.get_animation_data(uuid   , animation_name , keyframe)
-    if(!my_anim){return}
-    const my_rotate = my_anim.rotate || 0
-    const diff = this.get_parent_diff_pos(uuid)
-    const parent_rotate = this.get_parent_rotate(data.parent , animation_name , keyframe)
-    const trigonometric_function = this.rotatePoint2D(parent_rotate , diff.x , diff.y) // 三角関数
+    // const my_anim = this.get_animation_data(uuid   , animation_name , keyframe)
+    // if(!my_anim){return}
     const res_data = {
-      uuid : uuid,
-      cx   : -data.cx,
-      cy   : -data.cy,
-      x    : trigonometric_function.x,
-      y    : trigonometric_function.y,
-      r    : my_rotate + parent_rotate,
+      cx : -data.cx,
+      cy : -data.cy,
+      x  : data.x + data.cx || 0,
+      y  : data.y + data.cy || 0,
+      // r  : my_anim.rotate   || 0,
     }
-
-    // const parent_data      = this.get_animation_data(data.parent , animation_name , keyframe)
-    // const parent_transform = this.get_animation_rotate(data.parent , animation_name , keyframe)
-    // if(parent_transform){
-    //   res_data.x += parent_transform.x
-    //   res_data.y += parent_transform.y
-    //   // res_data.r += parent_rotate.r
+    const add_data = this.get_animation_transform(data.uuid , animation_name , keyframe)
+    // if(data && animation_name && keyframe !== undefined){
+    //   const parent_data      = this.get_animation_data(data.parent , animation_name , keyframe)
+    //   const parent_transform = this.get_animation_transform(parent_data , animation_name , keyframe)
+    //   if(parent_data && parent_transform){
+    //     res_data.x += parent_transform.x - data.cx
+    //     res_data.y += parent_transform.y - data.cy
+    //     res_data.r += parent_transform.r
+    //   }
     // }
 
     return res_data
@@ -445,19 +377,6 @@ export class Images{
     //   x : new_pos.x + parent_transform.x,
     //   y : new_pos.y + parent_transform.y,
     //   r : (my_anim.rotate || 0) + (parent_anim.rotate || 0),
-    // }
-  }
-
-  get_parent_diff_pos(uuid){
-    const my_data     = this.get_uuid2images(uuid)
-    const parent_data = this.get_uuid2images(my_data.parent) || {x:0,y:0,cx:0,cy:0}
-    return{
-      x : (my_data.x + my_data.cx) - (parent_data.x + parent_data.cx),
-      y : (my_data.y + my_data.cy) - (parent_data.y + parent_data.cy),
-    }
-    // return{
-    //   x : (parent_data.x + parent_data.cx) - (my_data.x + my_data.cx),
-    //   y : (parent_data.y + parent_data.cy) - (my_data.y + my_data.cy),
     // }
   }
   // get_animation_rotate(data , animation_name , keyframe){
@@ -491,25 +410,14 @@ export class Images{
   //   }
   // }
 
-  get_parent_rotate(uuid , animation_name , keyframe){
-    const my_image = this.get_uuid2images(uuid)
-    const my_data  = this.get_uuid2images(uuid)
-    let rotate = my_data.rotate || 0
-    if(my_image.parent){
-      const parent_anim = this.get_animation_data(my_image.uuid   , animation_name , keyframe)
-      rotate += parent_anim.rotate
-    }
-    return rotate
-  }
-
   // 回転角度による子階層の座標の求め方
-  rotate_pos(x, y, r) {
-    r = this.deg(r)
-    var sin = Math.sin(r)
-    var cos = Math.cos(r)
+  rotatePoint2D(r, x, y) {
+    var sin = Math.sin(r * (Math.PI / 180))
+    var cos = Math.cos(r * (Math.PI / 180))
     return {
       x : x * cos - y * sin,
       y : x * sin + y * cos,
+      r : r,
     }
   }
 
@@ -520,10 +428,6 @@ export class Images{
 
   play(animation_name){
     this.view(animation_name , 0)
-  }
-
-  deg(r){
-    return r * Math.PI / 180
   }
 
 }
