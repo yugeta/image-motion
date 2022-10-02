@@ -21,12 +21,27 @@ export class MatrixCanvas{
     }
     const v2  = sylvester.$V(V)
     const ans = sylvester.$M(M).inv().x(v2);
-    this.matrix3d = this.get_answer(ans)
+    this.ans = ans
+
+    // const v2  = sylvester.$V(V)
+    // const ans = sylvester.$M(M).inv().x(v2);
+    // const N = [];
+    // N.push([ans.e(1), ans.e(2), ans.e(3)]);
+    // N.push([ans.e(4), ans.e(5), ans.e(6)]);
+    // N.push([ans.e(7), ans.e(8), 1]);
+    // var ans_i = sylvester.$M(N).inv();
+    // this.ans = ans_i.elements
+    // console.log(ans_i)
+
+    // console.log(sylvester.$M(M).inspect());
+    // console.log(sylvester.$V(V).inspect());
+    // console.log(ans.inspect());
+    
+    // this.transform = this.get_answer(ans)
     // this.perspective = 1
   }
 
   get_answer(ans){
-    const z = 1
     const a = ans.e(1)
     const b = ans.e(2)
     const c = ans.e(3)
@@ -35,11 +50,12 @@ export class MatrixCanvas{
     const f = ans.e(6)
     const g = ans.e(7)
     const h = ans.e(8)
+    const z = 1
     return [
       [a,d,g,0],
       [b,e,h,0],
-      [c,f,1,0],
-      [0,0,0,1],
+      [c,f,z,0],
+      [0,0,0,z],
     ]
   }
 

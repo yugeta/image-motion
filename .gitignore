@@ -1,7 +1,19 @@
-plugin
-
-data/*
+_bak
 .DS_Store
 Thumbs.db
+# data/session
+.git
+.bak
+
+/data/news.json
+# data/research
+# data/about.json
+/data/links.json
+# data/qa.json
+# data/research.json
+# data/user.json
+# /data/
+# !/data/user.json
+# !/data/download
 trash
-_*
+
