@@ -77,6 +77,11 @@ export class Event {
      Options.control.save,
     )
     this.set(
+      document.querySelector(`header .text-menu .lists .item[data-mode='image_animation_save']`) , 
+      'click',
+     Options.control.image_animation_save,
+    )
+    this.set(
       document.querySelector(`header .text-menu .lists .item[data-mode='load']`) , 
       'click',
       Options.control.load,

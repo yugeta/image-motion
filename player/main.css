@@ -11,9 +11,6 @@
   display:block;
   perspective: none;
   transform-style:preserve-3d;
-
-  /* transition-property : transform;
-  transition-duration : var(--setting-duration); */
 }
 
 [data-service='image-motion'] .pic > img{
@@ -23,12 +20,6 @@
 }
 
 /* Shape */
-/* [data-service='image-motion'] .pic[data-shape='1'] > img{
-  display:none;
-}
-[data-service='image-motion'] .pic:not([data-shape='1']) > .shape{
-  display:none;
-} */
 [data-service='image-motion'] .pic > .shape{
   width:100%;
   height:100%;
@@ -39,10 +30,7 @@
   overflow:hidden;
 }
 [data-service='image-motion'] .pic > .shape > .shape-item > *{
-  /* width:calc(100% + 1px);
-  height:calc(100% + 1px); */
   position:absolute;
-  /* overflow:hidden; */
 }
 
 [data-service='image-motion'] .pic > .shape img{
@@ -50,9 +38,10 @@
   min-height:100%;
 }
 
-/* [data-service='image-motion']{
-  visibility:hidden;
+
+
+[data-service='image-motion'][data-view-type='image'] > .scale{
+  display:block;
+  width:100%;
+  height:100%;
 }
-[data-service='image-motion'][data-status='viewed']{
-  visibility:visible;
-} */

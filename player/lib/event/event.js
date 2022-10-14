@@ -1,4 +1,4 @@
-import { Matrix }   from '../animation/matrix.js'
+import { Matrix }   from '../html/matrix.js'
 import { Mutation } from './mutation.js'
 
 export class Event{

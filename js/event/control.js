@@ -1,5 +1,6 @@
 import { Options     }   from '../options.js'
 import { Save        }   from '../data/save.js'
+import { ImageAnimationSave } from '../data/image_animation_save.js'
 import { Load        }   from '../data/load.js'
 import { New         }   from '../data/new.js'
 import * as ImageEvent   from '../images/event.js'
@@ -15,11 +16,13 @@ export class Control{
     new Save()
   }
   load(){
-    // Options.header.open_file_menu()
     new Load()
   }
   new(){
     new New()
+  }
+  image_animation_save(){
+    new ImageAnimationSave()
   }
 
   resize(e){

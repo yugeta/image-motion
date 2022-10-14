@@ -1,19 +1,21 @@
-import { Options }  from '../../options.js'
+import { Options }  from './options.js'
 import { Uuid }     from './uuid.js'
+import { On }      from '../event/on.js'
 
-export class SettingInit{
+export class Init{
   constructor(options){
     this.options = JSON.parse(JSON.stringify(Options))
     this.set_options(options)
     this.options.root   = this.get_root()
     this.options.scale  = this.set_scale()
     this.set_uuid()
+    this.options.on     = new On()
   }
 
   // 初期設定
   set_options(options){
     if(!options){return}
-    if(!options.file && !options.data){return}
+    if(!options.file && !options.files && !options.data){return}
     if(!options.selector){return}
     const datas = {}
     for(let i in options){
@@ -26,7 +28,6 @@ export class SettingInit{
     const selector = this.options.selector
     if(!selector){return}
     const elm = document.querySelector(selector)
-    elm.style.setProperty('visibility','hidden','')
     return elm
   }
 
