@@ -3,10 +3,14 @@ export class Gap{
   constructor(options , animation_name){
     this.options = options
     this.animation_name = animation_name
-    this.datas = options.data.transform_animation[animation_name]
     this.gap_tmp = {min:{x:0,y:0},max:{x:0,y:0}}
     this.set()
+    // console.log(this.datas[0]['B3ED585C-CF15-48AA-8D21-F07CB5974E32'])
   }
+  get datas(){
+    return this.options.data.transform_animation[this.animation_name]
+  }
+
   set(){
     for(let keyframe in this.datas){
       for(let uuid in this.datas[keyframe]){

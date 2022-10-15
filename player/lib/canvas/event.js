@@ -112,6 +112,7 @@ export class Event{
       this.play_sound()
     }
     requestAnimationFrame(this.play.bind(this))
+    // setTimeout(this.play.bind(this) , 300)
   }
 
   // keyframe_number

@@ -17,7 +17,7 @@ export class Transform{
     return this.transform.image
   }
   get rotate(){
-    return this.deg(this.transform.rotate)
+    return this.deg(this.transform.rotate || 0)
   }
   get scale(){
     return this.transform.scale
@@ -82,7 +82,7 @@ export class Transform{
     const left_top = this.rotate_pos(
       this.transform.ox * this.transform.scale + shape_gap.min.x,
       this.transform.oy * this.transform.scale + shape_gap.min.y,
-      this.transform.rotate,
+      this.transform.rotate || 0,
     )
     this.put_gap_tmp(left_top)
 
@@ -90,7 +90,7 @@ export class Transform{
     const right_top = this.rotate_pos(
       this.transform.ox * this.transform.scale + this.transform.w * this.transform.scale + shape_gap.max.x,
       this.transform.oy * this.transform.scale + shape_gap.min.y,
-      this.transform.rotate,
+      this.transform.rotate || 0,
     )
     this.put_gap_tmp(right_top)
 
@@ -98,7 +98,7 @@ export class Transform{
     const left_bottom = this.rotate_pos(
       this.transform.ox * this.transform.scale + shape_gap.min.x,
       this.transform.oy * this.transform.scale + this.transform.h * this.transform.scale + shape_gap.max.y,
-      this.transform.rotate,
+      this.transform.rotate || 0,
     )
     this.put_gap_tmp(left_bottom)
 
@@ -106,7 +106,7 @@ export class Transform{
     const right_bottom = this.rotate_pos(
       this.transform.ox * this.transform.scale + this.transform.w * this.transform.scale + shape_gap.max.x,
       this.transform.oy * this.transform.scale + this.transform.h * this.transform.scale + shape_gap.max.x,
-      this.transform.rotate,
+      this.transform.rotate || 0,
     )
     this.put_gap_tmp(right_bottom)
   }
@@ -150,8 +150,10 @@ export class Transform{
       h            : data.h   || 0,
       // x            : data.x + data.cx + (anim.posx || 0),
       // y            : data.y + data.cy + (anim.posy || 0),
-      x            : data.x + data.cx + (this.get_value(uuid , 'posx') || 0),
-      y            : data.y + data.cy + (this.get_value(uuid , 'posy') || 0),
+      x            : ((data.x || 0) + (data.cx || 0) + (this.get_value(uuid , 'posx') || 0)) || 0,
+      y            : ((data.y || 0) + (data.cy || 0) + (this.get_value(uuid , 'posy') || 0)) || 0,
+      // x            : 0,
+      // y            : 0,
       z            : this.get_value(uuid , 'posz') || 0,
       // rotate       : anim.rotate || 0,
       rotate       : this.get_value(uuid , 'rotate') || 0,
@@ -163,6 +165,7 @@ export class Transform{
       // scale        : anim.scale   !== undefined ? anim.scale ?? 1  : data.scale ?? 1,
       // scale        : anim.scale   !== undefined ? this.get_value(uuid , 'scale') ?? 1  : data.scale ?? 1,
       scale        : this.get_value(uuid , 'scale') ?? 1,
+      // parent       : data.parent,
     }
 
     if(data.parent){
@@ -176,7 +179,7 @@ export class Transform{
       const po    = parent_data.opacity ?? 1
       res.opacity = res.opacity * po
       res.scale   = res.scale   * ps
-      res.rotate += pr
+      res.rotate += pr || 0
       if(pr){
         const diff = {
           x : res.x + pox,
@@ -187,8 +190,9 @@ export class Transform{
           diff.y,
           pr,
         )
-        res.x = px + rotate_pos.x * ps
-        res.y = py + rotate_pos.y * ps
+        res.x = px + (rotate_pos.x || 0) * ps
+        res.y = py + (rotate_pos.y || 0) * ps
+        
       }
       else{
         res.x = px + pox + res.x * ps
@@ -251,16 +255,20 @@ export class Transform{
   // 対象のanimation-typeが、keyframeでの値を取得する。値が無い場合は、between値を返す
   get_value(uuid , animation_type){
     const keyframe_data  = this.get_keyframe_type(uuid , animation_type)
-    return keyframe_data ?? this.get_between_value(uuid , animation_type)
+    const value = keyframe_data ?? this.get_between_value(uuid , animation_type)
+    return value
     // switch(animation_type){
     //   case 'rotate':
-    //     return keyframe_data ?? this.get_between_value(uuid , animation_type)
-    //   case 'opacity':
-    //   case 'scale':
-    //     return keyframe_data ?? this.get_between_value(uuid , animation_type)
-    //   case 'posx':
-    //   case 'posy':
-    //     return keyframe_data ?? this.get_between_value(uuid , animation_type)
+    //     return value || 0
+    //     // return keyframe_data ?? this.get_between_value(uuid , animation_type)
+    //   // case 'opacity':
+    //   // case 'scale':
+    //   //   return keyframe_data ?? this.get_between_value(uuid , animation_type)
+    //   // case 'posx':
+    //   // case 'posy':
+    //   //   return keyframe_data ?? this.get_between_value(uuid , animation_type)
+    //   default:
+    //     return value
     // }
   }
   get_between_value(uuid , animation_type){
@@ -270,12 +278,20 @@ export class Transform{
     if(anim_datas){
       for(const keyframe in anim_datas){
         if(anim_datas[keyframe][animation_type] === undefined){continue}
+        const value = anim_datas[keyframe][animation_type]
         datas.push({
           frame : Number(keyframe),
-          value : anim_datas[keyframe][animation_type],
+          value : this.get_default_value(animation_type , value),
         })
       }
+
+      // if(uuid === 'B3ED585C-CF15-48AA-8D21-F07CB5974E32' && animation_type === 'rotate'){
+      //   console.log(anim_datas[100] , this.get_default_value(animation_type , anim_datas[100][animation_type]))
+      // }
+
     }
+
+    
 
     // 値がない場合は、デフォルト値を返す
     if(!datas.length){
@@ -332,6 +348,15 @@ export class Transform{
       this.animation_name,
       this.keyframe,
     )
+  }
+
+  get_default_value(animation_type , value){
+    switch(animation_type){
+      case 'rotate':
+        return value || 0
+      default:
+        return value
+    }
   }
   
 

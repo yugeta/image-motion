@@ -6,6 +6,7 @@ export class SortImages{
     this.animation_name = animation_name
     this.keyframe       = keyframe
     this.set_posz()
+    // console.log(this.datas)
   }
 
   get datas(){
@@ -16,10 +17,6 @@ export class SortImages{
   get_z_sort_images(){
     let newImages =  this.get_sort_images()
     newImages.sort(this.get_z_sort)
-
-    // const newImages2 = newImages.map((e) => ({name:e.name,order:e.order,z:e.z}))
-    // console.log(this.animation_name||'-' , this.keyframe , newImages2)
-
     this.images = newImages
     return this.images
   }
@@ -31,13 +28,27 @@ export class SortImages{
       const child      = children[i]
       let grand_children = this.get_sort_images(child.uuid)
       if(grand_children.length){
-        let flg = this.check_order_comparison(child , grand_children[0])
-        if(flg){
-          new_datas = [...new_datas , ...grand_children , child]
+        // 上位より下表示のフラグ
+        let flg = true
+        const before_children = []
+        const after_children  = []
+        for(let grand_child of grand_children){
+          if(child.uuid === grand_child.parent){
+            if(grand_child.order < 0){
+              flg = true
+            }
+            else{
+              flg = false
+            }
+          }
+          if(flg){
+            before_children.push(grand_child)
+          }
+          else{
+            after_children.push(grand_child)
+          }
         }
-        else{
-          new_datas = [...new_datas , child , ...grand_children]
-        }
+        new_datas = [...new_datas , ...before_children , child , ...after_children]
       }
       else{
         new_datas.push(child)
@@ -58,15 +69,6 @@ export class SortImages{
     if(a.z < b.z) return -1
     if(a.z > b.z) return +1
     return 0
-  }
-
-  check_order_comparison(parent , child){
-    if(parent.order > child.order){
-      return true
-    }
-    else{
-      return false
-    }
   }
 
   set_posz(){
