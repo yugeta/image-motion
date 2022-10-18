@@ -55,7 +55,7 @@ export class Volume{
   }
 
   set_init_value(){
-    console.log(this.sound_data.volume)
+    // console.log(this.sound_data.volume)
     this.input.value = this.sound_data.volume ?? 1.0
   }
 

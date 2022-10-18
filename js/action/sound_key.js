@@ -18,29 +18,23 @@ export class SoundKey{
     // const img_uuid = current_select_image.getAttribute('data-uuid')
     // if(!current_select_image){return}
 
+    
+
     this.options = options
     this.options.data = options.data !== undefined ? options.data : this.get_keyframe()
     if(this.options.data === undefined){return}
+    
+    this.elm_info = Options.elements.get_sound_info()
+    this.datas = Options.datas.get_sounds()
+    this.data = Options.datas.get_sound(this.options.data) || {}
+    this.uuid = this.data.uuid
+    this.name = this.data.name
+
     this.property_view()
     // playボタンが押された状態であれば、音声を再生する
     if(this.is_play()){this.play()}
   }
 
-  get elm_info(){
-    return Options.elements.get_sound_info()
-  }
-  get datas(){
-    return Options.datas.get_sounds()
-  }
-  get data(){
-    return Options.datas.get_sound(this.options.data) || {}
-  }
-  get uuid(){
-    return this.data.uuid
-  }
-  get name(){
-    return this.data.name
-  }
 
   is_play(){
     const elm = Options.elements.get_animation_tools_play()
@@ -149,6 +143,7 @@ export class SoundKey{
     const target = e.currentTarget
     const uuid = target.getAttribute('data-uuid')
     const data = Options.datas.get_sound(uuid)
+    console.log(data)
     this.set_name(data.name)
     this.set_uuid(data.uuid)
     this.set_data(data)
@@ -160,7 +155,7 @@ export class SoundKey{
     viewed_lists.parentNode.removeChild(viewed_lists)
     this.status = null
   }
-  set_name(name){
+  set_name(name){console.log(name)
     this.elm_name.textContent = name
     this.name = name
   }

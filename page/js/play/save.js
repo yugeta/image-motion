@@ -186,22 +186,13 @@ export class Save{
   keyframe_rendering(keyframe){
     const view = this.player.options.canvas.view(this.animation_name , keyframe)
     const size = this.calc_gap()
-    // console.log(size)
     const canvas = document.createElement('canvas')
     canvas.width  = size.width
     canvas.height = size.height
     const ctx = canvas.getContext('2d')
-    // console.log(keyframe,size,this.gap.min,this.width,this.height)
     ctx.drawImage(view.canvas,0,0,size.width,size.height)
-    // ctx.drawImage(
-    //   view.canvas,
-    //   // 0,0,size.width,size.height,
-    //   -this.gap.min.x,
-    //   -this.gap.min.y,
-    //   // size.width,size.height
-    //   this.width,this.height
-    // )
-    return canvas.toDataURL('image/png')
+    // return canvas.toDataURL('image/png')
+    new TPNGWriter(imagedata).SaveToFile('untitle.png');
   }
 
   get_url(data){
