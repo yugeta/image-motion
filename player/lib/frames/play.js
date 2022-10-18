@@ -1,4 +1,4 @@
-
+// import { Sound } from './sound.js'
 
 export class Play{
   constructor(options , on){
@@ -112,6 +112,7 @@ export class Play{
       this.cache.prev_keyframe = this.cache.keyframe
       this.cache.keyframe = keyframe
       this.view(animation_name , keyframe)
+      this.options.sound.play(animation_name , keyframe)
     }
     requestAnimationFrame(this.play.bind(this))
   }

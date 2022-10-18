@@ -1,6 +1,7 @@
 import { Images }    from './images.js'
 import { Animation } from './animation.js'
 import { Event }     from './event.js'
+import { Sound }     from './sound.js'
 
 export class Setting{
   constructor(options , on , callback){
@@ -21,6 +22,7 @@ export class Setting{
     new Images(this.options)
     new Event(this.options , this.on)
     this.options.animation = new Animation(this.options)
+    this.options.sound     = new Sound(this.options)
     this.finish()
   }
 

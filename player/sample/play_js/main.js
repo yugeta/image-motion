@@ -3,13 +3,13 @@ import { Urlinfo } from './urlinfo.js'
 
 // データからアニメーション設定の初期化
 const chara_sample = new Player({
-  files : [
-    'data/pepa-front-sit.ima',
-    'data/pepa-front-idea.ima',
-    'data/pepa-front-paper.ima',
-    'data/pepa-front-pickup.ima',
-    'data/pepa-front-stand.ima',
-  ],
+  // files : [
+  //   'data/pepa-front-sit.ima',
+  //   'data/pepa-front-idea.ima',
+  //   'data/pepa-front-paper.ima',
+  //   'data/pepa-front-pickup.ima',
+  //   'data/pepa-front-stand.ima',
+  // ],
   // files : [
   //   'data/box1-rotate.ima',
   // ],
@@ -17,6 +17,9 @@ const chara_sample = new Player({
   //   'data/box3-rotate.ima',
   //   'data/box3-shape.ima',
   // ],
+  files : [
+    'data/pepa-front-sound-sit.ima',
+  ],
   selector : '#chara_sample',     // キャラクター画像をloadする要素の指定
   callback : (e)=>{ // データ設定完了後のcallback処理
     set_animations(e)

@@ -6,7 +6,7 @@
   width:100%;
   display:flex;
   flex-flow:column;
-  padding:0 20%;
+  padding:0 10%;
   counter-reset: num 0;
 }
 
@@ -86,7 +86,7 @@
   text-align:right;
 }
 .lists > ul > li .player{
-  width:250px;
+  width:200px;
   height:100%;
   padding:10px;
 }
@@ -95,18 +95,35 @@
   height:100%;
 }
 
-.lists > ul > li .trash{
+.lists > ul > li .icon{
   width:50px;
   padding:12px;
 }
-.lists > ul > li .trash svg{
+.lists > ul > li .icon svg{
   fill:var(--color-font);
   cursor:pointer;
 }
-.lists > ul > li .trash svg:hover{
+.lists > ul > li .icon svg:hover{
   fill:white;
 }
 .lists > ul > li[data-use='true'] .trash > *{
   display:none;
+}
+
+.lists > ul > li .volume{
+  width:120px;
+  text-align:right;
+}
+.lists > ul > li .volume::before{
+  content:'volume';
+}
+.lists > ul > li .volume input[name='volume']{
+  width:50px;
+  border:1px solid var(--color-font);
+  color:var(--color-font);
+  border-radius:4px;
+  background-color:transparent;
+  padding:5px;
+  text-align:center;
 }
 

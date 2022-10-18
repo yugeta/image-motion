@@ -15,8 +15,8 @@ export class Save{
     document.body.appendChild(link);
     link.onloadstart = (function(e){console.log(e)}).bind(this)
     link.click()
-    console.log(link.__proto__)
-    console.log(link.username)
+    // console.log(link.__proto__)
+    // console.log(link.username)
 
     document.body.removeChild(link);
     URL.revokeObjectURL(url)

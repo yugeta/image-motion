@@ -1,12 +1,34 @@
 import { Options } from './options.js'
+import { Files }   from './files.js'
+import { Volume }  from './volume.js'
 
 export class Lists{
   constructor(options){
     this.options = options
     this.uuid = this.options.uuid
+    this.init()
+  }
+  init(){
+    if(this.get_item()){
+      this.replace_list()
+    }
+    else{
+      this.new_list()
+    }
+    new Volume(this.uuid)
+  }
+
+  new_list(){
     this.view_add()
     this.set_audio_tag()
     this.set_trash()
+    this.set_renew()
+  }
+
+  replace_list(item){
+    this.del_audio_tag()
+    this.set_audio_tag()
+    this.replace_name()
   }
 
   // ファイル読み込みの場合dataがセットされていないため、別データから取得する
@@ -47,6 +69,11 @@ export class Lists{
     area.insertAdjacentHTML('beforeend' , template)
   }
 
+  del_audio_tag(){
+    const item = this.get_item()
+    const player_area = item.querySelector(`.player`)
+    player_area.innerHTML = ''
+  }
   set_audio_tag(){
     const item = this.get_item()
     const player_area = item.querySelector(`.player`)
@@ -97,6 +124,42 @@ export class Lists{
   }
   
 
+  // renew
+  get_uuid(e){
+    const li = e.target.closest('[data-uuid]')
+    if(li){
+      return li.getAttribute('data-uuid')
+    }
+  }
+  set_renew(){
+    const item = this.get_item()
+    const icon = item.querySelector(`.renew > *`)
+    if(!icon){return}
+    icon.addEventListener('click' , this.renew_click.bind(this))
+  }
+  renew_click(e){
+    const uuid = this.get_uuid(e)
+    if(!uuid){return}
+    let input_file = document.createElement("input")
+    input_file.type     = 'file'
+    input_file.multiple = 'multiple'
+    input_file.accept   = 'audio/mp3'
+    input_file.addEventListener('change' , this.upload_files.bind(this , uuid))
+    document.querySelector("form[name='upload']").appendChild(input_file)
+    input_file.click()
+  }
+  upload_files(uuid , e){
+    if(!e.target.files.length || !uuid){return}
+    for(let file of e.target.files){
+      file.uuid = uuid
+      new Files(file)
+    }
+  }
 
+  replace_name(){
+    const item = this.get_item()
+    const name_area = item.querySelector(`.name`)
+    name_area.textContent = this.options.name
+  }
 
 }

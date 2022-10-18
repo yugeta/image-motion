@@ -21,28 +21,25 @@ export class SoundKey{
     this.options = options
     this.options.data = options.data !== undefined ? options.data : this.get_keyframe()
     if(this.options.data === undefined){return}
-    this.elm_info = Options.elements.get_sound_info()
-    this.datas = Options.datas.get_sounds()
-    this.data  = Options.datas.get_sound(this.options.data) || {}
-    this.uuid  = this.data.uuid
-    this.name  = this.data.name
-    // this.make_audio(this.uuid)
-
-    // 同じanimation-nameの場合はpropertyを表示する
-    
-    // if(options.name === name
-    // && options.uuid === img_uuid){
-      // console.log(options.name)
-      this.property_view()
-    // }
-    // console.log('name',options.name,name)
-    // console.log('uuid',options.uuid,img_uuid)
-    // console.log(options , this.uuid)
-
+    this.property_view()
     // playボタンが押された状態であれば、音声を再生する
-    if(this.is_play()){
-      this.play()
-    }
+    if(this.is_play()){this.play()}
+  }
+
+  get elm_info(){
+    return Options.elements.get_sound_info()
+  }
+  get datas(){
+    return Options.datas.get_sounds()
+  }
+  get data(){
+    return Options.datas.get_sound(this.options.data) || {}
+  }
+  get uuid(){
+    return this.data.uuid
+  }
+  get name(){
+    return this.data.name
   }
 
   is_play(){
@@ -201,8 +198,10 @@ export class SoundKey{
   play(){
     const sound_data = this.get_sound_data(this.options.name , this.options.uuid , this.options.per)
     if(!sound_data){return}
+    const volume = sound_data.volume ?? 1
     const audio = new Audio()
     audio.src = sound_data.data
+    audio.volume = volume
     audio.play()
   }
   // play(){

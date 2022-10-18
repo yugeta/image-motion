@@ -50,7 +50,6 @@ export class SoundPlay{
     }
     this.sounds = []
   }
-
   
   play(){
     if(!this.is_play()){return}
