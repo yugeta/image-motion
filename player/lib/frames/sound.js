@@ -44,15 +44,16 @@
     for(const data of this.datas){
       this.audio_datas.push({
         uuid : data.uuid,
-        element : this.make_audio(data.data),
+        element : this.make_audio(data),
       })
     }
   }
 
-  make_audio(data){
-    if(!data){return}
+  make_audio(sound_data){
+    if(!sound_data || !sound_data.data){return}
     const audio = new Audio()
-    audio.src = data
+    audio.src = sound_data.data
+    audio.volume = sound_data.volume ?? 1
     return audio
   }
 
