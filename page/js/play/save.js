@@ -117,13 +117,13 @@ export class Save{
     }
   }
 
-  set_image_datas(){
+  async set_image_datas(){
     let prev_num = null
     for(let i=0; i<=100; i=i+this.interval){
       const num = Math.floor(i)
       if(prev_num === num){continue}
       prev_num = num
-      const data = this.keyframe_rendering(num) || null
+      const data = await this.keyframe_rendering(num) || null
       this.datas.images.push({
         num   : num,
         image : data,
@@ -152,9 +152,9 @@ export class Save{
     })
   }
 
-  init(){
+  async init(){
     // image-dataの作成
-    this.set_image_datas()
+    await this.set_image_datas()
 
     // sound-dataを追加
     this.set_sound_datas()
@@ -183,7 +183,7 @@ export class Save{
   }
 
 
-  keyframe_rendering(keyframe){
+  async keyframe_rendering(keyframe){
     const view = this.player.options.canvas.view(this.animation_name , keyframe)
     const size = this.calc_gap()
     const canvas = document.createElement('canvas')
@@ -192,7 +192,9 @@ export class Save{
     const ctx = canvas.getContext('2d')
     ctx.drawImage(view.canvas,0,0,size.width,size.height)
     // return canvas.toDataURL('image/png')
-    new TPNGWriter(imagedata).SaveToFile('untitle.png');
+    const imagedata = ctx.getImageData(0,0,canvas.width,canvas.height); 
+    const data = await new TPNGWriter(imagedata).getData()
+    return data
   }
 
   get_url(data){
