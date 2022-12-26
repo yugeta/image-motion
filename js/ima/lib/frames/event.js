@@ -13,7 +13,6 @@ export class Event{
 
   set_mutations(){
     if(!this.options.root){return}
-    if(!this.options.mutation){return}
     new MutationObserver(this.change_animation_name.bind(this))
     .observe(this.options.root , {
       attributes : true, 

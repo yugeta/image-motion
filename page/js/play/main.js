@@ -1,4 +1,4 @@
-import { Player } from '../../../player/player.js'
+import { Player } from '../../../js/ima/player.js'
 import { Save }   from './save.js'
 
 class Main{

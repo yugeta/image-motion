@@ -15,7 +15,7 @@ export class Play{
   }
 
   change_animation_name(animation_name){
-    if(animation_name && this.is_animation_name(animation_name)){
+    if(animation_name){
       this.start_view(animation_name)
     }
     else{
@@ -23,11 +23,7 @@ export class Play{
     }
   }
 
-  is_animation_name(animation_name){
-    return this.get_anim_data(animation_name) ? true : false
-  }
-
-  default_view(){
+  default_view(){console.log('default-view')
     this.stop()
     // this.clear()
     // new View(this.options,{
@@ -59,13 +55,8 @@ export class Play{
   }
 
   get_anim_data(animation_name){
-    const data = this.options.datas.find(e => e.animation_name === animation_name)
-    const attribute_count = this.options.root.getAttribute('data-count')
-    data.count = data.count || 0
-    data.count = Number(attribute_count ?? data.count) || 0
-    return data
+    return this.options.data.find(e => e.name === animation_name)
   }
-
 
   get_duration(animation_name){
     let duration = null
@@ -95,7 +86,6 @@ export class Play{
     }
     const data = this.get_anim_data(animation_name)
     if(!data){return}
-    // console.log(data.gap)
     const rate = root_size.width / data.size.width
     const transform = {
       w : data.size.width  * rate,
@@ -140,7 +130,6 @@ export class Play{
       // count-max 終了処理
       if(this.cache.max_count && this.cache.count >= this.cache.max_count){
         this.on.end(this.options , this.cache)
-        this.stop()
         return 'end'
       }
       else{
@@ -184,7 +173,6 @@ export class Play{
     const data = this.get_image_data(animation_name , keyframe)
     if(!data){return}
     this.clear()
-    // console.log(this.options.datas,data)
     this.options.scale.appendChild(data.element)
   }
 

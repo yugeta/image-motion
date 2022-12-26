@@ -17,3 +17,7 @@ Thumbs.db
 # !/data/download
 trash
 
+/plugin
+/plugin/deform
+/plugin/psd.js
+/plugin/svgEmbed

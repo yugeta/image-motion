@@ -192,9 +192,10 @@ export class Save{
     const ctx = canvas.getContext('2d')
     ctx.drawImage(view.canvas,0,0,size.width,size.height)
     // return canvas.toDataURL('image/png')
-    const imagedata = ctx.getImageData(0,0,canvas.width,canvas.height); 
-    const data = await new TPNGWriter(imagedata).getData()
-    return data
+    return canvas.toDataURL('image/webp' , 0.5)
+    // const imagedata = ctx.getImageData(0,0,canvas.width,canvas.height); 
+    // const data = await new TPNGWriter(imagedata).getData()
+    // return data
   }
 
   get_url(data){

@@ -20,7 +20,7 @@ export class Setting{
   init(){
     this.options.root.setAttribute('data-view-type' , 'image')
     new Images(this.options)
-    this.event = new Event(this.options , this.on)
+    new Event(this.options , this.on)
     this.options.animation = new Animation(this.options)
     this.options.sound     = new Sound(this.options)
     this.finish()

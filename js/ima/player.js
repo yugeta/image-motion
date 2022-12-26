@@ -9,11 +9,9 @@ import { Animation }           from './lib/html/animation.js'
 // import { Style }               from './lib/setting/style.js'
 import { Event }               from './lib/event/event.js'
 // import { On }                  from './lib/event/on.js'
-import { NotAllowedError }     from './lib/setting/NotAllowedError.js'
 
 export class Player{
   constructor(options){
-    
     this.options = options
     switch(document.readyState){
       case 'complete': 
@@ -25,7 +23,7 @@ export class Player{
         }).bind(this)); 
         break
     }
-    // console.log(this)
+    console.log(this)
   }
 
   init(){
@@ -75,11 +73,11 @@ export class Player{
       method : 'get',
       callback : (e =>{
         // console.log(e)
-        this.options.datas = this.options.datas || []
+        this.options.data = this.options.data || []
         const json = e.target.response
         const data = JSON.parse(json)
         data.name  = data.name || this.get_url2filename(e.target.responseURL)
-        this.options.datas.push(data)
+        this.options.data.push(data)
         if(this.options.files.length){
           this.load_datas()
         }
@@ -112,7 +110,7 @@ export class Player{
   }
 
   set_settings(){
-   this.frame = new FrameSetting(this.options , this.options.on , (()=>{
+   new FrameSetting(this.options , this.options.on , (()=>{
       this.animation      = this.options.animation
       this.loaded()
     }).bind(this))
@@ -123,7 +121,6 @@ export class Player{
   }
 
   finish(){
-    this.options.NotAllowedError = new NotAllowedError(this.options)
     if(!this.callback){return}
     this.callback(this)
   }
@@ -141,10 +138,6 @@ export class Player{
 
   action(name){
     this.options.root.setAttribute('data-action' , name)
-  }
-
-  play(action_name){
-    this.frame.event.view.change_animation_name(action_name)
   }
 
 }

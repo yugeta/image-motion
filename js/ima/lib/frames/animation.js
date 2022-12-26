@@ -6,6 +6,6 @@ export class Animation{
   }
 
   get animation_names(){
-    return this.options.datas.map(e => e.animation_name)
+    return this.options.data.map(e => e.name)
   }
 }

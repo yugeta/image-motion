@@ -18,7 +18,7 @@
     // this.datas      = this.init_datas()
     this.audio_datas = []
     this.set_sound_datas()
-    // this.set_sound_elements()
+    this.set_sound_elements()
   }
 
   get datas(){
@@ -26,7 +26,7 @@
   }
   set_sound_datas(){
     const datas = []
-    for(const data of this.options.datas){
+    for(const data of this.options.data){
       if(!data.sounds || !data.sounds.length){continue}
       for(const sound of data.sounds){
         if(datas.find(e => e.uuid === sound.uuid)){continue}
@@ -36,38 +36,17 @@
     this.sound_datas =  datas
   }
 
-  get_sound_data(uuid){
-    return this.datas.find(e => e.uuid === uuid)
-  }
   get_element(uuid){
-    let data = this.audio_datas.find(e => e.uuid === uuid)
-    // if(!data){
-    //   data = this.set_sound_element(uuid)
-    // }
-    // console.log(data)
+    const data = this.audio_datas.find(e => e.uuid === uuid)
     return data ? data.element : null
   }
-
   set_sound_elements(){
-    // console.log(this.audio_datas , this.datas)
     for(const data of this.datas){
-      if(!data.uuid || this.get_element(data.uuid)){continue}
-      // this.audio_datas.push({
-      //   uuid    : data.uuid,
-      //   element : this.make_audio(data),
-      // })
-      this.set_sound_element(data.uuid , data)
+      this.audio_datas.push({
+        uuid : data.uuid,
+        element : this.make_audio(data),
+      })
     }
-  }
-
-  set_sound_element(uuid , data){
-    // const data = this.get_sound_data(uuid)
-    const audio_data = {
-      uuid    : uuid,
-      element : this.make_audio(data),
-    }
-    this.audio_datas.push(audio_data)
-    return audio_data
   }
 
   make_audio(sound_data){
@@ -135,7 +114,7 @@
   // }
 
   get_animation_data(animation_name){
-    return this.options.datas.find(e => e.animation_name === animation_name)
+    return this.options.data.find(e => e.name === animation_name)
   }
 
   get_keyframe_data(animation_name , keyframe){
@@ -146,27 +125,13 @@
   }
 
   play(animation_name , keyframe){
-    // this.flg = this.NotAllowedError_check()
     // console.log('play')
     const data = this.get_keyframe_data(animation_name , keyframe)
     // console.log(animation_name , keyframe , data)
     if(!data || !data.sound || !data.sound.length){return}
-
-    // console.log('play1',animation_name,keyframe)
     for(const uuid of data.sound){
-      let element = this.get_element(uuid , data)
-      if(!element){
-        const sound_data = this.get_sound_data(uuid)
-        const audio = this.set_sound_element(uuid , sound_data)
-        if(audio){
-          element = audio.element
-        }
-        else{
-          continue
-        }
-      }
+      const element = this.get_element(uuid)
       if(!element){continue}
-      // console.log('play2',animation_name,keyframe)
       element.play()
     }
     
@@ -177,10 +142,6 @@
     //   datas[img_uuid].play()
     // }
   }
-
-  // NotAllowedError_check(){
-  //   return this.options.NotAllowedError.flg
-  // }
 
   stop(animation_name , keyframe){
     console.log('stop')

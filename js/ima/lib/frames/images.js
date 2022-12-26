@@ -1,13 +1,13 @@
 
 export class Images{
   constructor(options){
-    if(!options.datas || !options.datas.length){return}
+    if(!options.data || !options.data.length){return}
     this.options = options
     this.init()
   }
 
   get datas(){
-    return this.options.datas
+    return this.options.data
   }
 
   init(){
