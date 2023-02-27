@@ -1,13 +1,11 @@
 import { Init }                     from './lib/setting/init.js'
 import { Ajax }                     from './lib/setting/ajax.js'
-
 import { Setting as CanvasSetting } from './lib/canvas/setting.js'
 import { Setting as FrameSetting }  from './lib/frames/setting.js'
-
-import { Images }              from './lib/image/images.js'
-import { Animation }           from './lib/html/animation.js'
+import { Images }                   from './lib/image/images.js'
+import { Animation }                from './lib/html/animation.js'
+import { Event }                    from './lib/event/event.js'
 // import { Style }               from './lib/setting/style.js'
-import { Event }               from './lib/event/event.js'
 // import { On }                  from './lib/event/on.js'
 
 export class Player{

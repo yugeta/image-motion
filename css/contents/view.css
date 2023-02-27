@@ -63,7 +63,8 @@ body[data-hash='upload'] .contents [name='view'] .pic[data-status='active']{
 /* center */
 .contents [name='view'] .pic > .center{
   position:absolute;
-  transform:translate(-50%,-50%) scale(var(--scale));
+  transform-style:preserve-3d;
+  transform:translate(-50%,-50%) scale(var(--scale)) translateZ(10000px);
   top:0;
   left:0;
   /* サイズは、Options.center_sizeで指定する */
