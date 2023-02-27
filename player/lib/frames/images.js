@@ -15,7 +15,7 @@ export class Images{
       if(!this.datas[i].images){continue}
       this.datas[i].elements = []
       for(let image_data of this.datas[i].images){
-        // console.log(image_data)
+        if(!image_data.image){continue}
         const img = new Image()
         img.src = image_data.image
         image_data.element = img
