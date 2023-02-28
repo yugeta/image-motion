@@ -59,7 +59,7 @@ export class Play{
       const transform = this.get_transform_css(animation_name , uuid , per , types)
       const styles    = this.get_style_css(animation_name , uuid , per , types)
       const pic       = Options.elements.get_uuid_view(uuid)
-      // if(!pic){return}
+      if(!pic){return}
       if(transform){
         // console.log(transform)
         pic.style.setProperty('transform' , transform , '')

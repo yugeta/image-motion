@@ -136,14 +136,13 @@ export class View{
           rotate  : transform[uuid].rotate,
           scale   : transform[uuid].scale,
           opacity : transform[uuid].opacity,
-          x       : transform[uuid].x + shape_gap.min.x - this.gap.min.x,
-          y       : transform[uuid].y + shape_gap.min.y - this.gap.min.y,
-          // w       : transform[uuid].w,
-          // h       : transform[uuid].h,
-          w       : transform[uuid].w - shape_gap.min.x + shape_gap.max.x,
-          h       : transform[uuid].h - shape_gap.min.y + shape_gap.max.y,
+          x       : transform[uuid].x  + shape_gap.min.x - this.gap.min.x,
+          y       : transform[uuid].y  + shape_gap.min.y - this.gap.min.y,
+          w       : transform[uuid].w  - shape_gap.min.x + shape_gap.max.x,
+          h       : transform[uuid].h  - shape_gap.min.y + shape_gap.max.y,
           left    : transform[uuid].ox,
           top     : transform[uuid].oy,
+          gap     : shape_gap,
         })
       }
       else{
@@ -158,6 +157,7 @@ export class View{
           h       : transform[uuid].h,
           left    : transform[uuid].ox,
           top     : transform[uuid].oy,
+          gap     : {min:{x:0,y:0},max:{x:0,y:0}},
         })
       }
     }
@@ -183,6 +183,8 @@ export class View{
     if(!data.scale){return}
 
     const base_gap = this.options.canvas.gap || {min:{x:0,y:0},max:{x:0,y:0}}
+    // const base_gap = this.options.canvas.gap || {min:{x:0,y:0},max:{x:0,y:0}}
+    // console.log(JSON.stringify(base_gap))
     const offset = {
       x : this.options.scale.fit.left,
       y : this.options.scale.fit.top,
@@ -194,7 +196,16 @@ export class View{
     const rotate = data.rotate
     this.ctx.globalAlpha = data.opacity;
     this.ctx.translate(translate.x , translate.y)
-    this.ctx.rotate(rotate)
+
+    if(data.gap.min.x || data.gap.min.y){
+      this.ctx.translate(-data.gap.min.x , -data.gap.min.y)
+      this.ctx.rotate(rotate)
+      this.ctx.translate(data.gap.min.x , data.gap.min.y)
+    }
+    else{
+      this.ctx.rotate(rotate)
+    }
+
     this.ctx.scale(data.scale , data.scale)
     this.ctx.drawImage(
       data.image,

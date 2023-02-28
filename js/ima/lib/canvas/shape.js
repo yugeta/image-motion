@@ -38,7 +38,7 @@ export class Shape{
     return transform[this.animation_name].items[this.uuid].keyframes[this.keyframe].shape.points
 
   }
-
+  
   get shape_table(){
     const data = this.get_uuid2images(this.uuid)
     return data.shape_table
@@ -198,8 +198,11 @@ export class Shape{
     const total_gap = this.get_total_gap(table , images)
     canvas.width    = data.w - total_gap.min.x + total_gap.max.x
     canvas.height   = data.h - total_gap.min.y + total_gap.max.y
-    // ctx.fillStyle = 'red'
+    
+    // // debug
+    // ctx.fillStyle = 'white'
     // ctx.fillRect(0,0,canvas.width,canvas.height)
+
     let num = 0
     for(let y=0; y<table.y; y++){
       for(let x=0; x<table.x; x++){
@@ -207,11 +210,12 @@ export class Shape{
           x : x < table.x-1 ? 1 : 0,
           y : y < table.y-1 ? 1 : 0,
         }
+        const image = images[num]
         const transform = {
-          x : split.w * x - total_gap.min.x + images[num].gap.min.x,
-          y : split.h * y - total_gap.min.y + images[num].gap.min.y,
-          w : split.w - images[num].gap.min.x + images[num].gap.max.x,
-          h : split.h - images[num].gap.min.y + images[num].gap.max.y,
+          x : split.w * x - total_gap.min.x + image.gap.min.x,
+          y : split.h * y - total_gap.min.y + image.gap.min.y,
+          w : split.w     - image.gap.min.x + image.gap.max.x,
+          h : split.h     - image.gap.min.y + image.gap.max.y,
         }
         ctx.drawImage(
           images[num].image,
@@ -220,10 +224,24 @@ export class Shape{
           transform.w + fill_add.x,
           transform.h + fill_add.y,
         )
+        // console.log(transform)
         num++
       }
     }
     this.gap = total_gap
+
+    // const image_data = this.get_uuid2images(this.uuid)
+    // image_data.gap = total_gap
+
+    // debug
+    // ctx.fillStyle = 'rgba(0,0,255,0.5)'
+    // ctx.fillRect(
+    //   -total_gap.min.x,
+    //   -total_gap.min.y,
+    //   canvas.width + total_gap.max.x,
+    //   canvas.height + total_gap.max.y
+    // )
+
     return canvas
   }
   get_split_image(data){
