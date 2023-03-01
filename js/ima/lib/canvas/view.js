@@ -8,79 +8,11 @@ export class View{
     this.keyframe       = setting.keyframe
     this.canvas         = setting.canvas
     this.ctx            = setting.ctx
-
-    // this.gap            = setting.gap
-    // this.set_canvas(this.canvas , this.gap)
     this.gap            = this.get_gap_data(this.animation_name)
     this.options.canvas.images.set_canvas_size(this.gap)
 
-    // console.log(this.gap)
     this.view(this.animation_name , this.keyframe)
   }
-
-  // set_canvas(canvas , gap){
-  //   const w = Number(canvas.getAttribute('data-width'))
-  //   const h = Number(canvas.getAttribute('data-height'))
-  //   // canvas.width  = -gap.min.x + gap.max.x + w
-  //   // canvas.height = -gap.min.y + gap.max.y + h
-  //   const image_size = {
-  //     w : Number(canvas.getAttribute('data-width')),
-  //     h : Number(canvas.getAttribute('data-height')),
-  //   }
-  //   const root_size = {
-  //     w : this.options.root.offsetWidth,
-  //     h : this.options.root.offsetHeight
-  //   }
-
-  //   const aspect = this.get_aspect(image_size,root_size)
-
-  //   gap = gap || {min:{x:0,y:0},max:{x:0,y:0}}
-  //   const min = {
-  //     x : gap.min.x / aspect.set,
-  //     y : gap.min.y / aspect.set,
-  //   }
-  //   const max = {
-  //     x : gap.max.x / aspect.set,
-  //     y : gap.max.y / aspect.set,
-  //   }
-
-  //   // natural-size
-  //   const natural_size ={
-  //     w : image_size.w - gap.min.x + gap.max.x,
-  //     h : image_size.h - gap.min.y + gap.max.y,
-  //   }
-  //   canvas.width  = natural_size.w
-  //   canvas.height = natural_size.h
-  //   // this.canvas.setAttribute('data-width'  , natural_size.w)
-  //   // this.canvas.setAttribute('data-height' , natural_size.h)
-
-  //   // canvas-size
-  //   const root_size2 = {
-  //     w : image_size.w - min.x + max.x,
-  //     h : image_size.h - min.y + max.y,
-  //   }
-  //   canvas.style.setProperty('width'   , `${root_size2.w}px`  , '')
-  //   canvas.style.setProperty('height'  , `${root_size2.h}px`  , '')
-
-  //   // offset
-  //   const offset = {
-  //     w : min.x,
-  //     h : min.y,
-  //   }
-  //   canvas.style.setProperty('--offset-w' , `${offset.w}px`  , '')
-  //   canvas.style.setProperty('--offset-h' , `${offset.h}px`  , '')
-  // }
-
-  // get_aspect(image_size , root_size){
-  //   const w = image_size.w / root_size.w
-  //   const h = image_size.h / root_size.h
-  //   return {
-  //     w : w,
-  //     h : h,
-  //     set : w > h ? w : h,
-  //     type : w > h ? 'vertical' : 'horizon',
-  //   }
-  // }
 
   get_gap_data(animation_name){
     if(animation_name && this.options.data.animations[animation_name].gap){
@@ -94,7 +26,6 @@ export class View{
 
   get_transform(animation_name , keyframe){
     if(animation_name){
-      // return this.options.data.image_animations[animation_name][keyframe]
       return this.options.data.transform_animation[animation_name][keyframe]
     }
     else{
@@ -104,14 +35,6 @@ export class View{
 
   get_images(animation_name , keyframe){
     return new SortImages(this.options , animation_name , keyframe).datas
-    // if(animation_name
-    // && this.options.data.sort_images[animation_name]
-    // && this.options.data.sort_images[animation_name][keyframe]){
-    //   return this.options.data.sort_images[animation_name][keyframe]
-    // }
-    // else{
-    //   return new SortImages(this.options).datas
-    // }
   }
 
   // ----------
@@ -190,21 +113,17 @@ export class View{
       y : this.options.scale.fit.top,
     }
     const translate = {
-      x : (data.x || 0) - offset.x - base_gap.min.x,
-      y : (data.y || 0) - offset.y - base_gap.min.y,
+      x : (data.x || 0) - (offset.x || 0) - (base_gap.min.x || 0),
+      y : (data.y || 0) - (offset.y || 0) - (base_gap.min.y || 0),
     }
     const rotate = data.rotate
     this.ctx.globalAlpha = data.opacity;
     this.ctx.translate(translate.x , translate.y)
 
-    if(data.gap.min.x || data.gap.min.y){
-      this.ctx.translate(-data.gap.min.x , -data.gap.min.y)
-      this.ctx.rotate(rotate)
-      this.ctx.translate(data.gap.min.x , data.gap.min.y)
-    }
-    else{
-      this.ctx.rotate(rotate)
-    }
+    // センターポイントずらし用処理
+    this.ctx.translate(-data.gap.min.x , -data.gap.min.y)
+    this.ctx.rotate(rotate)
+    this.ctx.translate(data.gap.min.x , data.gap.min.y)
 
     this.ctx.scale(data.scale , data.scale)
     this.ctx.drawImage(
@@ -217,7 +136,10 @@ export class View{
     if(data.scale !== 1){
       this.ctx.scale(1 / data.scale , 1 / data.scale)
     }
+    this.ctx.translate(-data.gap.min.x , -data.gap.min.y)
     this.ctx.rotate(-rotate || 0);
+    this.ctx.translate(data.gap.min.x , data.gap.min.y)
+    
     this.ctx.translate(-translate.x , -translate.y);
   }
 

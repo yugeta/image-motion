@@ -164,6 +164,7 @@ export class Transform{
       scale        : this.get_value(uuid , 'scale') ?? 1,
     }
     // console.log(res)
+    // console.log(this.get_value(uuid , 'posx'), this.get_value(uuid , 'posy'), this.get_value(uuid , 'posz'))
 
     if(data.parent){
       const parent_data = this.get_transform(data.parent)

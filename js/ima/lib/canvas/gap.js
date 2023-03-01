@@ -48,30 +48,4 @@ export class Gap{
   get max(){
     return this.gap_tmp.max
   }
-
-  // get min(){
-  //   return {
-  //     x : 0,
-  //     y : 0,
-  //   }
-  // }
-  // get max(){
-  //   return {
-  //     x : 0,
-  //     y : 0,
-  //   }
-  // }
-
-  // get min(){
-  //   return {
-  //     x : -this.options.scale.fit.width  / 2,
-  //     y : -this.options.scale.fit.height / 2,
-  //   }
-  // }
-  // get max(){
-  //   return {
-  //     x : this.options.scale.fit.width  / 2,
-  //     y : this.options.scale.fit.height / 2,
-  //   }
-  // }
 }
