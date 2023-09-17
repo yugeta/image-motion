@@ -1,5 +1,6 @@
 import { Player } from '../../../js/ima/player.js'
 import { Save }   from './save.js'
+import { Gif }    from './gif.js'
 
 class Main{
   constructor(){
@@ -20,6 +21,9 @@ class Main{
   }
   get elm_save(){
     return document.querySelector(`#save`)
+  }
+  get elm_gif(){
+    return document.querySelector(`#gif`)
   }
   get elm_width(){
     return document.querySelector(`input[name='width']`)
@@ -47,6 +51,7 @@ class Main{
   set_event(){
     this.elm_animation_name_select.addEventListener('change' , this.change_select.bind(this))
     this.elm_save.addEventListener('click'   , this.click_save.bind(this))
+    this.elm_gif.addEventListener('click'   , this.click_gif.bind(this))
     this.elm_width.addEventListener('input'  , this.change_size.bind(this , 'width'))
     this.elm_height.addEventListener('input' , this.change_size.bind(this , 'height'))
     this.elm_rate.addEventListener('input' , this.change_size.bind(this , 'rate'))
@@ -75,6 +80,9 @@ class Main{
 
   click_save(){
     new Save(this)
+  }
+  click_gif(){
+    new Gif(this)
   }
   set_size(){
     this.elm_width.value  = this.player.options.scale.fit.width

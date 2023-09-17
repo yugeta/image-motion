@@ -5,6 +5,12 @@
     <!-- <script src='plugin/PNG.js/zlib.min.js'></script>
     <script src='plugin/PNG.js/PNG.js'></script> -->
     <script type='module' src='js/play/main.js'></script>
+
+    <!-- <script src='js/lib/b64.js'></script>
+    <script src='js/lib/GIFEncoder.js'></script>
+    <script src='js/lib/LZWEncoder.js'></script>
+    <script src='js/lib/NeuQuant.js'></script> -->
+    <script src='js/lib/GIFanime.js'></script>
   </head>
   <body>
     <header class='contents'>
@@ -18,6 +24,10 @@
         <div>h : <input type='text' name='height'></div>
         <div>rate : <input type='text' name='rate' value='1.0'></div>
         <button id='save'>save</button>
+        <div class='transparent'>GIF出力: </div>
+        <button id='gif'>gif</button>
+        <div class='transparent'>GIF透過色: </div>
+        <input class='gif_trans_color' type='color' name='gif_trans_color' value='#000000'>
       </div>
     </header>
     <main>

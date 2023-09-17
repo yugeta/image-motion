@@ -85,6 +85,7 @@ header .control select{
   transform:translateX(-50%);
   z-index:1000; */
 }
+header .control button#gif,
 header .control button#save{
   /* position:absolute;
   left:10px;
@@ -97,6 +98,7 @@ header .control button#save{
   color:#888;
   background-color:#eee;
 }
+header .control button#gif:active,
 header .control button#save:active{
   background-color:#aaa;
   color:white;
@@ -137,5 +139,13 @@ main{
   );
 }
 
-
-
+.gif_trans_color{
+  width:30px;
+  padding:5px;
+  border-radius:4px;
+  outline:0;
+  text-align:center;
+}
+.transparent{
+  font-size:0.8em;
+}
